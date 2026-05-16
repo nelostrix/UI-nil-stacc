@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 
 function Nav() {
@@ -48,7 +49,7 @@ function Nav() {
 }
 
 function RobotIcon({ type }: { type: string }) {
-    const icons: Record<string, JSX.Element> = {
+    const icons: Record<string, React.ReactNode> = {
         arm: (
             <svg viewBox="0 0 80 80" className="w-full h-full">
                 <g
