@@ -1,51 +1,7 @@
 "use client";
 
 import Link from "next/link";
-
-function Nav() {
-    return (
-        <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-[var(--color-ink)]/80 border-b border-white/5">
-            <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-[var(--color-ember)] rounded-lg flex items-center justify-center">
-                        <span className="text-[var(--color-ink)] font-bold text-sm">
-                            N
-                        </span>
-                    </div>
-                    <span className="font-[var(--font-display)] text-xl tracking-tight">
-                        Nelo
-                    </span>
-                </Link>
-                <div className="hidden md:flex items-center gap-8 text-sm text-[var(--color-mist)]">
-                    <Link
-                        href="/products"
-                        className="text-[var(--color-ivory)]"
-                    >
-                        Products
-                    </Link>
-                    <Link
-                        href="/downloads"
-                        className="hover:text-[var(--color-ivory)] transition-colors"
-                    >
-                        Downloads
-                    </Link>
-                    <Link
-                        href="/usecases"
-                        className="hover:text-[var(--color-ivory)] transition-colors"
-                    >
-                        Use Cases
-                    </Link>
-                    <Link
-                        href="/downloads"
-                        className="bg-[var(--color-ember)] text-[var(--color-ink)] px-4 py-2 rounded-full text-sm font-medium"
-                    >
-                        Get Started
-                    </Link>
-                </div>
-            </div>
-        </nav>
-    );
-}
+import Nav from "@/components/Nav";
 
 function ProductSection({
     id,
