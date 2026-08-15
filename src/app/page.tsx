@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
+import HeroFuturistic from "@/components/ui/hero-futuristic";
 
 /* ═══════════════════════════════════════
    PARTICLES — floating energy dots
@@ -638,6 +639,7 @@ export default function Home() {
         <main>
             <Particles />
             <Nav />
+            <HeroFuturistic />
             <Hero />
             <Manifesto />
             <Products />
