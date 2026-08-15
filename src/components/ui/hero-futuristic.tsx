@@ -21,8 +21,6 @@ import {
   vec2,
   vec3,
   pass,
-  mix,
-  add
 } from 'three/tsl';
 
 const TEXTUREMAP = { src: 'https://i.postimg.cc/XYwvXN8D/img-4.png' };
@@ -34,14 +32,11 @@ extend(THREE as any);
 const PostProcessing = ({
   strength = 1,
   threshold = 1,
-  fullScreenEffect = true,
 }: {
   strength?: number;
   threshold?: number;
-  fullScreenEffect?: boolean;
 }) => {
   const { gl, scene, camera } = useThree();
-  const progressRef = useRef({ value: 0 });
 
   const render = useMemo(() => {
     const postProcessing = new THREE.PostProcessing(gl as any);
@@ -49,35 +44,14 @@ const PostProcessing = ({
     const scenePassColor = scenePass.getTextureNode('output');
     const bloomPass = bloom(scenePassColor, strength, 0.5, threshold);
 
-    // Create the scanning effect uniform
-    const uScanProgress = uniform(0);
-    progressRef.current = uScanProgress;
-
-    // Create a red overlay that follows the scan line
-    const scanPos = float(uScanProgress.value);
-    const uvY = uv().y;
-    const scanWidth = float(0.05);
-    const scanLine = smoothstep(0, scanWidth, abs(uvY.sub(scanPos)));
-    const redOverlay = vec3(1, 0, 0).mul(oneMinus(scanLine)).mul(0.4);
-
-    // Mix the original scene with the red overlay
-    const withScanEffect = mix(
-      scenePassColor,
-      add(scenePassColor, redOverlay),
-      fullScreenEffect ? smoothstep(0.9, 1.0, oneMinus(scanLine)) : 1.0
-    );
-
-    // Add bloom effect after scan effect
-    const final = withScanEffect.add(bloomPass);
+    const final = scenePassColor.add(bloomPass);
 
     postProcessing.outputNode = final;
 
     return postProcessing;
-  }, [camera, gl, scene, strength, threshold, fullScreenEffect]);
+  }, [camera, gl, scene, strength, threshold]);
 
-  useFrame(({ clock }) => {
-    // Animate the scan line from top to bottom
-    progressRef.current.value = (Math.sin(clock.getElapsedTime() * 0.5) * 0.5 + 0.5);
+  useFrame(() => {
     render.renderAsync();
   }, 1);
 
@@ -226,19 +200,6 @@ export const Html = () => {
         </div>
       </div>
 
-      <button
-        className="explore-btn"
-        style={{ animationDelay: '2.2s' }}
-      >
-        Scroll to explore
-        <span className="explore-arrow">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="arrow-svg">
-            <path d="M11 5V17" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            <path d="M6 12L11 17L16 12" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </span>
-      </button>
-
       <Canvas
         flat
         gl={async (props) => {
@@ -247,7 +208,7 @@ export const Html = () => {
           return renderer;
         }}
       >
-        <PostProcessing fullScreenEffect={true} />
+        <PostProcessing />
         <Scene />
       </Canvas>
     </div>
