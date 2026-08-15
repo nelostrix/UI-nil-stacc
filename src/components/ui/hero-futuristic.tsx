@@ -177,8 +177,8 @@ const Scene = () => {
 };
 
 export const Html = () => {
-  const titleWords = 'Build Your Dreams'.split(' ');
-  const subtitle = 'AI-powered creativity for the next generation.';
+  const titleWords = 'Engineered To Flex'.split(' ');
+  const subtitle = 'We Build Future Robotics';
   const [visibleWords, setVisibleWords] = useState(0);
   const [subtitleVisible, setSubtitleVisible] = useState(false);
   const [delays, setDelays] = useState<number[]>([]);
