@@ -1,11 +1,19 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
-import HeroFuturistic from "@/components/ui/hero-futuristic";
 import { SplineScene } from '@/components/ui/splite'
+import { useDeferredMount } from "@/lib/utils";
+
+// Both are heavy client-only 3D engines (WebGPU shader canvas + Spline
+// robot scene). Code-split them out of the main bundle and defer mounting
+// them until the browser is idle, so they don't compete with first paint.
+const HeroFuturistic = dynamic(() => import("@/components/ui/hero-futuristic"), {
+    ssr: false,
+});
 
 /* ═══════════════════════════════════════
    PARTICLES — floating energy dots
@@ -61,6 +69,8 @@ function Particles() {
    HERO
    ═══════════════════════════════════════ */
 function Hero() {
+    const showSpline = useDeferredMount();
+
     return (
         <section className="min-h-screen flex items-center relative overflow-hidden crosshair-bg">
             {/* Energy orbs */}
@@ -190,10 +200,12 @@ function Hero() {
 
                         {/* 3D Robot */}
                         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                            <SplineScene
-                                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                                className="w-full h-full"
-                            />
+                            {showSpline && (
+                                <SplineScene
+                                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                                    className="w-full h-full"
+                                />
+                            )}
                         </div>
 
                         {/* Corner brackets */}
@@ -633,11 +645,13 @@ function Footer() {
    PAGE
    ═══════════════════════════════════════ */
 export default function Home() {
+    const showHeroFuturistic = useDeferredMount();
+
     return (
         <main>
             <Particles />
             <Nav />
-            <HeroFuturistic />
+            {showHeroFuturistic && <HeroFuturistic />}
             <Hero />
             <Manifesto />
             <Products />
