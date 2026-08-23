@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function cn(...classes: (string | undefined | boolean)[]) {
   return classes.filter(Boolean).join(' ')
@@ -26,4 +26,42 @@ export function useDeferredMount(timeout = 300) {
   }, [timeout])
 
   return ready
+}
+
+// True when the OS/browser asks for reduced motion — used to skip mounting
+// heavy animated 3D scenes entirely for those users.
+export function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(mql.matches)
+    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [])
+
+  return reduced
+}
+
+// Tracks whether an element is on-screen, so animated content (3D scenes,
+// canvases) can pause/unmount once scrolled away instead of rendering
+// forever in the background.
+export function useInView<T extends HTMLElement>(rootMargin = '200px') {
+  const ref = useRef<T>(null)
+  const [inView, setInView] = useState(true)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [rootMargin])
+
+  return { ref, inView }
 }

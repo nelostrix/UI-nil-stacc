@@ -6,6 +6,7 @@ import { useMemo, useRef, useState, useEffect } from 'react';
 import * as THREE from 'three/webgpu';
 import { bloom } from 'three/examples/jsm/tsl/display/BloomNode.js';
 import { Mesh } from 'three';
+import { useInView } from '@/lib/utils';
 
 import {
   abs,
@@ -174,8 +175,10 @@ export const Html = () => {
     }
   }, [visibleWords, titleWords.length]);
 
+  const { ref, inView } = useInView<HTMLDivElement>();
+
   return (
-    <div className="h-svh">
+    <div ref={ref} className="h-svh">
       <div className="h-svh uppercase items-center w-full absolute z-60 pointer-events-none px-10 flex justify-center flex-col">
         <div className="text-3xl md:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold">
           <div className="flex space-x-2 lg:space-x-6 overflow-hidden text-white">
@@ -202,6 +205,8 @@ export const Html = () => {
 
       <Canvas
         flat
+        dpr={[1, 1]}
+        frameloop={inView ? 'always' : 'never'}
         gl={async (props) => {
           const renderer = new THREE.WebGPURenderer(props as any);
           await renderer.init();

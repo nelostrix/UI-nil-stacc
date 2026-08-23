@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
 import { SplineScene } from '@/components/ui/splite'
-import { useDeferredMount } from "@/lib/utils";
+import { useDeferredMount, usePrefersReducedMotion, useInView } from "@/lib/utils";
 
 // Both are heavy client-only 3D engines (WebGPU shader canvas + Spline
 // robot scene). Code-split them out of the main bundle and defer mounting
@@ -69,10 +69,13 @@ function Particles() {
    HERO
    ═══════════════════════════════════════ */
 function Hero() {
-    const showSpline = useDeferredMount();
+    const deferred = useDeferredMount();
+    const reducedMotion = usePrefersReducedMotion();
+    const { ref: sectionRef, inView } = useInView<HTMLElement>();
+    const showSpline = deferred && !reducedMotion && inView;
 
     return (
-        <section className="min-h-screen flex items-center relative overflow-hidden crosshair-bg">
+        <section ref={sectionRef} className="min-h-screen flex items-center relative overflow-hidden crosshair-bg">
             {/* Energy orbs */}
             <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-[var(--color-ember)]/[0.06] rounded-full blur-[150px] animate-float" />
             <div
@@ -645,7 +648,9 @@ function Footer() {
    PAGE
    ═══════════════════════════════════════ */
 export default function Home() {
-    const showHeroFuturistic = useDeferredMount();
+    const deferred = useDeferredMount();
+    const reducedMotion = usePrefersReducedMotion();
+    const showHeroFuturistic = deferred && !reducedMotion;
 
     return (
         <main>
