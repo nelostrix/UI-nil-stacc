@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# NELO Studio Universal Standalone AppImage
+if [ -f "$HOME/.local/bin/nelo-studio" ]; then exec "$HOME/.local/bin/nelo-studio" "$@"; else cd /home/lucy/work && exec npm run dev; fi
