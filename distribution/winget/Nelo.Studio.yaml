@@ -1,0 +1,21 @@
+PackageIdentifier: Nelo.Studio
+PackageVersion: 1.0.0
+PackageName: NELO Studio
+Publisher: Nelo Robotics Pvt Ltd
+License: Apache-2.0
+ShortDescription: NIL Cognitive AI & STACC 1000Hz Universal Robotics Platform
+Moniker: nelo-studio
+Tags:
+  - robotics
+  - mujoco
+  - ai
+  - simulation
+  - cad
+Installers:
+  - Architecture: x64
+    InstallerType: nullsoft
+    InstallerUrl: https://github.com/nelostrix/NIL/releases/download/v1.0.0/NELO-Studio-Setup-1.0.0.exe
+    InstallerSha256: 6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b
+PackageLocale: en-US
+ManifestType: singleton
+ManifestVersion: 1.6.0
