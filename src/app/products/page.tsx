@@ -2,631 +2,499 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
-function Nav() {
-    return (
-        <nav className="fixed top-0 w-full z-50 backdrop-blur-xl bg-[var(--color-void)]/90 border-b border-white/5">
-            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-3">
-                    <Image
-                        src="/logo.png"
-                        alt="Nelo"
-                        width={36}
-                        height={36}
-                        className="rounded-xl"
-                    />
-                    <span className="font-[var(--font-display)] text-2xl tracking-wider">
-                        NELO
-                    </span>
-                </Link>
-                <div className="hidden md:flex items-center gap-1">
-                    <Link
-                        href="/products"
-                        className="px-4 py-2 text-xs font-semibold tracking-[0.2em] text-[var(--color-ivory)]"
-                    >
-                        PRODUCTS
-                    </Link>
-                    <Link
-                        href="/downloads"
-                        className="px-4 py-2 text-xs font-semibold tracking-[0.2em] text-[var(--color-mist)] hover:text-[var(--color-ember)] transition-colors"
-                    >
-                        DOWNLOADS
-                    </Link>
-                    <Link
-                        href="/usecases"
-                        className="px-4 py-2 text-xs font-semibold tracking-[0.2em] text-[var(--color-mist)] hover:text-[var(--color-ember)] transition-colors"
-                    >
-                        USE CASES
-                    </Link>
-                    <Link
-                        href="/downloads"
-                        className="ml-4 bg-[var(--color-ember)] text-[var(--color-void)] px-5 py-2.5 text-xs font-bold tracking-[0.15em]"
-                        style={{
-                            clipPath:
-                                "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)",
-                        }}
-                    >
-                        GET STARTED
-                    </Link>
-                </div>
-            </div>
-        </nav>
-    );
-}
-
-function ProductHero({
-    id,
-    name,
-    japanese,
-    tag,
-    tagColor,
-    description,
-    version,
-    status,
-}: {
-    id: string;
-    name: string;
-    japanese: string;
-    tag: string;
-    tagColor: string;
-    description: string;
-    version: string;
-    status: string;
-}) {
-    return (
-        <div className="flex items-center gap-3 mb-2">
-            <div
-                className="w-3 h-3 rounded-full"
-                style={{ background: tagColor }}
-            />
-            <span
-                className="text-[9px] font-bold tracking-[0.25em] px-3 py-1 border uppercase"
-                style={{ color: tagColor, borderColor: tagColor + "30" }}
-            >
-                {tag}
-            </span>
-            <span className="text-[9px] font-[var(--font-mono)] text-[var(--color-smoke)] tracking-wider">
-                {version}
-            </span>
-            <span
-                className="text-[9px] font-[var(--font-mono)] tracking-wider"
-                style={{ color: "var(--color-volt)" }}
-            >
-                {status}
-            </span>
-        </div>
-    );
-}
-
-function ProductCard({
-    id,
-    name,
-    japanese,
-    tag,
-    tagColor,
-    description,
-    features,
-    architecture,
-    install,
-    price,
-    version,
-}: {
-    id: string;
-    name: string;
-    japanese: string;
-    tag: string;
-    tagColor: string;
-    description: string;
-    features: string[];
-    architecture: { layer: string; items: string }[];
-    install: string;
-    price: string;
-    version: string;
-}) {
-    return (
-        <section
-            id={id}
-            className="py-24 px-6 border-t border-white/5 relative overflow-hidden"
-        >
-            {/* Background glow */}
-            <div
-                className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[150px] opacity-[0.03]"
-                style={{ background: tagColor }}
-            />
-
-            <div className="max-w-6xl mx-auto">
-                <ProductHero
-                    id={id}
-                    name={name}
-                    japanese={japanese}
-                    tag={tag}
-                    tagColor={tagColor}
-                    description={description}
-                    version={version}
-                    status="● STABLE"
-                />
-
-                <div className="flex items-end gap-4 mt-4 mb-2">
-                    <h2 className="font-[var(--font-display)] text-7xl md:text-9xl tracking-wider leading-none">
-                        {name}
-                    </h2>
-                    <span className="text-lg text-white/10 mb-3 font-light">
-                        {japanese}
-                    </span>
-                </div>
-
-                <p className="text-[var(--color-mist)] text-lg max-w-2xl mb-12 leading-relaxed">
-                    {description}
-                </p>
-
-                {/* Action buttons */}
-                <div className="flex flex-wrap gap-4 mb-16">
-                    <Link
-                        href={`/downloads?product=${id}`}
-                        className="bg-[var(--color-ember)] text-[var(--color-void)] px-8 py-4 font-bold text-sm tracking-[0.15em] hover:brightness-110 transition-all group relative overflow-hidden"
-                        style={{
-                            clipPath:
-                                "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-                        }}
-                    >
-                        <span className="relative z-10">
-                            DOWNLOAD {name.toUpperCase()} →
-                        </span>
-                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-                    </Link>
-                    <div
-                        className="flex items-center gap-3 border border-white/10 px-6 py-3"
-                        style={{
-                            clipPath:
-                                "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-                        }}
-                    >
-                        <span
-                            className="font-[var(--font-display)] text-2xl tracking-wider"
-                            style={{ color: tagColor }}
-                        >
-                            {price}
-                        </span>
-                        <span className="text-[var(--color-smoke)] text-xs tracking-wider">
-                            /YEAR
-                        </span>
-                    </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-12">
-                    {/* Features */}
-                    <div>
-                        <h3 className="text-[10px] font-bold tracking-[0.3em] text-[var(--color-smoke)] mb-6 flex items-center gap-3">
-                            <span
-                                className="w-8 h-[1px]"
-                                style={{ background: tagColor }}
-                            />
-                            CAPABILITIES
-                        </h3>
-                        <div className="space-y-3">
-                            {features.map((f, i) => (
-                                <div
-                                    key={f}
-                                    className="flex items-start gap-3 animate-fade-up"
-                                    style={{
-                                        animationDelay: `${i * 0.05}s`,
-                                        opacity: 0,
-                                    }}
-                                >
-                                    <span
-                                        className="mt-2 w-1.5 h-1.5 rounded-full flex-shrink-0"
-                                        style={{ background: tagColor }}
-                                    />
-                                    <span className="text-[var(--color-pearl)] text-sm">
-                                        {f}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Architecture */}
-                    <div>
-                        <h3 className="text-[10px] font-bold tracking-[0.3em] text-[var(--color-smoke)] mb-6 flex items-center gap-3">
-                            <span
-                                className="w-8 h-[1px]"
-                                style={{ background: tagColor }}
-                            />
-                            ARCHITECTURE
-                        </h3>
-                        <div className="space-y-4">
-                            {architecture.map((a, i) => (
-                                <div
-                                    key={a.layer}
-                                    className="border-l-2 pl-4 animate-fade-up"
-                                    style={{
-                                        borderColor: tagColor + "40",
-                                        animationDelay: `${i * 0.1}s`,
-                                        opacity: 0,
-                                    }}
-                                >
-                                    <div className="text-sm font-semibold text-[var(--color-ivory)]">
-                                        {a.layer}
-                                    </div>
-                                    <div className="text-xs text-[var(--color-smoke)] mt-1 leading-relaxed">
-                                        {a.items}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Install command */}
-                <div
-                    className="mt-12 bg-[var(--color-ash)] border border-white/5 p-5"
-                    style={{
-                        clipPath:
-                            "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
-                    }}
-                >
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <div className="text-[9px] font-bold tracking-[0.3em] text-[var(--color-smoke)] mb-2">
-                                QUICK INSTALL
-                            </div>
-                            <code className="font-[var(--font-mono)] text-sm text-[var(--color-mist)]">
-                                <span className="text-[var(--color-ember)]">
-                                    $
-                                </span>{" "}
-                                {install}
-                            </code>
-                        </div>
-                        <button
-                            onClick={() => {
-                                navigator.clipboard.writeText(install);
-                            }}
-                            className="text-xs tracking-wider text-[var(--color-smoke)] hover:text-[var(--color-ember)] transition-colors px-4 py-2 border border-white/5"
-                        >
-                            COPY
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-}
+import {
+    Monitor,
+    Terminal,
+    Cpu,
+    Zap,
+    Boxes,
+    Layers,
+    Shield,
+    Check,
+    Download,
+    ExternalLink,
+    Laptop,
+    Sparkles,
+    CheckCircle2,
+    Code2,
+    Server,
+    HardDrive,
+    Flame,
+} from "lucide-react";
+import Nav from "@/components/Nav";
 
 export default function Products() {
     return (
-        <main>
+        <div className="relative min-h-screen bg-[var(--color-void)] text-[var(--color-ivory)] overflow-hidden font-sans">
             <Nav />
 
-            {/* Header */}
-            <section className="pt-32 pb-8 px-6">
+            {/* Ambient Background Energy */}
+            <div className="absolute top-[12%] left-[5%] w-[550px] h-[550px] bg-[var(--color-ember)]/[0.04] rounded-full blur-[170px] pointer-events-none" />
+            <div className="absolute top-[45%] right-[5%] w-[600px] h-[600px] bg-[var(--color-electric)]/[0.03] rounded-full blur-[190px] pointer-events-none" />
+            <div className="absolute bottom-[15%] left-[10%] w-[500px] h-[500px] bg-[var(--color-plasma)]/[0.03] rounded-full blur-[160px] pointer-events-none" />
+
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* HERO SECTION                                                    */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <section className="pt-36 pb-16 px-6 relative z-10 border-b border-white/5">
                 <div className="max-w-6xl mx-auto">
-                    <span className="text-[9px] font-bold tracking-[0.3em] text-[var(--color-ember)] border border-[var(--color-ember)]/20 bg-[var(--color-ember)]/5 px-4 py-2">
-                        THREE PRODUCTS
-                    </span>
-                    <h1 className="font-[var(--font-display)] text-7xl md:text-9xl tracking-wider mt-6">
-                        PRODUCTS
+                    <div className="flex flex-wrap items-center gap-3">
+                        <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-volt)] border border-[var(--color-volt)]/30 bg-[var(--color-volt)]/5 px-3.5 py-1.5 uppercase font-mono">
+                            OFFICIAL PRODUCT LINEUP
+                        </span>
+                        <span className="text-[10px] font-mono text-[var(--color-mist)]">
+                            POWERED BY NIL &amp; STACC ENGINES
+                        </span>
+                    </div>
+
+                    <h1 className="font-[var(--font-display)] text-6xl sm:text-7xl md:text-8xl tracking-wider mt-6 leading-none">
+                        OUR{" "}
+                        <span className="text-[var(--color-ember)] text-glow">
+                            PRODUCTS
+                        </span>
                     </h1>
-                    <p className="text-[var(--color-mist)] text-lg mt-4 max-w-2xl">
-                        Use them independently or together. Each is powerful
-                        alone — unstoppable combined.
+
+                    <p className="text-[var(--color-mist)] text-base sm:text-lg mt-4 max-w-3xl leading-relaxed">
+                        Two distinct powerhouse developer platforms — <strong className="text-white">NELO Studio</strong> (the native visual robotics IDE) and <strong className="text-white">NELO CLI</strong> (the ultra-fast headless toolkit &amp; Python SDK). Both are backed by our foundational deep-tech engines: <span className="text-[var(--color-plasma)] font-semibold">NIL Causal AI</span> and <span className="text-[var(--color-electric)] font-semibold">STACC 1000Hz Physics</span>.
                     </p>
 
-                    {/* Quick jump */}
-                    <div className="flex gap-4 mt-8">
-                        {[
-                            {
-                                href: "#stacc",
-                                name: "STACC",
-                                color: "var(--color-electric)",
-                            },
-                            {
-                                href: "#nil",
-                                name: "NIL",
-                                color: "var(--color-plasma)",
-                            },
-                            {
-                                href: "#nil-stacc",
-                                name: "NIL×STACC",
-                                color: "var(--color-ember)",
-                            },
-                        ].map((p) => (
-                            <a
-                                key={p.name}
-                                href={p.href}
-                                className="flex items-center gap-2 text-xs font-bold tracking-[0.2em] px-4 py-2 border border-white/5 hover:border-white/20 transition-all card-hover"
-                                style={{
-                                    clipPath:
-                                        "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)",
-                                }}
-                            >
-                                <span
-                                    className="w-2 h-2 rounded-full"
-                                    style={{ background: p.color }}
-                                />
-                                {p.name}
-                            </a>
-                        ))}
+                    {/* Quick Jump */}
+                    <div className="flex flex-wrap gap-4 mt-8">
+                        <a
+                            href="#nelo-studio"
+                            className="flex items-center gap-2.5 text-xs font-bold tracking-wider px-5 py-2.5 bg-[var(--color-ash)] border border-[var(--color-ember)]/40 text-white hover:border-[var(--color-ember)] transition-all"
+                            style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
+                        >
+                            <Monitor className="w-4 h-4 text-[var(--color-ember)]" />
+                            <span>1. NELO STUDIO (DESKTOP IDE)</span>
+                        </a>
+
+                        <a
+                            href="#nelo-cli"
+                            className="flex items-center gap-2.5 text-xs font-bold tracking-wider px-5 py-2.5 bg-[var(--color-ash)] border border-[var(--color-volt)]/40 text-white hover:border-[var(--color-volt)] transition-all"
+                            style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
+                        >
+                            <Terminal className="w-4 h-4 text-[var(--color-volt)]" />
+                            <span>2. NELO CLI &amp; PYTHON SDK</span>
+                        </a>
+
+                        <a
+                            href="#twin-engines"
+                            className="flex items-center gap-2.5 text-xs font-bold tracking-wider px-5 py-2.5 bg-white/5 border border-white/10 text-[var(--color-mist)] hover:text-white transition-all"
+                            style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
+                        >
+                            <Cpu className="w-4 h-4 text-[var(--color-electric)]" />
+                            <span>UNDERLYING NIL &amp; STACC ENGINES</span>
+                        </a>
                     </div>
                 </div>
             </section>
 
-            {/* ═══ STACC ═══ */}
-            <ProductCard
-                id="stacc"
-                name="STACC"
-                japanese="スタック"
-                tag="ROBOTICS PLATFORM"
-                tagColor="var(--color-electric)"
-                description="The universal robotics development platform. Define any robot, simulate with MuJoCo physics, deploy to any hardware. Like CUDA — but for robotics."
-                price="₹4,999"
-                version="v0.1.0"
-                features={[
-                    "MuJoCo 3D physics simulation with real-time viewer",
-                    "Universal robot topology — serial chains, trees, humanoids, any morphology",
-                    "URDF/SDF parser — load thousands of existing robot models",
-                    "14 sensor types wired to MuJoCo (LiDAR, camera, depth, IMU, GPS...)",
-                    "A*, RRT*, Dijkstra, Potential Fields path planning",
-                    "EKF-SLAM + Particle Filter with ICP scan matching",
-                    "Computer vision — OpenCV, ONNX, ArUco markers, optical flow",
-                    "Quintic, minimum-jerk, trapezoidal trajectory generation",
-                    "Gymnasium-compatible RL wrapper for Stable Baselines3",
-                    "HAL for 17 microcontroller boards (RPi, Arduino, ESP32, STM32, Jetson...)",
-                    "Behavior trees for autonomous task planning",
-                    "8 gait patterns + CPG + flight controller for drones",
-                    "5 gripper types including dexterous hand",
-                    "NLP command parsing — control robots with natural language",
-                ]}
-                architecture={[
-                    {
-                        layer: "Simulation",
-                        items: "MuJoCo backend, MJCF builder, 3D viewer, Gym wrapper, world/terrain, recording/replay",
-                    },
-                    {
-                        layer: "Perception",
-                        items: "EKF-SLAM, particle filter, ICP, occupancy mapping, 14 sensors, full vision pipeline",
-                    },
-                    {
-                        layer: "Planning",
-                        items: "A*, RRT*, Dijkstra, potential fields, behavior trees, trajectory generation, NLP",
-                    },
-                    {
-                        layer: "Control",
-                        items: "PID, cascaded PID, gait generation, gripper control, trajectory executor",
-                    },
-                    {
-                        layer: "Hardware",
-                        items: "GPIO, I2C, SPI, serial, PWM, 17 board definitions, SSH deploy, firmware upload",
-                    },
-                ]}
-                install="bash install.sh --key YOUR_KEY --package stacc"
-            />
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* PRODUCT 1: NELO STUDIO (GUI DESKTOP IDE)                        */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <section id="nelo-studio" className="py-24 px-6 border-b border-white/5 relative z-10">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-ember)] animate-pulse" />
+                        <span className="text-[10px] font-bold tracking-[0.25em] px-3 py-1 bg-[var(--color-ember)]/10 text-[var(--color-ember)] border border-[var(--color-ember)]/30 font-mono uppercase">
+                            FLAGSHIP GUI DESKTOP SUITE
+                        </span>
+                        <span className="text-[10px] font-mono text-[var(--color-smoke)]">v1.0.0</span>
+                        <span className="text-[10px] font-mono text-[var(--color-volt)]">● NATIVE STANDALONE WINDOW</span>
+                    </div>
 
-            {/* ═══ NIL ═══ */}
-            <ProductCard
-                id="nil"
-                name="NIL"
-                japanese="ニル"
-                tag="AGENT SDK"
-                tagColor="var(--color-plasma)"
-                description="Self-evolving AI agents that get smarter every time they run. Persistent memory, skill extraction, drift detection, cost optimization. The brain."
-                price="₹7,999"
-                version="v0.1.0"
-                features={[
-                    "Persistent memory across sessions via SQLite",
-                    "Automatic skill extraction from successful patterns",
-                    "Drift detection — alerts when strategies stop working",
-                    "Strategy mutation — evolves better approaches autonomously",
-                    "Smart model routing — use cheaper models when safe",
-                    "Chain compression — eliminate redundant reasoning steps",
-                    "Per-run cost tracking — token and cost accounting",
-                    "Works with Claude, GPT, Llama, Gemini, or any LLM",
-                    "Zero infrastructure — runs on any laptop, stores everything locally",
-                    "Structured experience traces — not just logs, machine-readable data",
-                ]}
-                architecture={[
-                    {
-                        layer: "Agent Kernel",
-                        items: "Runner loop, structured tracer, tool manager, outcome tracking",
-                    },
-                    {
-                        layer: "Memory",
-                        items: "SQLite store, experience queries, skill registry, strategy versioning",
-                    },
-                    {
-                        layer: "Evolution",
-                        items: "Pattern analyzer, skill extractor, strategy mutator, evaluator, drift detector",
-                    },
-                    {
-                        layer: "Optimization",
-                        items: "Model router, chain compressor, response cache, budget controller",
-                    },
-                    {
-                        layer: "Providers",
-                        items: "Anthropic (Claude), OpenAI (GPT), Google (Gemini), local (Llama), stub (testing)",
-                    },
-                ]}
-                install="bash install.sh --key YOUR_KEY --package nil-sdk"
-            />
+                    <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+                        <div>
+                            <h2 className="font-[var(--font-display)] text-6xl sm:text-7xl md:text-8xl tracking-wider leading-none">
+                                NELO STUDIO
+                            </h2>
+                            <p className="text-[var(--color-mist)] text-base sm:text-lg max-w-3xl mt-4 leading-relaxed">
+                                The ultimate AI-native robotics engineering operating system. Runs as a <strong className="text-white">100% standalone native desktop application</strong> with integrated 3D MuJoCo Physics, Parametric CAD Studio, Monaco Code Editor, and the NIL Agent assistant. Zero browser dependency.
+                            </p>
+                        </div>
 
-            {/* ═══ NIL×STACC ═══ */}
-            <ProductCard
-                id="nil-stacc"
-                name="NIL×STACC"
-                japanese="フュージョン"
-                tag="FULL STACK"
-                tagColor="var(--color-ember)"
-                description="The complete robotics intelligence stack. Self-improving NIL agents controlling stacc robots. Brain meets body. Gets smarter with every task."
-                price="₹14,999"
-                version="v0.1.0"
-                features={[
-                    "Auto-generates NIL tools from any stacc robot's capabilities",
-                    "Natural language robot control — 'pick up the red block'",
-                    "Agents learn optimal strategies from every interaction",
-                    "Pre-built domains: warehouse, inspection, research, assembly",
-                    "Sim-to-real pipeline — train in MuJoCo, deploy to hardware",
-                    "Fleet management for coordinating multiple robots",
-                    "Safety governor constrains agent actions within safe bounds",
-                    "Telemetry and usage analytics across all robots",
-                    "RobotAgent class — one line to create a self-improving robot",
-                    "Bridge layer auto-wraps sensors, grippers, planners as agent tools",
-                ]}
-                architecture={[
-                    {
-                        layer: "Bridge",
-                        items: "Auto tool generation from robot capabilities, data serializers, version compatibility",
-                    },
-                    {
-                        layer: "Domains",
-                        items: "Warehouse ops, autonomous inspection, research lab, assembly line, exploration",
-                    },
-                    {
-                        layer: "Exclusive",
-                        items: "Sim-based training, digital twin sync, fleet coordination, safety constraints, telemetry",
-                    },
-                    {
-                        layer: "Distribution",
-                        items: "Package installer, version manager, health checker, feedback collector, update system",
-                    },
-                ]}
-                install="bash install.sh --key YOUR_KEY --package nil-stacc"
-            />
+                        <div className="flex flex-wrap items-center gap-4 shrink-0">
+                            <Link
+                                href="/downloads"
+                                className="bg-[var(--color-ember)] hover:brightness-110 text-[var(--color-void)] px-8 py-4 font-bold text-xs tracking-wider flex items-center gap-2 cursor-pointer transition-all"
+                                style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                            >
+                                <Download className="w-4 h-4" />
+                                <span>GET NELO STUDIO</span>
+                            </Link>
 
-            {/* Compare table */}
-            <section className="py-24 px-6 border-t border-white/5">
+                            <div className="p-3 bg-[var(--color-ash)] border border-white/10 font-mono text-xs text-[var(--color-smoke)]">
+                                <span className="text-[var(--color-ember)] font-bold text-lg">₹9,999</span>
+                                <span className="text-[10px] text-[var(--color-mist)]"> /YEAR</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Features Grid */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-electric)]">
+                                <Cpu className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">3D MuJoCo Simulation</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Real-time interactive physics viewport backed by the STACC 1000Hz PGS solver. Visualizes collisions, joint limits, contact manifolds, and sensor raycasts.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-plasma)]">
+                                <Boxes className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">3D Parametric CAD Studio</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Dedicated CAD workbench powered by OpenCASCADE B-Rep solid modeling. Synthesize structural brackets, motor flanges, and export to ISO-10303-242 (STEP AP242).
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-volt)]">
+                                <Code2 className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Monaco Code Editor</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Full VSCode Monaco development environment with syntax highlighting, live auto-completion for STACC robotics APIs, real-time kinematics calculator, and Linux shell terminal.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-ember)]">
+                                <Zap className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Embedded NIL AI Dock</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Autonomous agent paired directly with your editor. Automatically analyzes code, plans trajectories, triggers 10-phase self-evolution cycles, and mutates robot control logic.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-smoke)]">
+                                <Server className="w-5 h-5 text-[var(--color-volt)]" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Zero-Setup Micro-Daemons</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                The desktop bundle automatically spins up the NIL Cognitive AI Daemon (Port 8765) and the STACC Robotics Engine (Port 8766) in the background with zero external configuration.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-mist)]">
+                                <Laptop className="w-5 h-5 text-[var(--color-plasma)]" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Cross-Platform Binaries</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Distribute seamlessly via Windows NSIS (`.exe`, `winget`), Arch Linux AUR (`yay -S nelo-studio-bin`), Debian (`.deb`), Universal AppImage, and macOS Universal DMG (`brew`).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* PRODUCT 2: NELO CLI (HEADLESS TERMINAL & PYTHON SDK)            */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <section id="nelo-cli" className="py-24 px-6 border-b border-white/5 relative z-10">
+                <div className="max-w-6xl mx-auto">
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-volt)] animate-pulse" />
+                        <span className="text-[10px] font-bold tracking-[0.25em] px-3 py-1 bg-[var(--color-volt)]/10 text-[var(--color-volt)] border border-[var(--color-volt)]/30 font-mono uppercase">
+                            HEADLESS TERMINAL &amp; PYTHON SDK
+                        </span>
+                        <span className="text-[10px] font-mono text-[var(--color-smoke)]">v1.0.0</span>
+                        <span className="text-[10px] font-mono text-[var(--color-electric)]">● SERVERS • CLUSTERS • EDGE</span>
+                    </div>
+
+                    <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+                        <div>
+                            <h2 className="font-[var(--font-display)] text-6xl sm:text-7xl md:text-8xl tracking-wider leading-none">
+                                NELO CLI
+                            </h2>
+                            <p className="text-[var(--color-mist)] text-base sm:text-lg max-w-3xl mt-4 leading-relaxed">
+                                The high-performance command-line interface and Python SDK built for headless compute clusters, Docker containers, CI/CD automated test pipelines, and robot on-board computers (NVIDIA Jetson, Raspberry Pi).
+                            </p>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-4 shrink-0">
+                            <Link
+                                href="/downloads?product=cli"
+                                className="bg-[var(--color-volt)] hover:brightness-110 text-[var(--color-void)] px-8 py-4 font-bold text-xs tracking-wider flex items-center gap-2 cursor-pointer transition-all"
+                                style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                            >
+                                <Terminal className="w-4 h-4" />
+                                <span>INSTALL NELO-CLI</span>
+                            </Link>
+
+                            <div className="p-3 bg-[var(--color-ash)] border border-white/10 font-mono text-xs text-[var(--color-smoke)]">
+                                <span className="text-[var(--color-volt)] font-bold text-lg">₹4,999</span>
+                                <span className="text-[10px] text-[var(--color-mist)]"> /YEAR</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Features Grid */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-volt)]">
+                                <Terminal className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Headless 1000Hz Sim</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Execute headless MuJoCo physics steps at 1000Hz with zero graphics overhead. Perfect for mass reinforcement learning batch rollouts and CI regression suites.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-electric)]">
+                                <Cpu className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Spatial Kinematics &amp; RNEA</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Compute 6-DOF direct spatial forward kinematics and analytical Recursive Newton-Euler inverse dynamics gravity torques in 0.018ms.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-plasma)]">
+                                <Zap className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">NIL Evolution Triggers</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Programmatically invoke the 10-phase self-evolution pipeline (`nelo agent evolve`) to analyze experience traces and synthesize compiled procedural skills.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-ember)]">
+                                <Boxes className="w-5 h-5" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Headless CAD &amp; STEP Export</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Generate parametric OpenCASCADE geometry scripts and convert robot meshes to industry-standard STEP AP242 format in automated build pipelines.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-smoke)]">
+                                <HardDrive className="w-5 h-5 text-[var(--color-volt)]" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">In-Device Model Manager</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Pull, quantize, and orchestrate local Ollama models (`nelo models pull qwen2.5-coder:7b`) for 100% air-gapped in-device reasoning.
+                            </p>
+                        </div>
+
+                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-3"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center gap-2.5 text-[var(--color-mist)]">
+                                <Server className="w-5 h-5 text-[var(--color-electric)]" />
+                                <h3 className="font-[var(--font-display)] text-xl tracking-wider text-white">Docker &amp; Edge Hardware HAL</h3>
+                            </div>
+                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
+                                Deploy directly into containerized production environments and interact with GPIO, I2C, SPI, CAN, and Serial buses on 17 robotics hardware boards.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* TWIN ENGINES: NIL & STACC (FOUNDATIONAL FEATURES)               */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <section id="twin-engines" className="py-24 px-6 border-b border-white/5 bg-[var(--color-ash)]/30 relative z-10">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center max-w-2xl mx-auto mb-16">
+                        <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-ember)] uppercase font-mono">
+                            FOUNDATIONAL DEEP-TECH ENGINES
+                        </span>
+                        <h2 className="font-[var(--font-display)] text-4xl sm:text-6xl tracking-wider mt-2">
+                            THE TWIN ENGINES INSIDE EVERY NELO PRODUCT
+                        </h2>
+                        <p className="text-xs sm:text-sm text-[var(--color-mist)] mt-3 leading-relaxed">
+                            Rather than standalone products, <strong className="text-[var(--color-plasma)]">NIL</strong> and <strong className="text-[var(--color-electric)]">STACC</strong> are the two proprietary core engines powering all intelligence, physics, and control in both NELO Studio and NELO CLI.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* ENGINE 1: NIL */}
+                        <div className="bg-[var(--color-void)] border border-[var(--color-plasma)]/30 p-8 space-y-6 relative overflow-hidden"
+                            style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                                <div className="flex items-center gap-3">
+                                    <span className="w-3 h-3 rounded-full bg-[var(--color-plasma)]" />
+                                    <h3 className="font-[var(--font-display)] text-3xl tracking-wider text-white">NIL ENGINE</h3>
+                                </div>
+                                <span className="text-[9px] px-2.5 py-1 bg-[var(--color-plasma)]/15 text-[var(--color-plasma)] border border-[var(--color-plasma)]/30 font-mono uppercase">
+                                    AI &amp; COGNITIVE REASONING
+                                </span>
+                            </div>
+
+                            <p className="text-xs sm:text-sm text-[var(--color-mist)] leading-relaxed">
+                                The self-evolving cognitive brain. Houses the 10-phase execution loop, persistent memory graph, dynamic movement primitives (DMPs), and automatic skill synthesizer.
+                            </p>
+
+                            <div className="space-y-3 font-mono text-xs">
+                                <div className="flex items-start gap-2.5 text-[var(--color-ivory)]">
+                                    <span className="text-[var(--color-plasma)] font-bold">✓</span>
+                                    <span><strong>10-Phase Cognitive Loop:</strong> Causal reasoning, textual gradient descent, and multi-signal drift gating.</span>
+                                </div>
+                                <div className="flex items-start gap-2.5 text-[var(--color-ivory)]">
+                                    <span className="text-[var(--color-plasma)] font-bold">✓</span>
+                                    <span><strong>7-Tier Persistent Memory:</strong> SQLite experience traces, semantic graph, and compiled procedural callables.</span>
+                                </div>
+                                <div className="flex items-start gap-2.5 text-[var(--color-ivory)]">
+                                    <span className="text-[var(--color-plasma)] font-bold">✓</span>
+                                    <span><strong>In-Device Inference:</strong> Automatic provider routing across local Ollama (Llama, Qwen) and cloud APIs (Gemini, Claude, GPT).</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ENGINE 2: STACC */}
+                        <div className="bg-[var(--color-void)] border border-[var(--color-electric)]/30 p-8 space-y-6 relative overflow-hidden"
+                            style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
+                        >
+                            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                                <div className="flex items-center gap-3">
+                                    <span className="w-3 h-3 rounded-full bg-[var(--color-electric)]" />
+                                    <h3 className="font-[var(--font-display)] text-3xl tracking-wider text-white">STACC ENGINE</h3>
+                                </div>
+                                <span className="text-[9px] px-2.5 py-1 bg-[var(--color-electric)]/15 text-[var(--color-electric)] border border-[var(--color-electric)]/30 font-mono uppercase">
+                                    1000Hz ROBOTICS &amp; PHYSICS
+                                </span>
+                            </div>
+
+                            <p className="text-xs sm:text-sm text-[var(--color-mist)] leading-relaxed">
+                                The high-frequency physics and real-time execution engine. Manages MuJoCo 3.2.0 multi-body dynamics, RNEA kinematics, and POSIX shared memory buses.
+                            </p>
+
+                            <div className="space-y-3 font-mono text-xs">
+                                <div className="flex items-start gap-2.5 text-[var(--color-ivory)]">
+                                    <span className="text-[var(--color-electric)] font-bold">✓</span>
+                                    <span><strong>MuJoCo 3.2.0 PGS Solver:</strong> Projected Gauss-Seidel multi-body dynamics at 1000Hz real-time frequency.</span>
+                                </div>
+                                <div className="flex items-start gap-2.5 text-[var(--color-ivory)]">
+                                    <span className="text-[var(--color-electric)] font-bold">✓</span>
+                                    <span><strong>Analytical Dynamics:</strong> Spatial direct forward kinematics and RNEA gravity compensation in 0.018ms.</span>
+                                </div>
+                                <div className="flex items-start gap-2.5 text-[var(--color-ivory)]">
+                                    <span className="text-[var(--color-electric)] font-bold">✓</span>
+                                    <span><strong>Zero-Copy POSIX IPC:</strong> Ringbuffered shared memory telemetry bus for high-bandwidth sensor &amp; actuator control.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* COMPARISON TABLE: STUDIO VS CLI                                 */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <section className="py-24 px-6 border-b border-white/5 relative z-10">
                 <div className="max-w-4xl mx-auto">
-                    <h2 className="font-[var(--font-display)] text-4xl tracking-wider text-center mb-12">
-                        COMPARE
+                    <h2 className="font-[var(--font-display)] text-4xl sm:text-5xl tracking-wider text-center mb-12">
+                        COMPARE PLATFORMS
                     </h2>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
+                    <div className="overflow-x-auto bg-[var(--color-ash)] border border-white/10 p-6"
+                        style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
+                    >
+                        <table className="w-full text-xs font-mono">
                             <thead>
-                                <tr className="border-b border-white/5">
-                                    <th className="text-left py-4 pr-4 text-[var(--color-smoke)] text-xs tracking-[0.2em] font-normal">
-                                        FEATURE
+                                <tr className="border-b border-white/10 text-left">
+                                    <th className="py-4 pr-4 text-[var(--color-smoke)] tracking-[0.2em] font-bold font-sans">
+                                        FEATURE / CAPABILITY
                                     </th>
-                                    <th
-                                        className="py-4 px-4 text-center"
-                                        style={{
-                                            color: "var(--color-electric)",
-                                        }}
-                                    >
-                                        <span className="font-[var(--font-display)] text-lg tracking-wider">
-                                            STACC
+                                    <th className="py-4 px-4 text-center text-[var(--color-ember)] font-sans">
+                                        <span className="font-[var(--font-display)] text-lg tracking-wider block">
+                                            NELO STUDIO
                                         </span>
+                                        <span className="text-[9px] text-[var(--color-smoke)] font-mono">GUI DESKTOP IDE</span>
                                     </th>
-                                    <th
-                                        className="py-4 px-4 text-center"
-                                        style={{ color: "var(--color-plasma)" }}
-                                    >
-                                        <span className="font-[var(--font-display)] text-lg tracking-wider">
-                                            NIL
+                                    <th className="py-4 px-4 text-center text-[var(--color-volt)] font-sans">
+                                        <span className="font-[var(--font-display)] text-lg tracking-wider block">
+                                            NELO CLI
                                         </span>
-                                    </th>
-                                    <th
-                                        className="py-4 px-4 text-center"
-                                        style={{ color: "var(--color-ember)" }}
-                                    >
-                                        <span className="font-[var(--font-display)] text-lg tracking-wider">
-                                            NIL×STACC
-                                        </span>
+                                        <span className="text-[9px] text-[var(--color-smoke)] font-mono">HEADLESS &amp; SDK</span>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="text-[var(--color-mist)]">
                                 {[
-                                    ["MuJoCo simulation", true, false, true],
-                                    ["URDF/SDF parser", true, false, true],
-                                    ["14 sensor types", true, false, true],
-                                    [
-                                        "Path planning (A*, RRT*)",
-                                        true,
-                                        false,
-                                        true,
-                                    ],
-                                    ["SLAM", true, false, true],
-                                    ["HAL — 17 boards", true, false, true],
-                                    ["Gym RL wrapper", true, false, true],
-                                    ["Self-evolving agents", false, true, true],
-                                    ["Persistent memory", false, true, true],
-                                    ["Skill extraction", false, true, true],
-                                    ["Drift detection", false, true, true],
-                                    ["Cost optimization", false, true, true],
-                                    [
-                                        "Auto tool generation",
-                                        false,
-                                        false,
-                                        true,
-                                    ],
-                                    ["Pre-built domains", false, false, true],
-                                    ["Fleet management", false, false, true],
-                                    ["Safety governor", false, false, true],
-                                ].map(([feature, s, n, ns]) => (
-                                    <tr
-                                        key={feature as string}
-                                        className="border-b border-white/5"
-                                    >
-                                        <td className="py-3 pr-4 text-sm">
+                                    ["Standalone Native Window (Zero Browser)", true, false],
+                                    ["Interactive 3D MuJoCo Physics Viewport", true, false],
+                                    ["Visual 3D Parametric CAD Studio", true, false],
+                                    ["Monaco Code Editor with Code Completion", true, false],
+                                    ["Interactive NIL AI Assistant Dock", true, false],
+                                    ["Headless 1000Hz Physics Simulation Step", true, true],
+                                    ["Analytical Spatial Kinematics (0.018ms)", true, true],
+                                    ["RNEA Dynamic Gravity Torque Compensation", true, true],
+                                    ["10-Phase NIL Cognitive Evolutionary Cycles", true, true],
+                                    ["STEP AP242 & B-Rep Mesh Exporters", true, true],
+                                    ["Local Ollama In-Device Model Manager", true, true],
+                                    ["Linux Shell Terminal & POSIX Bus", true, true],
+                                    ["Docker Container & Cluster CI/CD Support", false, true],
+                                    ["Edge Hardware HAL (Jetson, RPi, STM32)", false, true],
+                                    ["Embedded STACC 1000Hz Engine Inside", true, true],
+                                    ["Embedded NIL Causal AI Engine Inside", true, true],
+                                ].map(([feature, studio, cli], idx) => (
+                                    <tr key={idx} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                        <td className="py-3 pr-4 text-xs font-sans text-white">
                                             {feature as string}
                                         </td>
                                         <td className="py-3 px-4 text-center">
-                                            {s ? (
-                                                <span className="text-[var(--color-volt)]">
-                                                    ✓
-                                                </span>
+                                            {studio ? (
+                                                <span className="text-[var(--color-ember)] font-bold">✓</span>
                                             ) : (
-                                                <span className="text-[var(--color-smoke)]">
-                                                    —
-                                                </span>
+                                                <span className="text-[var(--color-smoke)]">—</span>
                                             )}
                                         </td>
                                         <td className="py-3 px-4 text-center">
-                                            {n ? (
-                                                <span className="text-[var(--color-volt)]">
-                                                    ✓
-                                                </span>
+                                            {cli ? (
+                                                <span className="text-[var(--color-volt)] font-bold">✓</span>
                                             ) : (
-                                                <span className="text-[var(--color-smoke)]">
-                                                    —
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td className="py-3 px-4 text-center">
-                                            {ns ? (
-                                                <span className="text-[var(--color-volt)]">
-                                                    ✓
-                                                </span>
-                                            ) : (
-                                                <span className="text-[var(--color-smoke)]">
-                                                    —
-                                                </span>
+                                                <span className="text-[var(--color-smoke)]">—</span>
                                             )}
                                         </td>
                                     </tr>
                                 ))}
-                                <tr className="border-t-2 border-white/10">
-                                    <td className="py-4 pr-4 font-semibold">
-                                        Price
+                                <tr className="border-t-2 border-white/10 font-bold font-sans">
+                                    <td className="py-4 pr-4 text-sm text-white">
+                                        Annual License
                                     </td>
-                                    <td
-                                        className="py-4 px-4 text-center font-[var(--font-display)] text-xl tracking-wider"
-                                        style={{
-                                            color: "var(--color-electric)",
-                                        }}
-                                    >
-                                        ₹4,999
+                                    <td className="py-4 px-4 text-center font-[var(--font-display)] text-2xl text-[var(--color-ember)]">
+                                        ₹9,999 <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">/yr</span>
                                     </td>
-                                    <td
-                                        className="py-4 px-4 text-center font-[var(--font-display)] text-xl tracking-wider"
-                                        style={{ color: "var(--color-plasma)" }}
-                                    >
-                                        ₹7,999
-                                    </td>
-                                    <td
-                                        className="py-4 px-4 text-center font-[var(--font-display)] text-xl tracking-wider"
-                                        style={{ color: "var(--color-ember)" }}
-                                    >
-                                        ₹14,999
+                                    <td className="py-4 px-4 text-center font-[var(--font-display)] text-2xl text-[var(--color-volt)]">
+                                        ₹4,999 <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">/yr</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -635,89 +503,63 @@ export default function Products() {
                 </div>
             </section>
 
-            {/* CTA */}
-            <section className="py-24 px-6 border-t border-white/5">
-                <div className="max-w-3xl mx-auto text-center">
-                    <h2 className="font-[var(--font-display)] text-5xl md:text-6xl tracking-wider mb-6">
-                        CHOOSE YOUR
-                        <span className="text-[var(--color-ember)] text-glow block mt-2">
-                            WEAPON
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* CTA                                                             */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <section className="py-24 px-6 relative z-10">
+                <div className="max-w-4xl mx-auto text-center space-y-6">
+                    <h2 className="font-[var(--font-display)] text-5xl sm:text-6xl tracking-wider">
+                        READY TO BUILD{" "}
+                        <span className="text-[var(--color-ember)] text-glow">
+                            AUTONOMOUS ROBOTICS?
                         </span>
                     </h2>
-                    <div className="flex flex-wrap justify-center gap-4 mt-10">
+                    <p className="text-xs sm:text-sm text-[var(--color-mist)] max-w-xl mx-auto">
+                        Download the native NELO Studio desktop IDE or install the high-speed NELO CLI package in seconds.
+                    </p>
+
+                    <div className="flex flex-wrap justify-center gap-4 pt-4">
                         <Link
-                            href="/downloads?product=stacc"
-                            className="px-8 py-4 font-bold text-sm tracking-[0.15em] border border-[var(--color-electric)]/30 hover:bg-[var(--color-electric)]/5 transition-all"
-                            style={{
-                                clipPath:
-                                    "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-                                color: "var(--color-electric)",
-                            }}
+                            href="/downloads"
+                            className="bg-[var(--color-ember)] hover:brightness-110 text-[var(--color-void)] px-8 py-4 font-bold text-xs tracking-wider flex items-center gap-2 cursor-pointer transition-all"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
                         >
-                            GET STACC
+                            <Download className="w-4 h-4" />
+                            <span>DOWNLOAD NELO STUDIO →</span>
                         </Link>
+
                         <Link
-                            href="/downloads?product=nil-sdk"
-                            className="px-8 py-4 font-bold text-sm tracking-[0.15em] border border-[var(--color-plasma)]/30 hover:bg-[var(--color-plasma)]/5 transition-all"
-                            style={{
-                                clipPath:
-                                    "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-                                color: "var(--color-plasma)",
-                            }}
+                            href="/downloads?product=cli"
+                            className="bg-[var(--color-ash)] hover:bg-white/10 text-white border border-white/10 px-8 py-4 font-bold text-xs tracking-wider flex items-center gap-2 cursor-pointer transition-all"
+                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
                         >
-                            GET NIL
-                        </Link>
-                        <Link
-                            href="/downloads?product=nil-stacc"
-                            className="px-8 py-4 font-bold text-sm tracking-[0.15em] bg-[var(--color-ember)] text-[var(--color-void)] hover:brightness-110 transition-all"
-                            style={{
-                                clipPath:
-                                    "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)",
-                            }}
-                        >
-                            GET NIL×STACC →
+                            <Terminal className="w-4 h-4 text-[var(--color-volt)]" />
+                            <span>INSTALL NELO CLI →</span>
                         </Link>
                     </div>
                 </div>
             </section>
 
-            <footer className="border-t border-white/5 py-12 px-6">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            {/* FOOTER                                                          */}
+            {/* ═══════════════════════════════════════════════════════════════ */}
+            <footer className="border-t border-white/5 py-12 px-6 relative z-10">
+                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-3">
-                        <Image
-                            src="/logo.png"
-                            alt="Nelo"
-                            width={24}
-                            height={24}
-                            className="rounded-lg"
-                        />
+                        <Image src="/logo.png" alt="Nelo" width={24} height={24} className="rounded-lg" />
                         <span className="font-[var(--font-display)] text-sm tracking-[0.2em]">
                             NELO ROBOTICS PVT LTD
                         </span>
                     </div>
                     <div className="flex items-center gap-8 text-xs text-[var(--color-smoke)] tracking-wider">
-                        <Link
-                            href="/"
-                            className="hover:text-[var(--color-ember)] transition-colors"
-                        >
-                            HOME
-                        </Link>
-                        <Link
-                            href="/downloads"
-                            className="hover:text-[var(--color-ember)] transition-colors"
-                        >
-                            DOWNLOADS
-                        </Link>
-                        <Link
-                            href="/usecases"
-                            className="hover:text-[var(--color-ember)] transition-colors"
-                        >
-                            USE CASES
-                        </Link>
+                        <Link href="/" className="hover:text-[var(--color-ember)] transition-colors">HOME</Link>
+                        <Link href="/products" className="hover:text-[var(--color-ember)] transition-colors">PRODUCTS</Link>
+                        <Link href="/downloads" className="hover:text-[var(--color-ember)] transition-colors">DOWNLOADS</Link>
+                        <Link href="/usecases" className="hover:text-[var(--color-ember)] transition-colors">USE CASES</Link>
                         <span>© 2026</span>
                     </div>
                 </div>
             </footer>
-        </main>
+        </div>
     );
 }

@@ -278,31 +278,31 @@ function Manifesto() {
 function Products() {
     const products = [
         {
-            name: "STACC",
-            sub: "ロボティクス",
-            tag: "ROBOTICS PLATFORM",
-            desc: "Universal robotics development platform. MuJoCo physics, 14 sensors, SLAM, path planning. Define any robot, simulate, deploy.",
-            color: "var(--color-electric)",
-            stats: ["30+ Modules", "17 Boards", "116 Tests"],
-            href: "/products#stacc",
+            name: "NELO STUDIO",
+            sub: "デスクトップ",
+            tag: "GUI DESKTOP IDE",
+            desc: "Visual AI-Native Robotics IDE. Standalone window (zero browser) with 3D MuJoCo physics, 3D CAD Studio, Monaco editor, and NIL Agent.",
+            color: "var(--color-ember)",
+            stats: ["Native Window", "3D Physics & CAD", "Monaco IDE"],
+            href: "/products#nelo-studio",
         },
         {
-            name: "NIL",
-            sub: "インテリジェンス",
-            tag: "AGENT SDK",
-            desc: "Self-evolving AI agents. Persistent memory, skill extraction, drift detection. Gets smarter every run.",
-            color: "var(--color-plasma)",
-            stats: ["∞ Memory", "Auto Skills", "Any LLM"],
-            href: "/products#nil",
+            name: "NELO CLI",
+            sub: "コマンドライン",
+            tag: "HEADLESS TERMINAL & SDK",
+            desc: "High-performance CLI & Python SDK for headless servers, Docker, CI/CD, and robot hardware (NVIDIA Jetson, Raspberry Pi).",
+            color: "var(--color-volt)",
+            stats: ["1000Hz Physics", "Python SDK", "Jetson / Docker"],
+            href: "/products#nelo-cli",
         },
         {
             name: "NIL×STACC",
-            sub: "フュージョン",
-            tag: "FULL STACK",
-            desc: "The complete robotics intelligence stack. Self-improving agents controlling real robots. Brain meets body.",
-            color: "var(--color-ember)",
-            stats: ["Auto Tools", "Domains", "Evolving"],
-            href: "/products#nil-stacc",
+            sub: "コアエンジン",
+            tag: "TWIN ENGINES",
+            desc: "Our foundational deep-tech engines: NIL (Self-evolving causal AI) and STACC (1000Hz robotics physics & dynamics) powering both platforms.",
+            color: "var(--color-plasma)",
+            stats: ["10-Phase AI Loop", "MuJoCo 3.2.0 PGS", "0.018ms Latency"],
+            href: "/products#twin-engines",
         },
     ];
 
@@ -312,7 +312,7 @@ function Products() {
                 <div className="flex items-center gap-4 mb-16">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/5" />
                     <span className="font-[var(--font-display)] text-sm tracking-[0.3em] text-[var(--color-smoke)]">
-                        PRODUCTS
+                        OUR PRODUCTS &amp; ENGINES
                     </span>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/5" />
                 </div>
