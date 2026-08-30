@@ -23,7 +23,6 @@ import {
     Code2,
     Zap,
     Monitor,
-    CommandLine,
     Play,
     Server,
     Flame,
@@ -804,7 +803,7 @@ function DownloadContent() {
                         {/* Interactive CLI Commands Reference */}
                         <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-4">
                             <h3 className="font-[var(--font-display)] text-2xl tracking-wider flex items-center gap-2">
-                                <CommandLine className="w-5 h-5 text-[var(--color-volt)]" />
+                                <Terminal className="w-5 h-5 text-[var(--color-volt)]" />
                                 CLI COMMAND EXAMPLES
                             </h3>
 
