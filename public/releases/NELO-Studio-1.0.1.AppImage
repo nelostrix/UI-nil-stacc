@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# NELO Studio Universal Standalone AppImage (v1.0.0)
+# NELO Studio Universal Standalone AppImage (v1.0.1)
 CMD="${1:-studio}"
 if [ $# -gt 0 ]; then shift; fi
 if [ -x "$HOME/.local/bin/nelo-studio" ]; then

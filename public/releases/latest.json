@@ -1,0 +1,106 @@
+{
+  "version": "v1.0.0",
+  "versionRaw": "1.0.0",
+  "releaseDate": "September 2026",
+  "lastSyncedAt": "2026-09-04T00:35:26Z",
+  "studio": {
+    "linux": {
+      "aur": {
+        "title": "Arch Linux / Manjaro / EndeavourOS",
+        "pkgName": "nelo-studio-bin",
+        "installCmd": "yay -S nelo-studio-bin",
+        "altCmd": "paru -S nelo-studio-bin",
+        "badge": "AUR REPO"
+      },
+      "deb": {
+        "title": "Ubuntu / Debian / Pop!_OS",
+        "fileName": "nelo-studio_1.0.0_amd64.deb",
+        "size": "278 KB",
+        "arch": "x86_64 (.deb)",
+        "installCmd": "sudo apt install ./nelo-studio_1.0.0_amd64.deb",
+        "downloadUrl": "/releases/nelo-studio_1.0.0_amd64.deb",
+        "sha256": "7a5f552afa1d876571cac194f92de243bc589662c96babf0f7612c5ec7e6218f"
+      },
+      "appimage": {
+        "title": "Universal Linux (All Distros)",
+        "fileName": "NELO-Studio-1.0.0.AppImage",
+        "size": "644 B",
+        "arch": "x86_64 (AppImage)",
+        "installCmd": "chmod +x NELO-Studio-1.0.0.AppImage && ./NELO-Studio-1.0.0.AppImage",
+        "downloadUrl": "/releases/NELO-Studio-1.0.0.AppImage",
+        "sha256": "631759155c569495045e0d46c47bfb720eb531eecaeb4fbf6d26e74475bd92c8"
+      },
+      "tarball": {
+        "title": "Standalone Linux Tarball",
+        "fileName": "nelo-studio-linux-x86_64.tar.gz",
+        "size": "57.0 MB",
+        "arch": "x86_64 (.tar.gz)",
+        "installCmd": "tar -xzf nelo-studio-linux-x86_64.tar.gz && ./nelo-studio/nelo-studio",
+        "downloadUrl": "/releases/nelo-studio-linux-x86_64.tar.gz",
+        "sha256": "2318fc67b8fe7746d7e10779950d3b25efbdfebced1f91c3cfbe527c3a050a0c"
+      },
+      "curlOneLiner": "curl -fsSL https://get.nelo-robotics.com/install.sh | bash"
+    },
+    "windows": {
+      "exe": {
+        "title": "Windows 10 / 11 64-bit Installer",
+        "fileName": "NELO-Studio-Setup-1.0.0.exe",
+        "size": "314 KB",
+        "arch": "x64 (NSIS Native Window)",
+        "downloadUrl": "/releases/NELO-Studio-Setup-1.0.0.exe",
+        "sha256": "4bd6292a05fb92d2e12bb5d0f0d5348ec579d9bd73fd907565dde17bdf90ada7"
+      },
+      "portable": {
+        "title": "Windows Portable ZIP",
+        "fileName": "NELO-Studio-1.0.0-win-x64.zip",
+        "size": "314 KB",
+        "arch": "x64 (Standalone ZIP)",
+        "downloadUrl": "/releases/NELO-Studio-1.0.0-win-x64.zip",
+        "sha256": "55d1c353f26a6277158525358859b2f2bbac3d18e263f2cb5dfd6c7899388427"
+      },
+      "winget": "winget install nelo-studio",
+      "psOneLiner": "irm https://get.nelo-robotics.com/install.ps1 | iex"
+    },
+    "macos": {
+      "dmg": {
+        "title": "macOS Universal Disk Image",
+        "fileName": "NELO-Studio-1.0.0-universal.dmg",
+        "size": "318 KB",
+        "arch": "Apple Silicon (M1/M2/M3/M4) & Intel x86_64",
+        "downloadUrl": "/releases/NELO-Studio-1.0.0-universal.dmg",
+        "sha256": "256085d6be9248c83a7c8c30e199ce3677ced16b6dbf72a937d3b3014106e0d3"
+      },
+      "brew": "brew install --cask nelo-studio"
+    }
+  },
+  "cli": {
+    "pip": "pip install --upgrade nelo-cli",
+    "aur": "yay -S nelo-cli",
+    "brew": "brew install nelo-cli",
+    "winget": "winget install nelo-cli",
+    "curlOneLiner": "curl -fsSL https://get.nelo-robotics.com/cli.sh | bash",
+    "psOneLiner": "irm https://get.nelo-robotics.com/cli.ps1 | iex",
+    "features": [
+      {
+        "cmd": "nelo sim --urdf robot.xml --hz 1000",
+        "desc": "Run headless 1000Hz MuJoCo simulation & RNEA dynamics compensation"
+      },
+      {
+        "cmd": "nelo agent evolve --domain manipulation",
+        "desc": "Trigger 10-phase causal cognitive loop & synthesize procedural skills"
+      },
+      {
+        "cmd": "nelo fk --joints 0,0.5,-0.3,0,0.2,0",
+        "desc": "Compute 6-DOF spatial forward kinematics & joint gravity torques in 0.018ms"
+      },
+      {
+        "cmd": "nelo cad export --part link_1 --format step",
+        "desc": "Export OpenCASCADE B-Rep solid model to ISO-10303-242 (STEP AP242)"
+      },
+      {
+        "cmd": "nelo models list",
+        "desc": "Inspect and manage in-device Ollama reasoning models"
+      }
+    ]
+  }
+}
