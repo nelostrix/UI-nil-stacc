@@ -1,3 +1,25 @@
 #!/usr/bin/env bash
-# NELO Studio Universal Standalone AppImage
-if [ -f "$HOME/.local/bin/nelo-studio" ]; then exec "$HOME/.local/bin/nelo-studio" "$@"; else cd /home/lucy/work && exec npm run dev; fi
+# ==============================================================================
+# NELO Studio — Universal Standalone Native Desktop AppImage
+# In-Device Robotics & AI Engineering OS (Cursor-style Native Window)
+# Zero Browser Dependency • Zero Cloud Dependency
+# ==============================================================================
+
+CMD="${1:-studio}"
+if [ $# -gt 0 ]; then
+    shift
+fi
+
+if [ -x "$HOME/.local/bin/nelo-studio" ]; then
+    exec "$HOME/.local/bin/nelo-studio" "$CMD" "$@"
+elif [ -x "/opt/nelo-studio/bin/nelo-studio" ]; then
+    exec "/opt/nelo-studio/bin/nelo-studio" "$CMD" "$@"
+else
+    ELECTRON_BIN="/home/lucy/work/node_modules/.bin/electron"
+    MAIN_JS="/home/lucy/work/electron/main.js"
+    if [ -x "$ELECTRON_BIN" ] && [ -f "$MAIN_JS" ]; then
+        exec "$ELECTRON_BIN" "$MAIN_JS" "$@"
+    else
+        exec python3 /home/lucy/work/NELO-Studio/bin/nelo-studio "$CMD" "$@"
+    fi
+fi
