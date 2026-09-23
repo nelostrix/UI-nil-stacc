@@ -107,54 +107,46 @@ function DownloadContent() {
         document.body.removeChild(link);
     };
 
-    // Auto-detect user OS & automatically initiate download on load
+    // Auto-detect user OS & switch to the matching tab on load. Only
+    // auto-triggers an actual download when a real, published file exists
+    // (currently just the Linux AppImage) — Windows/macOS builds are real
+    // and CI-verified but not yet published to a download URL, so silently
+    // auto-downloading nothing would be worse than just switching the tab
+    // and letting the "coming soon" state speak for itself.
     useEffect(() => {
         if (typeof window === "undefined") return;
         const ua = window.navigator.userAgent.toLowerCase();
-        let targetUrl = "";
-        let fileName = "";
-        let fileSize = "";
         let osDetected: OSType = "linux";
         let osLabel = "Linux";
 
         if (ua.includes("win")) {
             osDetected = "windows";
             osLabel = "Windows 10 / 11 (64-bit)";
-            targetUrl = RELEASES.studio.windows.exe.downloadUrl;
-            fileName = RELEASES.studio.windows.exe.fileName;
-            fileSize = RELEASES.studio.windows.exe.size;
         } else if (ua.includes("mac")) {
             osDetected = "macos";
             osLabel = "macOS (Apple Silicon & Intel)";
-            targetUrl = RELEASES.studio.macos.dmg.downloadUrl;
-            fileName = RELEASES.studio.macos.dmg.fileName;
-            fileSize = RELEASES.studio.macos.dmg.size;
         } else {
             osDetected = "linux";
-            osLabel = "Linux (Debian / AppImage)";
-            targetUrl = RELEASES.studio.linux.deb.downloadUrl;
-            fileName = RELEASES.studio.linux.deb.fileName;
-            fileSize = RELEASES.studio.linux.deb.size;
+            osLabel = "Linux (x86_64 AppImage)";
         }
 
         setDetectedOS(osDetected);
         setActiveTab(osDetected);
-        setAutoDownloadInfo({
-            triggered: true,
-            fileName,
-            downloadUrl: targetUrl,
-            size: fileSize,
-            osName: osLabel,
-        });
 
-        // Automatically start download after a brief 500ms delay
-        const timer = setTimeout(() => {
-            if (targetUrl) {
-                startFileDownload(targetUrl, fileName);
-            }
-        }, 500);
-
-        return () => clearTimeout(timer);
+        const appimage = RELEASES.studio.linux.appimage;
+        if (osDetected === "linux" && "downloadUrl" in appimage) {
+            setAutoDownloadInfo({
+                triggered: true,
+                fileName: appimage.fileName,
+                downloadUrl: appimage.downloadUrl,
+                size: appimage.size,
+                osName: osLabel,
+            });
+            const timer = setTimeout(() => {
+                startFileDownload(appimage.downloadUrl, appimage.fileName);
+            }, 500);
+            return () => clearTimeout(timer);
+        }
     }, []);
 
     useEffect(() => {
@@ -366,244 +358,92 @@ function DownloadContent() {
                         {/* LINUX PACKAGES */}
                         {activeTab === "linux" && (
                             <div className="space-y-6">
-                                {/* Arch Linux AUR */}
-                                <div className="bg-[var(--color-ash)] border border-white/10 p-6 relative overflow-hidden"
-                                    style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
-                                >
-                                    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
-                                        <div className="flex items-center gap-3">
-                                            <span className="w-3 h-3 rounded-full bg-[var(--color-electric)] animate-pulse" />
-                                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">
-                                                {RELEASES.studio.linux.aur.title}
-                                            </h3>
-                                            <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-[var(--color-electric)]/10 text-[var(--color-electric)] border border-[var(--color-electric)]/30 font-mono">
-                                                {RELEASES.studio.linux.aur.badge}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-4 space-y-3 font-mono text-xs">
-                                        <div className="bg-[var(--color-void)] border border-white/10 p-3.5 flex items-center justify-between gap-4">
-                                            <div className="flex items-center gap-2 overflow-x-auto text-[var(--color-ivory)]">
-                                                <span className="text-[var(--color-volt)]">$</span>
-                                                <code>{RELEASES.studio.linux.aur.installCmd}</code>
-                                            </div>
-                                            <button
-                                                onClick={() => copyToClipboard(RELEASES.studio.linux.aur.installCmd)}
-                                                className="px-3 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1.5 cursor-pointer shrink-0 transition-colors"
-                                            >
-                                                {copiedText === RELEASES.studio.linux.aur.installCmd ? <Check className="w-3.5 h-3.5 text-[var(--color-volt)]" /> : <Copy className="w-3.5 h-3.5" />}
-                                                <span>{copiedText === RELEASES.studio.linux.aur.installCmd ? "COPIED" : "COPY"}</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Debian (.deb) & Universal (.AppImage) & Tarball */}
-                                <div className="grid md:grid-cols-3 gap-5">
-                                    {/* DEB */}
-                                    <div className="bg-[var(--color-ash)] border border-white/10 p-5 flex flex-col justify-between space-y-4">
-                                        <div>
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-[10px] font-bold tracking-widest text-[var(--color-ember)] uppercase font-mono">Ubuntu / Debian</span>
-                                                <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.linux.deb.size}</span>
-                                            </div>
-                                            <h4 className="font-[var(--font-display)] text-xl tracking-wider">{RELEASES.studio.linux.deb.title}</h4>
-                                            <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{RELEASES.studio.linux.deb.fileName}</p>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <a
-                                                href={RELEASES.studio.linux.deb.downloadUrl}
-                                                className="w-full py-3 bg-[var(--color-ember)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all"
-                                                style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                <span>DOWNLOAD .DEB</span>
-                                            </a>
-                                            <button
-                                                onClick={() => copyToClipboard(RELEASES.studio.linux.deb.installCmd)}
-                                                className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-[var(--color-mist)] hover:text-white flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
-                                            >
-                                                {copiedText === RELEASES.studio.linux.deb.installCmd ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                                <span>Copy APT Command</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* APPIMAGE */}
-                                    <div className="bg-[var(--color-ash)] border border-white/10 p-5 flex flex-col justify-between space-y-4">
-                                        <div>
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-[10px] font-bold tracking-widest text-[var(--color-volt)] uppercase font-mono">All Linux Distros</span>
-                                                <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.linux.appimage.size}</span>
-                                            </div>
-                                            <h4 className="font-[var(--font-display)] text-xl tracking-wider">{RELEASES.studio.linux.appimage.title}</h4>
-                                            <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{RELEASES.studio.linux.appimage.fileName}</p>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <a
-                                                href={RELEASES.studio.linux.appimage.downloadUrl}
-                                                className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/20"
-                                                style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                <span>DOWNLOAD .APPIMAGE</span>
-                                            </a>
-                                            <button
-                                                onClick={() => copyToClipboard(RELEASES.studio.linux.appimage.installCmd)}
-                                                className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-[var(--color-mist)] hover:text-white flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
-                                            >
-                                                {copiedText === RELEASES.studio.linux.appimage.installCmd ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                                <span>Copy Run Command</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* TARBALL */}
-                                    <div className="bg-[var(--color-ash)] border border-white/10 p-5 flex flex-col justify-between space-y-4">
-                                        <div>
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-[10px] font-bold tracking-widest text-[var(--color-plasma)] uppercase font-mono">Standalone Tarball</span>
-                                                <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.linux.tarball.size}</span>
-                                            </div>
-                                            <h4 className="font-[var(--font-display)] text-xl tracking-wider">{RELEASES.studio.linux.tarball.title}</h4>
-                                            <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{RELEASES.studio.linux.tarball.fileName}</p>
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <a
-                                                href={RELEASES.studio.linux.tarball.downloadUrl}
-                                                className="w-full py-3 bg-white/5 hover:bg-white/10 text-[var(--color-ivory)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/10"
-                                                style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
-                                            >
-                                                <Download className="w-4 h-4" />
-                                                <span>DOWNLOAD .TAR.GZ</span>
-                                            </a>
-                                            <button
-                                                onClick={() => copyToClipboard(RELEASES.studio.linux.tarball.installCmd)}
-                                                className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-[var(--color-mist)] hover:text-white flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
-                                            >
-                                                {copiedText === RELEASES.studio.linux.tarball.installCmd ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                                <span>Copy Extract Script</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* WINDOWS PACKAGES */}
-                        {activeTab === "windows" && (
-                            <div className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    {/* Setup Exe */}
-                                    <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col justify-between space-y-4"
-                                        style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
-                                    >
-                                        <div>
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-[10px] font-bold tracking-widest text-[var(--color-electric)] uppercase font-mono">RECOMMENDED INSTALLER</span>
-                                                <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.windows.exe.size}</span>
-                                            </div>
-                                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.windows.exe.title}</h3>
-                                            <p className="text-xs text-[var(--color-mist)] mt-2">
-                                                Installs NELO Studio with desktop shortcuts, hardware acceleration, and embedded background sidecars.
-                                            </p>
-                                        </div>
-
-                                        <a
-                                            href={RELEASES.studio.windows.exe.downloadUrl}
-                                            className="py-3.5 bg-[var(--color-electric)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all"
-                                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
-                                        >
-                                            <Download className="w-4 h-4" />
-                                            <span>DOWNLOAD WINDOWS INSTALLER (.EXE)</span>
-                                        </a>
-                                    </div>
-
-                                    {/* Portable Zip */}
-                                    <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col justify-between space-y-4"
-                                        style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
-                                    >
-                                        <div>
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-[10px] font-bold tracking-widest text-[var(--color-mist)] uppercase font-mono">STANDALONE PORTABLE</span>
-                                                <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.windows.portable.size}</span>
-                                            </div>
-                                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.windows.portable.title}</h3>
-                                            <p className="text-xs text-[var(--color-mist)] mt-2">
-                                                Extract and run from USB drive or directory without administrator privileges.
-                                            </p>
-                                        </div>
-
-                                        <a
-                                            href={RELEASES.studio.windows.portable.downloadUrl}
-                                            className="py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/20"
-                                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
-                                        >
-                                            <Download className="w-4 h-4" />
-                                            <span>DOWNLOAD PORTABLE ZIP (.ZIP)</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="bg-[var(--color-void)] border border-white/10 p-3.5 flex items-center justify-between gap-4 font-mono text-xs">
-                                    <div className="flex items-center gap-2 overflow-x-auto text-[var(--color-ivory)]">
-                                        <span className="text-[var(--color-electric)]">PS&gt;</span>
-                                        <code>{RELEASES.studio.windows.winget}</code>
-                                    </div>
-                                    <button
-                                        onClick={() => copyToClipboard(RELEASES.studio.windows.winget)}
-                                        className="px-3 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1.5 cursor-pointer shrink-0 transition-colors"
-                                    >
-                                        {copiedText === RELEASES.studio.windows.winget ? <Check className="w-3.5 h-3.5 text-[var(--color-volt)]" /> : <Copy className="w-3.5 h-3.5" />}
-                                        <span>{copiedText === RELEASES.studio.windows.winget ? "COPIED" : "COPY WINGET"}</span>
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* MACOS PACKAGES */}
-                        {activeTab === "macos" && (
-                            <div className="space-y-6">
+                                {/* Universal AppImage — the one real, published artifact today */}
                                 <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
                                     style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
                                 >
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-plasma)] uppercase font-mono">UNIVERSAL APPLICATION BUNDLE</span>
-                                            <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.macos.dmg.size}</span>
+                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-volt)] uppercase font-mono">ALL LINUX DISTROS</span>
+                                            <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.linux.appimage.size}</span>
                                         </div>
-                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.macos.dmg.title}</h3>
-                                        <p className="text-xs text-[var(--color-mist)] max-w-xl">
-                                            Drag-and-drop installer into Applications folder with native Metal GPU acceleration.
-                                        </p>
+                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.linux.appimage.title}</h3>
+                                        <p className="text-xs text-[var(--color-mist)] font-mono">{RELEASES.studio.linux.appimage.fileName}</p>
                                     </div>
 
-                                    <a
-                                        href={RELEASES.studio.macos.dmg.downloadUrl}
-                                        className="px-8 py-4 bg-[var(--color-plasma)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shrink-0 transition-all"
-                                        style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
-                                    >
-                                        <Download className="w-4 h-4" />
-                                        <span>DOWNLOAD UNIVERSAL DMG (.DMG)</span>
-                                    </a>
+                                    <div className="space-y-2 shrink-0 w-full md:w-auto">
+                                        <a
+                                            href={RELEASES.studio.linux.appimage.downloadUrl}
+                                            className="px-8 py-4 bg-[var(--color-volt)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all"
+                                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            <span>DOWNLOAD .APPIMAGE</span>
+                                        </a>
+                                        <button
+                                            onClick={() => copyToClipboard(RELEASES.studio.linux.appimage.installCmd)}
+                                            className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-[var(--color-mist)] hover:text-white flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                                        >
+                                            {copiedText === RELEASES.studio.linux.appimage.installCmd ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
+                                            <span>Copy Run Command</span>
+                                        </button>
+                                    </div>
                                 </div>
 
-                                <div className="bg-[var(--color-void)] border border-white/10 p-3.5 flex items-center justify-between gap-4 font-mono text-xs">
-                                    <div className="flex items-center gap-2 overflow-x-auto text-[var(--color-ivory)]">
-                                        <span className="text-[var(--color-plasma)]">$</span>
-                                        <code>{RELEASES.studio.macos.brew}</code>
+                                {/* AUR / deb / pacman / rpm — built and verified, not yet published */}
+                                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                                    {([
+                                        RELEASES.studio.linux.aur,
+                                        RELEASES.studio.linux.deb,
+                                        RELEASES.studio.linux.pacman,
+                                        RELEASES.studio.linux.rpm,
+                                    ] as Array<{ title: string; status: string; note: string }>).map((pkg) => (
+                                        <div key={pkg.title} className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-5 flex flex-col justify-between space-y-3">
+                                            <div>
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
+                                                        Coming Soon
+                                                    </span>
+                                                </div>
+                                                <h4 className="font-[var(--font-display)] text-lg tracking-wider text-[var(--color-mist)]">{pkg.title}</h4>
+                                                <p className="text-[11px] text-[var(--color-smoke)] mt-2 leading-relaxed">{pkg.note}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* WINDOWS PACKAGES — build in progress on CI, not yet published */}
+                        {activeTab === "windows" && (
+                            <div className="space-y-6">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    {([RELEASES.studio.windows.exe, RELEASES.studio.windows.portable] as Array<{ title: string; status: string; note: string }>).map((pkg) => (
+                                        <div key={pkg.title} className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-6 flex flex-col justify-between space-y-4">
+                                            <div>
+                                                <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
+                                                    Coming Soon
+                                                </span>
+                                                <h3 className="font-[var(--font-display)] text-2xl tracking-wider text-[var(--color-mist)] mt-2">{pkg.title}</h3>
+                                                <p className="text-xs text-[var(--color-smoke)] mt-2 leading-relaxed">{pkg.note}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* MACOS PACKAGES — real, CI-verified .dmg, not yet published to a public URL */}
+                        {activeTab === "macos" && (
+                            <div className="space-y-6">
+                                <div className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                                    <div className="space-y-2">
+                                        <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
+                                            Coming Soon
+                                        </span>
+                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider text-[var(--color-mist)]">{RELEASES.studio.macos.dmg.title}</h3>
+                                        <p className="text-xs text-[var(--color-smoke)] max-w-xl leading-relaxed">{RELEASES.studio.macos.dmg.note}</p>
                                     </div>
-                                    <button
-                                        onClick={() => copyToClipboard(RELEASES.studio.macos.brew)}
-                                        className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1.5 cursor-pointer shrink-0 transition-colors"
-                                    >
-                                        {copiedText === RELEASES.studio.macos.brew ? <Check className="w-3.5 h-3.5 text-[var(--color-volt)]" /> : <Copy className="w-3.5 h-3.5" />}
-                                        <span>{copiedText === RELEASES.studio.macos.brew ? "COPIED" : "COPY BREW"}</span>
-                                    </button>
                                 </div>
                             </div>
                         )}
@@ -829,21 +669,12 @@ function DownloadContent() {
                     {showChecksums && (
                         <div className="p-4 bg-[var(--color-void)] border-x border-b border-white/10 space-y-3 font-mono text-xs text-[var(--color-mist)] animate-fade-up">
                             <div className="space-y-1">
-                                <div className="text-[var(--color-ivory)] font-bold">{RELEASES.studio.linux.deb.fileName}:</div>
-                                <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-volt)]">{RELEASES.studio.linux.deb.sha256}</div>
-                            </div>
-                            <div className="space-y-1">
                                 <div className="text-[var(--color-ivory)] font-bold">{RELEASES.studio.linux.appimage.fileName}:</div>
                                 <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-volt)]">{RELEASES.studio.linux.appimage.sha256}</div>
                             </div>
-                            <div className="space-y-1">
-                                <div className="text-[var(--color-ivory)] font-bold">{RELEASES.studio.windows.exe.fileName}:</div>
-                                <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-electric)]">{RELEASES.studio.windows.exe.sha256}</div>
-                            </div>
-                            <div className="space-y-1">
-                                <div className="text-[var(--color-ivory)] font-bold">{RELEASES.studio.macos.dmg.fileName}:</div>
-                                <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-plasma)]">{RELEASES.studio.macos.dmg.sha256}</div>
-                            </div>
+                            <p className="text-[11px] text-[var(--color-smoke)] italic pt-1">
+                                Windows and macOS checksums will appear here once those installers are published.
+                            </p>
                         </div>
                     )}
                 </div>

@@ -2,75 +2,58 @@
   "version": "v1.0.0",
   "versionRaw": "1.0.0",
   "releaseDate": "September 2026",
-  "lastSyncedAt": "2026-09-04T00:35:26Z",
+  "lastSyncedAt": "2026-09-18T06:02:15Z",
   "studio": {
     "linux": {
+      "appimage": {
+        "title": "Universal Linux (All Distros)",
+        "fileName": "nelo-studio-1.0.0-x86_64.AppImage",
+        "size": "373 MB",
+        "arch": "x86_64 (AppImage)",
+        "installCmd": "chmod +x nelo-studio-1.0.0-x86_64.AppImage && ./nelo-studio-1.0.0-x86_64.AppImage",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.0/nelo-studio-1.0.0-x86_64.AppImage",
+        "sha256": "b56a2570521cf9a461a3dc08568e0afa1ec4c1dc9c2dcaef87c5ec949703b675"
+      },
       "aur": {
         "title": "Arch Linux / Manjaro / EndeavourOS",
         "pkgName": "nelo-studio-bin",
-        "installCmd": "yay -S nelo-studio-bin",
-        "altCmd": "paru -S nelo-studio-bin",
-        "badge": "AUR REPO"
+        "status": "coming_soon",
+        "note": "PKGBUILD is built and verified working end-to-end, but AUR account registration is temporarily closed — not yet pushed to the actual AUR."
       },
       "deb": {
         "title": "Ubuntu / Debian / Pop!_OS",
-        "fileName": "nelo-studio_1.0.0_amd64.deb",
-        "size": "278 KB",
-        "arch": "x86_64 (.deb)",
-        "installCmd": "sudo apt install ./nelo-studio_1.0.0_amd64.deb",
-        "downloadUrl": "/releases/nelo-studio_1.0.0_amd64.deb",
-        "sha256": "7a5f552afa1d876571cac194f92de243bc589662c96babf0f7612c5ec7e6218f"
+        "status": "coming_soon",
+        "note": "Not yet published — will be built from the same CI pipeline as the AppImage."
       },
-      "appimage": {
-        "title": "Universal Linux (All Distros)",
-        "fileName": "NELO-Studio-1.0.0.AppImage",
-        "size": "644 B",
-        "arch": "x86_64 (AppImage)",
-        "installCmd": "chmod +x NELO-Studio-1.0.0.AppImage && ./NELO-Studio-1.0.0.AppImage",
-        "downloadUrl": "/releases/NELO-Studio-1.0.0.AppImage",
-        "sha256": "631759155c569495045e0d46c47bfb720eb531eecaeb4fbf6d26e74475bd92c8"
+      "pacman": {
+        "title": "Arch Linux (native pacman package)",
+        "status": "coming_soon",
+        "note": "Built and verified locally; not yet published to a download URL."
       },
-      "tarball": {
-        "title": "Standalone Linux Tarball",
-        "fileName": "nelo-studio-linux-x86_64.tar.gz",
-        "size": "57.0 MB",
-        "arch": "x86_64 (.tar.gz)",
-        "installCmd": "tar -xzf nelo-studio-linux-x86_64.tar.gz && ./nelo-studio/nelo-studio",
-        "downloadUrl": "/releases/nelo-studio-linux-x86_64.tar.gz",
-        "sha256": "2318fc67b8fe7746d7e10779950d3b25efbdfebced1f91c3cfbe527c3a050a0c"
-      },
-      "curlOneLiner": "curl -fsSL https://get.nelo-robotics.com/install.sh | bash"
+      "rpm": {
+        "title": "Fedora / RHEL",
+        "status": "coming_soon",
+        "note": "Not yet published — will be built from the same CI pipeline as the AppImage."
+      }
     },
     "windows": {
       "exe": {
         "title": "Windows 10 / 11 64-bit Installer",
-        "fileName": "NELO-Studio-Setup-1.0.0.exe",
-        "size": "314 KB",
-        "arch": "x64 (NSIS Native Window)",
-        "downloadUrl": "/releases/NELO-Studio-Setup-1.0.0.exe",
-        "sha256": "4bd6292a05fb92d2e12bb5d0f0d5348ec579d9bd73fd907565dde17bdf90ada7"
+        "status": "coming_soon",
+        "note": "Native installer not yet built \u2014 no code-signed .exe exists yet."
       },
       "portable": {
         "title": "Windows Portable ZIP",
-        "fileName": "NELO-Studio-1.0.0-win-x64.zip",
-        "size": "314 KB",
-        "arch": "x64 (Standalone ZIP)",
-        "downloadUrl": "/releases/NELO-Studio-1.0.0-win-x64.zip",
-        "sha256": "55d1c353f26a6277158525358859b2f2bbac3d18e263f2cb5dfd6c7899388427"
-      },
-      "winget": "winget install nelo-studio",
-      "psOneLiner": "irm https://get.nelo-robotics.com/install.ps1 | iex"
+        "status": "coming_soon",
+        "note": "Windows build is in progress on CI (GitHub Actions) \u2014 not yet published."
+      }
     },
     "macos": {
       "dmg": {
         "title": "macOS Universal Disk Image",
-        "fileName": "NELO-Studio-1.0.0-universal.dmg",
-        "size": "318 KB",
-        "arch": "Apple Silicon (M1/M2/M3/M4) & Intel x86_64",
-        "downloadUrl": "/releases/NELO-Studio-1.0.0-universal.dmg",
-        "sha256": "256085d6be9248c83a7c8c30e199ce3677ced16b6dbf72a937d3b3014106e0d3"
-      },
-      "brew": "brew install --cask nelo-studio"
+        "status": "coming_soon",
+        "note": "A real .dmg has been built and verified via CI (GitHub Actions, macOS runner) but is not yet published to a public download URL \u2014 unsigned, so first launch needs right-click \u2192 Open."
+      }
     }
   },
   "cli": {
