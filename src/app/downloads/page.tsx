@@ -11,7 +11,6 @@ import {
     Copy,
     Check,
     Cpu,
-    Boxes,
     Shield,
     Sparkles,
     ChevronDown,
@@ -598,7 +597,7 @@ function DownloadContent() {
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-6">
+                    <div className="grid md:grid-cols-2 gap-6">
                         {/* 1. STACC Daemon */}
                         <div className="bg-[var(--color-void)] border border-white/10 p-6 space-y-3"
                             style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
@@ -628,22 +627,6 @@ function DownloadContent() {
                             <h3 className="font-[var(--font-display)] text-2xl tracking-wider">NIL Causal AI Daemon</h3>
                             <p className="text-xs text-[var(--color-mist)] leading-relaxed">
                                 Houses the 10-phase cognitive execution loop, dynamic movement primitives (DMPs), SQLite trace logs, and autonomous tool dispatchers.
-                            </p>
-                        </div>
-
-                        {/* 3. CAD & Simulation Viewport */}
-                        <div className="bg-[var(--color-void)] border border-white/10 p-6 space-y-3"
-                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
-                        >
-                            <div className="flex items-center justify-between">
-                                <Boxes className="w-5 h-5 text-[var(--color-volt)]" />
-                                <span className="font-mono text-[10px] text-[var(--color-volt)] bg-[var(--color-volt)]/10 px-2 py-0.5 border border-[var(--color-volt)]/30">
-                                    LOCAL WORKBENCH
-                                </span>
-                            </div>
-                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">Monaco &amp; 3D CAD Studio</h3>
-                            <p className="text-xs text-[var(--color-mist)] leading-relaxed">
-                                Parametric OpenCASCADE B-Rep solid modeler, ISO-10303-242 STEP AP242 exporter, and full VSCode Monaco script editing suite.
                             </p>
                         </div>
                     </div>
