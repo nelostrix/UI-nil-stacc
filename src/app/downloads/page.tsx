@@ -108,41 +108,43 @@ function DownloadContent() {
 
     // Auto-detect user OS & switch to the matching tab on load. Only
     // auto-triggers an actual download when a real, published file exists
-    // (currently just the Linux AppImage) — Windows/macOS builds are real
-    // and CI-verified but not yet published to a download URL, so silently
-    // auto-downloading nothing would be worse than just switching the tab
-    // and letting the "coming soon" state speak for itself.
+    // for that OS — checked via "downloadUrl" in ... rather than assumed,
+    // so this degrades gracefully to "just switch tabs" for any platform
+    // that's still genuinely unpublished.
     useEffect(() => {
         if (typeof window === "undefined") return;
         const ua = window.navigator.userAgent.toLowerCase();
         let osDetected: OSType = "linux";
         let osLabel = "Linux";
+        let target: { downloadUrl: string; fileName: string; size: string } | null = null;
 
         if (ua.includes("win")) {
             osDetected = "windows";
             osLabel = "Windows 10 / 11 (64-bit)";
+            target = RELEASES.studio.windows.exe;
         } else if (ua.includes("mac")) {
             osDetected = "macos";
-            osLabel = "macOS (Apple Silicon & Intel)";
+            osLabel = "macOS (Apple Silicon)";
+            target = RELEASES.studio.macos.dmg;
         } else {
             osDetected = "linux";
             osLabel = "Linux (x86_64 AppImage)";
+            target = RELEASES.studio.linux.appimage;
         }
 
         setDetectedOS(osDetected);
         setActiveTab(osDetected);
 
-        const appimage = RELEASES.studio.linux.appimage;
-        if (osDetected === "linux" && "downloadUrl" in appimage) {
+        if (target && "downloadUrl" in target) {
             setAutoDownloadInfo({
                 triggered: true,
-                fileName: appimage.fileName,
-                downloadUrl: appimage.downloadUrl,
-                size: appimage.size,
+                fileName: target.fileName,
+                downloadUrl: target.downloadUrl,
+                size: target.size,
                 osName: osLabel,
             });
             const timer = setTimeout(() => {
-                startFileDownload(appimage.downloadUrl, appimage.fileName);
+                startFileDownload(target!.downloadUrl, target!.fileName);
             }, 500);
             return () => clearTimeout(timer);
         }
@@ -389,60 +391,111 @@ function DownloadContent() {
                                     </div>
                                 </div>
 
-                                {/* AUR / deb / pacman / rpm — built and verified, not yet published */}
-                                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+                                {/* deb / pacman / rpm — real, published downloads */}
+                                <div className="grid md:grid-cols-3 gap-5">
                                     {([
-                                        RELEASES.studio.linux.aur,
-                                        RELEASES.studio.linux.deb,
-                                        RELEASES.studio.linux.pacman,
-                                        RELEASES.studio.linux.rpm,
-                                    ] as Array<{ title: string; status: string; note: string }>).map((pkg) => (
-                                        <div key={pkg.title} className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-5 flex flex-col justify-between space-y-3">
+                                        { pkg: RELEASES.studio.linux.deb, label: "Ubuntu / Debian", ext: ".DEB", color: "text-[var(--color-ember)]" },
+                                        { pkg: RELEASES.studio.linux.pacman, label: "Arch Linux (native)", ext: ".PACMAN", color: "text-[var(--color-electric)]" },
+                                        { pkg: RELEASES.studio.linux.rpm, label: "Fedora / RHEL", ext: ".RPM", color: "text-[var(--color-plasma)]" },
+                                    ] as Array<{ pkg: { title: string; fileName: string; size: string; installCmd: string; downloadUrl: string }; label: string; ext: string; color: string }>).map(({ pkg, label, ext, color }) => (
+                                        <div key={pkg.fileName} className="bg-[var(--color-ash)] border border-white/10 p-5 flex flex-col justify-between space-y-4">
                                             <div>
                                                 <div className="flex items-center justify-between mb-2">
-                                                    <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
-                                                        Coming Soon
-                                                    </span>
+                                                    <span className={`text-[10px] font-bold tracking-widest uppercase font-mono ${color}`}>{label}</span>
+                                                    <span className="text-[10px] font-mono text-[var(--color-smoke)]">{pkg.size}</span>
                                                 </div>
-                                                <h4 className="font-[var(--font-display)] text-lg tracking-wider text-[var(--color-mist)]">{pkg.title}</h4>
-                                                <p className="text-[11px] text-[var(--color-smoke)] mt-2 leading-relaxed">{pkg.note}</p>
+                                                <h4 className="font-[var(--font-display)] text-xl tracking-wider">{pkg.title}</h4>
+                                                <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{pkg.fileName}</p>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <a
+                                                    href={pkg.downloadUrl}
+                                                    className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/20"
+                                                    style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
+                                                >
+                                                    <Download className="w-4 h-4" />
+                                                    <span>DOWNLOAD {ext}</span>
+                                                </a>
+                                                <button
+                                                    onClick={() => copyToClipboard(pkg.installCmd)}
+                                                    className="w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-[var(--color-mist)] hover:text-white flex items-center justify-center gap-1.5 cursor-pointer transition-colors"
+                                                >
+                                                    {copiedText === pkg.installCmd ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
+                                                    <span>Copy Install Command</span>
+                                                </button>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
+
+                                {/* AUR — genuinely still blocked externally (account registration closed) */}
+                                <div className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-5 flex flex-col justify-between space-y-3">
+                                    <div>
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
+                                                Coming Soon
+                                            </span>
+                                        </div>
+                                        <h4 className="font-[var(--font-display)] text-lg tracking-wider text-[var(--color-mist)]">{RELEASES.studio.linux.aur.title}</h4>
+                                        <p className="text-[11px] text-[var(--color-smoke)] mt-2 leading-relaxed">{RELEASES.studio.linux.aur.note}</p>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
-                        {/* WINDOWS PACKAGES — build in progress on CI, not yet published */}
+                        {/* WINDOWS PACKAGES — real, published .exe */}
                         {activeTab === "windows" && (
                             <div className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    {([RELEASES.studio.windows.exe, RELEASES.studio.windows.portable] as Array<{ title: string; status: string; note: string }>).map((pkg) => (
-                                        <div key={pkg.title} className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-6 flex flex-col justify-between space-y-4">
-                                            <div>
-                                                <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
-                                                    Coming Soon
-                                                </span>
-                                                <h3 className="font-[var(--font-display)] text-2xl tracking-wider text-[var(--color-mist)] mt-2">{pkg.title}</h3>
-                                                <p className="text-xs text-[var(--color-smoke)] mt-2 leading-relaxed">{pkg.note}</p>
-                                            </div>
+                                <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
+                                    style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
+                                >
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-electric)] uppercase font-mono">RECOMMENDED INSTALLER</span>
+                                            <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.windows.exe.size}</span>
                                         </div>
-                                    ))}
+                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.windows.exe.title}</h3>
+                                        <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{RELEASES.studio.windows.exe.fileName}</p>
+                                        <p className="text-[11px] text-amber-500 mt-2 max-w-md">{RELEASES.studio.windows.exe.note}</p>
+                                    </div>
+
+                                    <a
+                                        href={RELEASES.studio.windows.exe.downloadUrl}
+                                        className="px-8 py-4 bg-[var(--color-electric)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shrink-0 transition-all"
+                                        style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                                    >
+                                        <Download className="w-4 h-4" />
+                                        <span>DOWNLOAD WINDOWS INSTALLER (.EXE)</span>
+                                    </a>
                                 </div>
                             </div>
                         )}
 
-                        {/* MACOS PACKAGES — real, CI-verified .dmg, not yet published to a public URL */}
+                        {/* MACOS PACKAGES — real, published .dmg */}
                         {activeTab === "macos" && (
                             <div className="space-y-6">
-                                <div className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                                <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
+                                    style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
+                                >
                                     <div className="space-y-2">
-                                        <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
-                                            Coming Soon
-                                        </span>
-                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider text-[var(--color-mist)]">{RELEASES.studio.macos.dmg.title}</h3>
-                                        <p className="text-xs text-[var(--color-smoke)] max-w-xl leading-relaxed">{RELEASES.studio.macos.dmg.note}</p>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-plasma)] uppercase font-mono">APPLE SILICON</span>
+                                            <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.macos.dmg.size}</span>
+                                        </div>
+                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.macos.dmg.title}</h3>
+                                        <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{RELEASES.studio.macos.dmg.fileName}</p>
+                                        <p className="text-[11px] text-amber-500 mt-2 max-w-md">{RELEASES.studio.macos.dmg.note}</p>
                                     </div>
+
+                                    <a
+                                        href={RELEASES.studio.macos.dmg.downloadUrl}
+                                        className="px-8 py-4 bg-[var(--color-plasma)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shrink-0 transition-all"
+                                        style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                                    >
+                                        <Download className="w-4 h-4" />
+                                        <span>DOWNLOAD UNIVERSAL DMG (.DMG)</span>
+                                    </a>
                                 </div>
                             </div>
                         )}
@@ -651,13 +704,19 @@ function DownloadContent() {
 
                     {showChecksums && (
                         <div className="p-4 bg-[var(--color-void)] border-x border-b border-white/10 space-y-3 font-mono text-xs text-[var(--color-mist)] animate-fade-up">
-                            <div className="space-y-1">
-                                <div className="text-[var(--color-ivory)] font-bold">{RELEASES.studio.linux.appimage.fileName}:</div>
-                                <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-volt)]">{RELEASES.studio.linux.appimage.sha256}</div>
-                            </div>
-                            <p className="text-[11px] text-[var(--color-smoke)] italic pt-1">
-                                Windows and macOS checksums will appear here once those installers are published.
-                            </p>
+                            {[
+                                RELEASES.studio.linux.appimage,
+                                RELEASES.studio.linux.deb,
+                                RELEASES.studio.linux.pacman,
+                                RELEASES.studio.linux.rpm,
+                                RELEASES.studio.windows.exe,
+                                RELEASES.studio.macos.dmg,
+                            ].map((file) => (
+                                <div key={file.fileName} className="space-y-1">
+                                    <div className="text-[var(--color-ivory)] font-bold">{file.fileName}:</div>
+                                    <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-volt)]">{file.sha256}</div>
+                                </div>
+                            ))}
                         </div>
                     )}
                 </div>
