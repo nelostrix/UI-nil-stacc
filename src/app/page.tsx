@@ -585,17 +585,40 @@ function Footer() {
                 </div>
 
                 {/* Huge animated wordmark — the closing visual statement.
-                    Pure CSS gradient-sweep on text (see .wordmark-shimmer /
-                    @keyframes logoShimmer in globals.css): no JS, no canvas,
-                    no network fetch — just a background-position animation
-                    the GPU composites for free, regardless of text size. */}
+                    An SVG <text> with textLength="1000" (=100% of the
+                    viewBox) forces the rendered word to span the FULL
+                    width exactly, on any screen size — a clamp()/vw-based
+                    font-size can only approximate that and always caps out
+                    at some width, leaving gaps on very wide screens. The
+                    sweep animation is a declarative SMIL <animate> on the
+                    gradient stops: no JS, no canvas, no per-frame work. */}
                 <div className="mt-2 -mx-6 select-none overflow-hidden" aria-hidden="true">
-                    <div
-                        className="wordmark-shimmer text-center font-[var(--font-display)] font-black tracking-tight leading-none"
-                        style={{ fontSize: "clamp(6rem, 26vw, 22rem)" }}
-                    >
-                        NELO
-                    </div>
+                    <svg viewBox="0 0 1000 260" className="block w-full h-auto">
+                        <defs>
+                            <linearGradient id="nelo-wordmark-gradient" x1="200%" y1="0" x2="300%" y2="0">
+                                <stop offset="0%" stopColor="#3a3a3a" />
+                                <stop offset="35%" stopColor="#3a3a3a" />
+                                <stop offset="50%" stopColor="#ffffff" />
+                                <stop offset="65%" stopColor="#3a3a3a" />
+                                <stop offset="100%" stopColor="#3a3a3a" />
+                                <animate attributeName="x1" values="200%;-100%" dur="4s" repeatCount="indefinite" />
+                                <animate attributeName="x2" values="300%;0%" dur="4s" repeatCount="indefinite" />
+                            </linearGradient>
+                        </defs>
+                        <text
+                            x="0"
+                            y="210"
+                            textLength="1000"
+                            lengthAdjust="spacingAndGlyphs"
+                            fontFamily="var(--font-display)"
+                            fontWeight="900"
+                            fontSize="230"
+                            letterSpacing="-4"
+                            fill="url(#nelo-wordmark-gradient)"
+                        >
+                            NELO
+                        </text>
+                    </svg>
                 </div>
             </div>
         </footer>
