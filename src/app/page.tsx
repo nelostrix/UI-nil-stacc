@@ -135,18 +135,76 @@ function Hero() {
                             }}
                         />
 
-                        {/* Core glow — a static, CSS-only stand-in for what was
-                            previously a remote Spline WebGL scene. Cheap: no
-                            extra JS, no network fetch, no continuous render loop. */}
+                        {/* AI core emblem — inline SVG + CSS transforms/opacity
+                            only. No images, no canvas, no JS render loop: a
+                            lightweight stand-in for the removed WebGL scene
+                            that still gives the frame something to look at. */}
                         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                             <div
-                                className="w-1/2 h-1/2 rounded-full animate-pulse"
+                                className="absolute w-2/3 h-2/3 rounded-full animate-pulse"
                                 style={{
-                                    background:
-                                        "radial-gradient(circle, var(--color-ember) 0%, transparent 70%)",
-                                    opacity: 0.35,
+                                    background: "radial-gradient(circle, var(--color-ember) 0%, transparent 70%)",
+                                    opacity: 0.3,
                                 }}
                             />
+                            <svg viewBox="0 0 200 200" className="relative w-3/5 h-3/5" style={{ overflow: "visible" }}>
+                                {/* Outer hexagon — slow continuous rotation */}
+                                <polygon
+                                    points="100,30 161,65 161,135 100,170 39,135 39,65"
+                                    fill="none"
+                                    stroke="var(--color-ember)"
+                                    strokeOpacity="0.35"
+                                    strokeWidth="1.5"
+                                    className="animate-orbit"
+                                    style={{ transformOrigin: "100px 100px" }}
+                                />
+                                {/* Inner ring — counter-rotating, faster */}
+                                <circle
+                                    cx="100"
+                                    cy="100"
+                                    r="45"
+                                    fill="none"
+                                    stroke="var(--color-electric)"
+                                    strokeOpacity="0.25"
+                                    strokeDasharray="4 6"
+                                    className="animate-orbit"
+                                    style={{ transformOrigin: "100px 100px", animationDirection: "reverse", animationDuration: "8s" }}
+                                />
+                                {/* Circuit spokes to each hex vertex */}
+                                {[
+                                    [100, 30], [161, 65], [161, 135],
+                                    [100, 170], [39, 135], [39, 65],
+                                ].map(([x, y], i) => (
+                                    <line
+                                        key={i}
+                                        x1="100"
+                                        y1="100"
+                                        x2={x}
+                                        y2={y}
+                                        stroke="var(--color-ember)"
+                                        strokeOpacity="0.15"
+                                        strokeWidth="1"
+                                    />
+                                ))}
+                                {/* Blinking vertex nodes — staggered, like status lights */}
+                                {[
+                                    [100, 30], [161, 65], [161, 135],
+                                    [100, 170], [39, 135], [39, 65],
+                                ].map(([x, y], i) => (
+                                    <circle
+                                        key={i}
+                                        cx={x}
+                                        cy={y}
+                                        r="3.5"
+                                        fill="var(--color-volt)"
+                                        className="animate-pulse"
+                                        style={{ animationDelay: `${i * 0.3}s` }}
+                                    />
+                                ))}
+                                {/* Central core */}
+                                <circle cx="100" cy="100" r="14" fill="var(--color-void)" stroke="var(--color-ember)" strokeWidth="2" />
+                                <circle cx="100" cy="100" r="6" fill="var(--color-ember)" className="animate-pulse" />
+                            </svg>
                         </div>
 
                         {/* Corner brackets */}
