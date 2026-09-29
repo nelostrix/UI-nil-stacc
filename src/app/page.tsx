@@ -1,81 +1,15 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
-import { SplineScene } from '@/components/ui/splite'
-import { useDeferredMount, usePrefersReducedMotion, useInView } from "@/lib/utils";
-
-// Both are heavy client-only 3D engines (WebGPU shader canvas + Spline
-// robot scene). Code-split them out of the main bundle and defer mounting
-// them until the browser is idle, so they don't compete with first paint.
-const HeroFuturistic = dynamic(() => import("@/components/ui/hero-futuristic"), {
-    ssr: false,
-});
-
-/* ═══════════════════════════════════════
-   PARTICLES — floating energy dots
-   ═══════════════════════════════════════ */
-function Particles() {
-    const [particles, setParticles] = useState<
-        {
-            id: number;
-            x: number;
-            y: number;
-            size: number;
-            delay: number;
-            color: string;
-        }[]
-    >([]);
-
-    useEffect(() => {
-        const colors = ["#FF3D00", "#00D4FF", "#C8FF00", "#8B5CF6"];
-        const p = Array.from({ length: 30 }, (_, i) => ({
-            id: i,
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            size: Math.random() * 3 + 1,
-            delay: Math.random() * 8,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        }));
-        setParticles(p);
-    }, []);
-
-    return (
-        <div className="fixed inset-0 pointer-events-none z-0">
-            {particles.map((p) => (
-                <div
-                    key={p.id}
-                    className="absolute rounded-full animate-float"
-                    style={{
-                        left: `${p.x}%`,
-                        top: `${p.y}%`,
-                        width: p.size,
-                        height: p.size,
-                        background: p.color,
-                        opacity: 0.15,
-                        animationDelay: `${p.delay}s`,
-                        animationDuration: `${4 + Math.random() * 4}s`,
-                    }}
-                />
-            ))}
-        </div>
-    );
-}
 
 /* ═══════════════════════════════════════
    HERO
    ═══════════════════════════════════════ */
 function Hero() {
-    const deferred = useDeferredMount();
-    const reducedMotion = usePrefersReducedMotion();
-    const { ref: sectionRef, inView } = useInView<HTMLElement>();
-    const showSpline = deferred && !reducedMotion && inView;
-
     return (
-        <section ref={sectionRef} className="min-h-screen flex items-center relative overflow-hidden crosshair-bg">
+        <section className="min-h-screen flex items-center relative overflow-hidden crosshair-bg">
             {/* Energy orbs */}
             <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-[var(--color-ember)]/[0.06] rounded-full blur-[150px] animate-float" />
             <div
@@ -201,14 +135,18 @@ function Hero() {
                             }}
                         />
 
-                        {/* 3D Robot */}
+                        {/* Core glow — a static, CSS-only stand-in for what was
+                            previously a remote Spline WebGL scene. Cheap: no
+                            extra JS, no network fetch, no continuous render loop. */}
                         <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                            {showSpline && (
-                                <SplineScene
-                                    scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                                    className="w-full h-full"
-                                />
-                            )}
+                            <div
+                                className="w-1/2 h-1/2 rounded-full animate-pulse"
+                                style={{
+                                    background:
+                                        "radial-gradient(circle, var(--color-ember) 0%, transparent 70%)",
+                                    opacity: 0.35,
+                                }}
+                            />
                         </div>
 
                         {/* Corner brackets */}
@@ -595,49 +533,99 @@ function CTA() {
    FOOTER
    ═══════════════════════════════════════ */
 function Footer() {
+    const columns: { heading: string; links: { label: string; href: string }[] }[] = [
+        {
+            heading: "PRODUCT",
+            links: [
+                { label: "Products", href: "/products" },
+                { label: "Downloads", href: "/downloads" },
+                { label: "Use Cases", href: "/usecases" },
+            ],
+        },
+        {
+            heading: "RESOURCES",
+            links: [
+                { label: "Documentation", href: "/downloads" },
+                { label: "System Status", href: "/downloads" },
+                { label: "Changelog", href: "/downloads" },
+            ],
+        },
+        {
+            heading: "COMPANY",
+            links: [
+                { label: "About", href: "/" },
+                { label: "Contact", href: "mailto:contact@nelo-robotics.com" },
+                { label: "Careers", href: "mailto:contact@nelo-robotics.com" },
+            ],
+        },
+    ];
+
     return (
-        <footer className="border-t border-white/5 py-12 px-6">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex items-center gap-3">
-                    <Image
-                        src="/logo.png"
-                        alt="Nelo"
-                        width={28}
-                        height={28}
-                        className="rounded-lg"
-                    />
-                    <span className="font-[var(--font-display)] text-sm tracking-[0.2em]">
-                        NELO ROBOTICS PVT LTD
-                    </span>
+        <footer className="relative border-t border-white/5 overflow-hidden">
+            {/* Ambient corner glow — static, cheap (no animation) */}
+            <div
+                className="pointer-events-none absolute -bottom-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full opacity-[0.05]"
+                style={{ background: "radial-gradient(circle, var(--color-ember), transparent 70%)" }}
+            />
+
+            <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-8">
+                {/* Top: brand + structured link columns */}
+                <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 pb-12 border-b border-white/5">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                            <Image src="/logo.png" alt="Nelo" width={32} height={32} className="rounded-lg" />
+                            <span className="font-[var(--font-display)] text-base tracking-[0.2em]">NELO</span>
+                        </div>
+                        <p className="text-xs text-[var(--color-mist)] leading-relaxed max-w-xs">
+                            The complete robotics intelligence stack — real physics, real hardware, AI agents that evolve with every run.
+                        </p>
+                        <div className="inline-flex items-center gap-2 text-[10px] font-[var(--font-mono)] tracking-wider text-[var(--color-smoke)]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-volt)] animate-pulse" />
+                            <span>
+                                ALL SYSTEMS <span className="text-[var(--color-volt)]">OPERATIONAL</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    {columns.map((col) => (
+                        <div key={col.heading} className="space-y-4">
+                            <h4 className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-smoke)]">
+                                {col.heading}
+                            </h4>
+                            <ul className="space-y-2.5">
+                                {col.links.map((link) => (
+                                    <li key={link.label}>
+                                        <Link
+                                            href={link.href}
+                                            className="text-xs text-[var(--color-mist)] hover:text-[var(--color-ember)] transition-colors"
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
-                <div className="flex items-center gap-8 text-xs text-[var(--color-smoke)] tracking-wider">
-                    <Link
-                        href="/products"
-                        className="hover:text-[var(--color-ember)] transition-colors"
-                    >
-                        PRODUCTS
-                    </Link>
-                    <Link
-                        href="/downloads"
-                        className="hover:text-[var(--color-ember)] transition-colors"
-                    >
-                        DOWNLOADS
-                    </Link>
-                    <Link
-                        href="/usecases"
-                        className="hover:text-[var(--color-ember)] transition-colors"
-                    >
-                        USE CASES
-                    </Link>
-                    <a
-                        href="mailto:contact@nelo-robotics.com"
-                        className="hover:text-[var(--color-ember)] transition-colors"
-                    >
-                        CONTACT
-                    </a>
+
+                {/* Bottom bar */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 font-[var(--font-mono)] text-[10px] text-[var(--color-smoke)] tracking-wider">
+                    <span>LUCKNOW, IN · © 2026 NELO ROBOTICS PVT LTD</span>
+                    <span>BUILD v0.1.0</span>
                 </div>
-                <div className="font-[var(--font-mono)] text-[10px] text-[var(--color-smoke)] tracking-wider">
-                    LUCKNOW, IN · © 2026
+
+                {/* Huge animated wordmark — the closing visual statement.
+                    Pure CSS gradient-sweep on text (see .wordmark-shimmer /
+                    @keyframes logoShimmer in globals.css): no JS, no canvas,
+                    no network fetch — just a background-position animation
+                    the GPU composites for free, regardless of text size. */}
+                <div className="mt-10 -mx-6 select-none overflow-hidden" aria-hidden="true">
+                    <div
+                        className="wordmark-shimmer text-center font-[var(--font-display)] font-black tracking-tight leading-none"
+                        style={{ fontSize: "clamp(4rem, 18vw, 14rem)" }}
+                    >
+                        NELO
+                    </div>
                 </div>
             </div>
         </footer>
@@ -648,15 +636,9 @@ function Footer() {
    PAGE
    ═══════════════════════════════════════ */
 export default function Home() {
-    const deferred = useDeferredMount();
-    const reducedMotion = usePrefersReducedMotion();
-    const showHeroFuturistic = deferred && !reducedMotion;
-
     return (
         <main>
-            <Particles />
             <Nav />
-            {showHeroFuturistic && <HeroFuturistic />}
             <Hero />
             <Manifesto />
             <Products />

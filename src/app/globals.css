@@ -175,6 +175,19 @@ body {
     }
 }
 
+/* Footer wordmark shimmer — a gradient sweep across text via
+   background-position, not box-shadow/filter. GPU-composited, no layout
+   or paint cost beyond the gradient itself, regardless of how large the
+   text is rendered. */
+@keyframes logoShimmer {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
 @keyframes typing {
     from {
         width: 0;
@@ -364,6 +377,24 @@ body {
     text-shadow:
         0 0 20px rgba(0, 212, 255, 0.5),
         0 0 40px rgba(0, 212, 255, 0.2);
+}
+
+/* Huge footer wordmark — animated gradient sweep, see @keyframes logoShimmer */
+.wordmark-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--color-smoke) 0%,
+        var(--color-ember) 20%,
+        var(--color-volt) 40%,
+        var(--color-electric) 60%,
+        var(--color-ember) 80%,
+        var(--color-smoke) 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: logoShimmer 10s linear infinite;
 }
 
 /* Card hover effect */
