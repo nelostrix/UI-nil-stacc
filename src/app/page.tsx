@@ -3,13 +3,34 @@
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
+import { usePrefersReducedMotion } from "@/lib/utils";
 
 /* ═══════════════════════════════════════
    HERO
    ═══════════════════════════════════════ */
 function Hero() {
+    const reducedMotion = usePrefersReducedMotion();
+
     return (
         <section className="min-h-screen flex items-center relative overflow-hidden crosshair-bg">
+            {/* Background video — muted/looping, paused entirely for
+                prefers-reduced-motion users (falls back to the plain
+                crosshair-bg pattern already on the section). A dark scrim
+                sits on top so headline text stays readable regardless of
+                what's playing underneath. */}
+            {!reducedMotion && (
+                <video
+                    className="absolute inset-0 w-full h-full object-cover"
+                    src="/nelo-background.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-hidden="true"
+                />
+            )}
+            <div className="absolute inset-0 bg-[var(--color-void)]/70" />
+
             {/* Energy orbs */}
             <div className="absolute top-[20%] left-[10%] w-[500px] h-[500px] bg-[var(--color-ember)]/[0.06] rounded-full blur-[150px] animate-float" />
             <div
@@ -46,181 +67,83 @@ function Hero() {
                 ))}
             </div>
 
-            <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 xl:px-12 pt-20 grid lg:grid-cols-[1.2fr_0.8fr] gap-12 xl:gap-20 items-center relative z-10">
-                <div>
-                    {/* Badge */}
-                    <div
-                        className="animate-fade-up"
-                        style={{ animationDelay: "0.2s", opacity: 0 }}
-                    >
-                        <span className="inline-flex items-center gap-2 bg-[var(--color-ember)]/10 border border-[var(--color-ember)]/20 text-[var(--color-ember)] text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-2">
-                            <span className="w-2 h-2 bg-[var(--color-ember)] rounded-full animate-pulse" />
-                            NOW AVAILABLE — V0.1.0
-                        </span>
-                    </div>
-
-                    {/* Main headline */}
-                    <h1
-                        className="mt-8 animate-fade-up"
-                        style={{ animationDelay: "0.4s", opacity: 0 }}
-                    >
-                        <span className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block">
-                            BUILD
-                        </span>
-                        <span className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block">
-                            ROBOTS
-                        </span>
-                        <span
-                            className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block text-glow"
-                            style={{ color: "var(--color-ember)" }}
-                        >
-                            THAT THINK
-                            <span className="font-[var(--font-accent)] text-[var(--color-volt)]">
-                                .
-                            </span>
-                        </span>
-                    </h1>
-
-                    <p
-                        className="text-[var(--color-mist)] text-lg mt-8 max-w-lg leading-relaxed animate-fade-up"
-                        style={{ animationDelay: "0.6s", opacity: 0 }}
-                    >
-                        The complete robotics intelligence stack. Simulate with
-                        real physics. Deploy to any hardware. AI agents that
-                        evolve with every run.
-                    </p>
-
-                    {/* CTAs */}
-                    <div
-                        className="flex flex-wrap gap-4 mt-10 animate-fade-up"
-                        style={{ animationDelay: "0.8s", opacity: 0 }}
-                    >
-                        <Link
-                            href="/downloads"
-                            className="group relative bg-[var(--color-ember)] text-[var(--color-void)] px-8 py-4 font-bold text-sm tracking-[0.15em] hover:brightness-110 transition-all overflow-hidden"
-                            style={{
-                                clipPath:
-                                    "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)",
-                            }}
-                        >
-                            <span className="relative z-10">GET STARTED →</span>
-                            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-                        </Link>
-                        <Link
-                            href="/products"
-                            className="border border-white/10 px-8 py-4 text-sm tracking-[0.1em] hover:border-[var(--color-ember)]/30 hover:bg-white/[0.02] transition-all"
-                            style={{
-                                clipPath:
-                                    "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)",
-                            }}
-                        >
-                            EXPLORE PRODUCTS
-                        </Link>
-                    </div>
+            <div className="max-w-5xl mx-auto px-6 pt-20 flex flex-col items-center text-center relative z-10">
+                {/* Badge */}
+                <div
+                    className="animate-fade-up"
+                    style={{ animationDelay: "0.2s", opacity: 0 }}
+                >
+                    <span className="inline-flex items-center gap-2 bg-[var(--color-ember)]/10 border border-[var(--color-ember)]/20 text-[var(--color-ember)] text-[10px] font-bold tracking-[0.2em] uppercase px-4 py-2">
+                        <span className="w-2 h-2 bg-[var(--color-ember)] rounded-full animate-pulse" />
+                        NOW AVAILABLE — V0.1.0
+                    </span>
                 </div>
 
-                {/* Logo reveal */}
-                <div className="relative hidden lg:flex items-center justify-center">
-                    <div
-                        className="relative w-[350px] h-[350px] xl:w-[440px] xl:h-[440px] 2xl:w-[520px] 2xl:h-[520px] animate-power-up"
-                        style={{ animationDelay: "0.5s", opacity: 0 }}
+                {/* Main headline */}
+                <h1
+                    className="mt-8 animate-fade-up"
+                    style={{ animationDelay: "0.4s", opacity: 0 }}
+                >
+                    <span className="font-[var(--font-display)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block">
+                        BUILD ROBOTS
+                    </span>
+                    <span
+                        className="font-[var(--font-display)] text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block text-glow"
+                        style={{ color: "var(--color-ember)" }}
                     >
-                        {/* Orbital ring */}
-                        <div className="absolute inset-[-20px] border border-[var(--color-ember)]/10 rounded-full animate-orbit" />
-                        <div
-                            className="absolute inset-[-50px] border border-dashed border-[var(--color-electric)]/5 rounded-full animate-orbit"
-                            style={{
-                                animationDirection: "reverse",
-                                animationDuration: "30s",
-                            }}
-                        />
+                        THAT THINK
+                        <span className="font-[var(--font-accent)] text-[var(--color-volt)]">
+                            .
+                        </span>
+                    </span>
+                </h1>
 
-                        {/* AI core emblem — inline SVG + CSS transforms/opacity
-                            only. No images, no canvas, no JS render loop: a
-                            lightweight stand-in for the removed WebGL scene
-                            that still gives the frame something to look at. */}
-                        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                            <div
-                                className="absolute w-2/3 h-2/3 rounded-full animate-pulse"
-                                style={{
-                                    background: "radial-gradient(circle, var(--color-ember) 0%, transparent 70%)",
-                                    opacity: 0.3,
-                                }}
-                            />
-                            <svg viewBox="0 0 200 200" className="relative w-3/5 h-3/5" style={{ overflow: "visible" }}>
-                                {/* Outer hexagon — slow continuous rotation */}
-                                <polygon
-                                    points="100,30 161,65 161,135 100,170 39,135 39,65"
-                                    fill="none"
-                                    stroke="var(--color-ember)"
-                                    strokeOpacity="0.35"
-                                    strokeWidth="1.5"
-                                    className="animate-orbit"
-                                    style={{ transformOrigin: "100px 100px" }}
-                                />
-                                {/* Inner ring — counter-rotating, faster */}
-                                <circle
-                                    cx="100"
-                                    cy="100"
-                                    r="45"
-                                    fill="none"
-                                    stroke="var(--color-electric)"
-                                    strokeOpacity="0.25"
-                                    strokeDasharray="4 6"
-                                    className="animate-orbit"
-                                    style={{ transformOrigin: "100px 100px", animationDirection: "reverse", animationDuration: "8s" }}
-                                />
-                                {/* Circuit spokes to each hex vertex */}
-                                {[
-                                    [100, 30], [161, 65], [161, 135],
-                                    [100, 170], [39, 135], [39, 65],
-                                ].map(([x, y], i) => (
-                                    <line
-                                        key={i}
-                                        x1="100"
-                                        y1="100"
-                                        x2={x}
-                                        y2={y}
-                                        stroke="var(--color-ember)"
-                                        strokeOpacity="0.15"
-                                        strokeWidth="1"
-                                    />
-                                ))}
-                                {/* Blinking vertex nodes — staggered, like status lights */}
-                                {[
-                                    [100, 30], [161, 65], [161, 135],
-                                    [100, 170], [39, 135], [39, 65],
-                                ].map(([x, y], i) => (
-                                    <circle
-                                        key={i}
-                                        cx={x}
-                                        cy={y}
-                                        r="3.5"
-                                        fill="var(--color-volt)"
-                                        className="animate-pulse"
-                                        style={{ animationDelay: `${i * 0.3}s` }}
-                                    />
-                                ))}
-                                {/* Central core */}
-                                <circle cx="100" cy="100" r="14" fill="var(--color-void)" stroke="var(--color-ember)" strokeWidth="2" />
-                                <circle cx="100" cy="100" r="6" fill="var(--color-ember)" className="animate-pulse" />
-                            </svg>
-                        </div>
+                <p
+                    className="text-[var(--color-mist)] text-lg mt-8 max-w-xl leading-relaxed animate-fade-up"
+                    style={{ animationDelay: "0.6s", opacity: 0 }}
+                >
+                    The complete robotics intelligence stack. Simulate with
+                    real physics. Deploy to any hardware. AI agents that
+                    evolve with every run.
+                </p>
 
-                        {/* Corner brackets */}
-                        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[var(--color-ember)]/30" />
-                        <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[var(--color-ember)]/30" />
-                        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[var(--color-ember)]/30" />
-                        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[var(--color-ember)]/30" />
+                {/* CTAs */}
+                <div
+                    className="flex flex-wrap justify-center gap-4 mt-10 animate-fade-up"
+                    style={{ animationDelay: "0.8s", opacity: 0 }}
+                >
+                    <Link
+                        href="/downloads"
+                        className="group relative bg-[var(--color-ember)] text-[var(--color-void)] px-8 py-4 font-bold text-sm tracking-[0.15em] hover:brightness-110 transition-all overflow-hidden"
+                        style={{
+                            clipPath:
+                                "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)",
+                        }}
+                    >
+                        <span className="relative z-10">GET STARTED →</span>
+                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                    </Link>
+                    <Link
+                        href="/products"
+                        className="border border-white/10 px-8 py-4 text-sm tracking-[0.1em] hover:border-[var(--color-ember)]/30 hover:bg-white/[0.02] transition-all"
+                        style={{
+                            clipPath:
+                                "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)",
+                        }}
+                    >
+                        EXPLORE PRODUCTS
+                    </Link>
+                </div>
 
-                        {/* Status text */}
-                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 font-[var(--font-mono)] text-[10px] text-[var(--color-smoke)] tracking-wider">
-                            SYS.STATUS:{" "}
-                            <span className="text-[var(--color-volt)]">
-                                ONLINE
-                            </span>
-                        </div>
-                    </div>
+                {/* Status line — kept from the old AI-core frame, now
+                    sitting under the CTAs instead of orbiting a removed
+                    visual */}
+                <div
+                    className="mt-10 inline-flex items-center gap-2 font-[var(--font-mono)] text-[10px] text-[var(--color-smoke)] tracking-wider animate-fade-up"
+                    style={{ animationDelay: "1s", opacity: 0 }}
+                >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-volt)] animate-pulse" />
+                    SYS.STATUS: <span className="text-[var(--color-volt)]">ONLINE</span>
                 </div>
             </div>
 
