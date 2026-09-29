@@ -216,7 +216,7 @@ function Products() {
 
     return (
         <section className="py-32 px-6">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto">
                 <div className="flex items-center gap-4 mb-16">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/5" />
                     <span className="font-[var(--font-display)] text-sm tracking-[0.3em] text-[var(--color-smoke)]">
@@ -319,7 +319,7 @@ function Stats() {
 
     return (
         <section className="py-24 px-6 border-y border-white/5">
-            <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
                 {stats.map((s, i) => (
                     <div
                         key={s.label}
@@ -538,7 +538,7 @@ function Footer() {
                 style={{ background: "radial-gradient(circle, var(--color-ember), transparent 70%)" }}
             />
 
-            <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-8">
+            <div className="relative max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 pt-16 pb-8">
                 {/* Top: brand + structured link columns */}
                 <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr_1fr] gap-10 pb-12 border-b border-white/5">
                     <div className="space-y-4">

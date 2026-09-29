@@ -37,7 +37,7 @@ export default function Products() {
             {/* HERO SECTION                                                    */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section className="pt-36 pb-16 px-6 relative z-10 border-b border-white/5">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <div className="flex flex-wrap items-center gap-3">
                         <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-volt)] border border-[var(--color-volt)]/30 bg-[var(--color-volt)]/5 px-3.5 py-1.5 uppercase font-mono">
                             OFFICIAL PRODUCT LINEUP
@@ -94,7 +94,7 @@ export default function Products() {
             {/* PRODUCT 1: NELO STUDIO (GUI DESKTOP IDE)                        */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section id="nelo-studio" className="py-24 px-6 border-b border-white/5 relative z-10">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <div className="flex flex-wrap items-center gap-3 mb-4">
                         <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-ember)] animate-pulse" />
                         <span className="text-[10px] font-bold tracking-[0.25em] px-3 py-1 bg-[var(--color-ember)]/10 text-[var(--color-ember)] border border-[var(--color-ember)]/30 font-mono uppercase">
@@ -212,7 +212,7 @@ export default function Products() {
             {/* PRODUCT 2: NELO CLI (HEADLESS TERMINAL & PYTHON SDK)            */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section id="nelo-cli" className="py-24 px-6 border-b border-white/5 relative z-10">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <div className="flex flex-wrap items-center gap-3 mb-4">
                         <div className="w-2.5 h-2.5 rounded-full bg-[var(--color-volt)] animate-pulse" />
                         <span className="text-[10px] font-bold tracking-[0.25em] px-3 py-1 bg-[var(--color-volt)]/10 text-[var(--color-volt)] border border-[var(--color-volt)]/30 font-mono uppercase">
@@ -330,7 +330,7 @@ export default function Products() {
             {/* TWIN ENGINES: NIL & STACC (FOUNDATIONAL FEATURES)               */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section id="twin-engines" className="py-24 px-6 border-b border-white/5 bg-[var(--color-ash)]/30 relative z-10">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <div className="text-center max-w-2xl mx-auto mb-16">
                         <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-ember)] uppercase font-mono">
                             FOUNDATIONAL DEEP-TECH ENGINES
@@ -544,7 +544,7 @@ export default function Products() {
             {/* FOOTER                                                          */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <footer className="border-t border-white/5 py-12 px-6 relative z-10">
-                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-3">
                         <Image src="/logo.png" alt="Nelo" width={24} height={24} className="rounded-lg" />
                         <span className="font-[var(--font-display)] text-sm tracking-[0.2em]">

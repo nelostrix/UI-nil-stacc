@@ -17,7 +17,7 @@ export default function Nav() {
         <nav
             className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? "backdrop-blur-xl bg-[var(--color-void)]/90 border-b border-white/5" : ""}`}
         >
-            <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 h-20 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-3 group">
                     <div className="relative">
                         <Image

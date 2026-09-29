@@ -199,7 +199,7 @@ function DownloadContent() {
             {/* HERO HEADER & TOP-LEVEL SUITE SELECTOR                          */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section className="pt-32 pb-8 px-6 relative z-10 border-b border-white/5">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <div className="flex flex-wrap items-center gap-3">
                         <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-volt)] border border-[var(--color-volt)]/30 bg-[var(--color-volt)]/5 px-3.5 py-1.5 uppercase font-mono">
                             OFFICIAL RELEASES — {RELEASES.version}
@@ -282,7 +282,7 @@ function DownloadContent() {
             {/* ═══════════════════════════════════════════════════════════════ */}
             {activeSuite === "studio" && (
                 <section className="py-12 px-6 relative z-10 animate-fade-up">
-                    <div className="max-w-6xl mx-auto space-y-8">
+                    <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto space-y-8">
                         {/* ⚡ AUTOMATIC DOWNLOAD NOTIFICATION BANNER */}
                         {autoDownloadInfo && autoDownloadInfo.triggered && (
                             <div className="p-5 bg-gradient-to-r from-[var(--color-ash)] via-[var(--color-ash)] to-[var(--color-ash)] border border-[var(--color-volt)]/40 relative overflow-hidden"
@@ -508,7 +508,7 @@ function DownloadContent() {
             {/* ═══════════════════════════════════════════════════════════════ */}
             {activeSuite === "cli" && (
                 <section className="py-12 px-6 relative z-10 animate-fade-up">
-                    <div className="max-w-6xl mx-auto space-y-8">
+                    <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto space-y-8">
                         <div>
                             <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-volt)] uppercase font-mono">
                                 HEADLESS POWERHOUSE &amp; PYTHON SDK
@@ -637,7 +637,7 @@ function DownloadContent() {
             {/* EMBEDDED DAEMON ARCHITECTURE BREAKDOWN                          */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section className="py-16 px-6 border-t border-white/5 bg-[var(--color-ash)]/40 relative z-10">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <div className="text-center max-w-2xl mx-auto mb-12">
                         <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-ember)] uppercase font-mono">
                             ZERO SETUP ARCHITECTURE
@@ -690,7 +690,7 @@ function DownloadContent() {
             {/* CHECKSUMS & SECURITY VERIFICATION                              */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <section className="py-10 px-6 border-t border-white/5 relative z-10">
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto">
                     <button
                         onClick={() => setShowChecksums(!showChecksums)}
                         className="flex items-center justify-between w-full text-left p-4 bg-[var(--color-ash)] border border-white/10 hover:border-white/20 transition-all cursor-pointer"
@@ -726,7 +726,7 @@ function DownloadContent() {
             {/* FOOTER                                                          */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             <footer className="border-t border-white/5 py-10 px-6 relative z-10">
-                <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-3">
                         <Image src="/logo.png" alt="Nelo" width={24} height={24} className="rounded-lg" />
                         <span className="font-[var(--font-display)] text-sm tracking-[0.2em]">
