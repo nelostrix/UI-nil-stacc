@@ -134,17 +134,6 @@ function Hero() {
                         EXPLORE PRODUCTS
                     </Link>
                 </div>
-
-                {/* Status line — kept from the old AI-core frame, now
-                    sitting under the CTAs instead of orbiting a removed
-                    visual */}
-                <div
-                    className="mt-10 inline-flex items-center gap-2 font-[var(--font-mono)] text-[10px] text-[var(--color-smoke)] tracking-wider animate-fade-up"
-                    style={{ animationDelay: "1s", opacity: 0 }}
-                >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-volt)] animate-pulse" />
-                    SYS.STATUS: <span className="text-[var(--color-volt)]">ONLINE</span>
-                </div>
             </div>
 
             {/* Scroll indicator */}
