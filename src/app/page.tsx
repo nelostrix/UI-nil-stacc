@@ -46,7 +46,7 @@ function Hero() {
                 ))}
             </div>
 
-            <div className="max-w-7xl mx-auto px-6 pt-20 grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center relative z-10">
+            <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-6 xl:px-12 pt-20 grid lg:grid-cols-[1.2fr_0.8fr] gap-12 xl:gap-20 items-center relative z-10">
                 <div>
                     {/* Badge */}
                     <div
@@ -64,14 +64,14 @@ function Hero() {
                         className="mt-8 animate-fade-up"
                         style={{ animationDelay: "0.4s", opacity: 0 }}
                     >
-                        <span className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] leading-[0.9] tracking-wider block">
+                        <span className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block">
                             BUILD
                         </span>
-                        <span className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] leading-[0.9] tracking-wider block">
+                        <span className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block">
                             ROBOTS
                         </span>
                         <span
-                            className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] leading-[0.9] tracking-wider block text-glow"
+                            className="font-[var(--font-display)] text-7xl md:text-8xl lg:text-[7rem] 2xl:text-[8.5rem] leading-[0.9] tracking-wider block text-glow"
                             style={{ color: "var(--color-ember)" }}
                         >
                             THAT THINK
@@ -122,7 +122,7 @@ function Hero() {
                 {/* Logo reveal */}
                 <div className="relative hidden lg:flex items-center justify-center">
                     <div
-                        className="relative w-[350px] h-[350px] animate-power-up"
+                        className="relative w-[350px] h-[350px] xl:w-[440px] xl:h-[440px] 2xl:w-[520px] 2xl:h-[520px] animate-power-up"
                         style={{ animationDelay: "0.5s", opacity: 0 }}
                     >
                         {/* Orbital ring */}
