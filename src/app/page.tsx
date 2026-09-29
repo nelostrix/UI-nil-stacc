@@ -589,10 +589,10 @@ function Footer() {
                     @keyframes logoShimmer in globals.css): no JS, no canvas,
                     no network fetch — just a background-position animation
                     the GPU composites for free, regardless of text size. */}
-                <div className="mt-10 -mx-6 select-none overflow-hidden" aria-hidden="true">
+                <div className="mt-2 -mx-6 select-none overflow-hidden" aria-hidden="true">
                     <div
                         className="wordmark-shimmer text-center font-[var(--font-display)] font-black tracking-tight leading-none"
-                        style={{ fontSize: "clamp(4rem, 18vw, 14rem)" }}
+                        style={{ fontSize: "clamp(6rem, 26vw, 22rem)" }}
                     >
                         NELO
                     </div>
