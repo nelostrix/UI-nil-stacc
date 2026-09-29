@@ -181,10 +181,10 @@ body {
    text is rendered. */
 @keyframes logoShimmer {
     0% {
-        background-position: 0% center;
+        background-position: 200% center;
     }
     100% {
-        background-position: 200% center;
+        background-position: -100% center;
     }
 }
 
@@ -379,22 +379,24 @@ body {
         0 0 40px rgba(0, 212, 255, 0.2);
 }
 
-/* Huge footer wordmark — animated gradient sweep, see @keyframes logoShimmer */
+/* Huge footer wordmark — solid black & white with a moving chrome-style
+   highlight sweep, see @keyframes logoShimmer. Strictly monochrome: no
+   brand color in the gradient, just a brighter band passing over a dark
+   base so the motion itself reads clearly against the black background. */
 .wordmark-shimmer {
     background: linear-gradient(
-        90deg,
-        var(--color-smoke) 0%,
-        var(--color-ember) 20%,
-        var(--color-volt) 40%,
-        var(--color-electric) 60%,
-        var(--color-ember) 80%,
-        var(--color-smoke) 100%
+        100deg,
+        #3a3a3a 0%,
+        #3a3a3a 35%,
+        #ffffff 50%,
+        #3a3a3a 65%,
+        #3a3a3a 100%
     );
-    background-size: 200% auto;
+    background-size: 300% auto;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    animation: logoShimmer 10s linear infinite;
+    animation: logoShimmer 4s linear infinite;
 }
 
 /* Card hover effect */
