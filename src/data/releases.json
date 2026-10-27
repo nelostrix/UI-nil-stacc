@@ -117,13 +117,14 @@
       "buyUrl": null,
       "includes": [
         "Perpetual license for NELO Studio",
-        "Unlocks every extra agent in the agent catalog (Gemini CLI, Kilo Code, Qwen Code, GitHub Copilot, Crush, Cline, Droid, Auggie)",
-        "Every update during early access"
+        "ROS 2 package export from your robot description: URDF, controller config and launch file",
+        "Bill of materials export (CSV and Markdown)",
+        "Every update during early access, installed from inside the app"
       ],
       "free": [
         "Code editor, robot description (RSS) and live MuJoCo simulation",
-        "Claude Code, Codex, OpenCode and Antigravity agents",
-        "All extra agents for the first 14 days"
+        "All 12 AI coding agents: Claude Code, Codex, Gemini CLI, Copilot and more",
+        "ROS 2 and BOM exports for the first 14 days"
       ],
       "activation": "After checkout you get a license file by email. Paste it into Settings → Account in NELO Studio."
     }
