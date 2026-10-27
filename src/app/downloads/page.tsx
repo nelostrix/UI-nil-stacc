@@ -85,70 +85,13 @@ function DownloadContent() {
     >("idle");
     const [installCmd, setInstallCmd] = useState("");
 
-    // Auto-Download State
-    const [autoDownloadInfo, setAutoDownloadInfo] = useState<{
-        triggered: boolean;
-        fileName: string;
-        downloadUrl: string;
-        size: string;
-        osName: string;
-    } | null>(null);
-
-    // Function to trigger file download
-    const startFileDownload = (url: string, name: string) => {
-        if (!url) return;
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = name;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
-    // Auto-detect user OS & switch to the matching tab on load. Only
-    // auto-triggers an actual download when a real, published file exists
-    // for that OS — checked via "downloadUrl" in ... rather than assumed,
-    // so this degrades gracefully to "just switch tabs" for any platform
-    // that's still genuinely unpublished.
+    // Detect the visitor's OS and open the matching tab. Nothing downloads until they click.
     useEffect(() => {
         if (typeof window === "undefined") return;
         const ua = window.navigator.userAgent.toLowerCase();
-        let osDetected: OSType = "linux";
-        let osLabel = "Linux";
-        let target: { downloadUrl: string; fileName: string; size: string } | null = null;
-
-        if (ua.includes("win")) {
-            osDetected = "windows";
-            osLabel = "Windows 10 / 11 (64-bit)";
-            target = RELEASES.studio.windows.exe;
-        } else if (ua.includes("mac")) {
-            osDetected = "macos";
-            osLabel = "macOS (Apple Silicon)";
-            target = RELEASES.studio.macos.dmg;
-        } else {
-            osDetected = "linux";
-            osLabel = "Linux (x86_64 AppImage)";
-            target = RELEASES.studio.linux.appimage;
-        }
-
+        const osDetected: OSType = ua.includes("win") ? "windows" : ua.includes("mac") ? "macos" : "linux";
         setDetectedOS(osDetected);
         setActiveTab(osDetected);
-
-        if (target && "downloadUrl" in target) {
-            setAutoDownloadInfo({
-                triggered: true,
-                fileName: target.fileName,
-                downloadUrl: target.downloadUrl,
-                size: target.size,
-                osName: osLabel,
-            });
-            const timer = setTimeout(() => {
-                startFileDownload(target!.downloadUrl, target!.fileName);
-            }, 500);
-            return () => clearTimeout(timer);
-        }
     }, []);
 
     useEffect(() => {
@@ -284,46 +227,6 @@ function DownloadContent() {
             {activeSuite === "studio" && (
                 <section className="py-12 px-6 relative z-10 animate-fade-up">
                     <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto space-y-8">
-                        {/* ⚡ AUTOMATIC DOWNLOAD NOTIFICATION BANNER */}
-                        {autoDownloadInfo && autoDownloadInfo.triggered && (
-                            <div className="p-5 bg-gradient-to-r from-[var(--color-ash)] via-[var(--color-ash)] to-[var(--color-ash)] border border-[var(--color-volt)]/40 relative overflow-hidden"
-                                style={{ clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}
-                            >
-                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                    <div className="flex items-center gap-3.5">
-                                        <div className="w-10 h-10 rounded-lg bg-[var(--color-volt)]/15 border border-[var(--color-volt)]/40 flex items-center justify-center shrink-0">
-                                            <Zap className="w-5 h-5 text-[var(--color-volt)] animate-pulse" />
-                                        </div>
-                                        <div>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-[10px] font-bold font-mono tracking-widest px-2 py-0.5 rounded bg-[var(--color-volt)]/20 text-[var(--color-volt)] border border-[var(--color-volt)]/40 uppercase">
-                                                    AUTOMATIC DOWNLOAD TRIGGERED
-                                                </span>
-                                                <span className="text-xs font-mono text-[var(--color-mist)] hidden sm:inline">
-                                                    for {autoDownloadInfo.osName}
-                                                </span>
-                                            </div>
-                                            <div className="text-sm font-bold text-white mt-1">
-                                                Your package ({autoDownloadInfo.fileName} • {autoDownloadInfo.size}) has started downloading automatically!
-                                            </div>
-                                            <div className="text-[11px] text-[var(--color-smoke)] mt-0.5">
-                                                If your browser blocked the automatic download, click the manual button below.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        onClick={() => startFileDownload(autoDownloadInfo.downloadUrl, autoDownloadInfo.fileName)}
-                                        className="px-5 py-2.5 bg-[var(--color-volt)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all shrink-0 self-start md:self-center"
-                                        style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
-                                    >
-                                        <Download className="w-4 h-4" />
-                                        <span>RESTART DOWNLOAD</span>
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
                         {/* PRICING — 14-day trial, then a one-time early-access license */}
                         <div className="grid md:grid-cols-2 gap-5">
                             <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-4"
