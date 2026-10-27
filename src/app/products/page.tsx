@@ -22,6 +22,7 @@ import {
     Flame,
 } from "lucide-react";
 import Nav from "@/components/Nav";
+import RELEASES from "@/data/releases.json";
 
 export default function Products() {
     return (
@@ -100,7 +101,7 @@ export default function Products() {
                         <span className="text-[10px] font-bold tracking-[0.25em] px-3 py-1 bg-[var(--color-ember)]/10 text-[var(--color-ember)] border border-[var(--color-ember)]/30 font-mono uppercase">
                             FLAGSHIP GUI DESKTOP SUITE
                         </span>
-                        <span className="text-[10px] font-mono text-[var(--color-smoke)]">v1.0.0</span>
+                        <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.version}</span>
                         <span className="text-[10px] font-mono text-[var(--color-volt)]">● NATIVE STANDALONE WINDOW</span>
                     </div>
 
@@ -125,8 +126,8 @@ export default function Products() {
                             </Link>
 
                             <div className="p-3 bg-[var(--color-ash)] border border-white/10 font-mono text-xs text-[var(--color-smoke)]">
-                                <span className="text-[var(--color-ember)] font-bold text-lg">₹9,999</span>
-                                <span className="text-[10px] text-[var(--color-mist)]"> /YEAR</span>
+                                <span className="text-[var(--color-ember)] font-bold text-lg">{RELEASES.pricing.studio.price}</span>
+                                <span className="text-[10px] text-[var(--color-mist)]"> {RELEASES.pricing.studio.period.toUpperCase()} · {RELEASES.pricing.studio.trialDays}-DAY FREE TRIAL</span>
                             </div>
                         </div>
                     </div>
@@ -454,6 +455,7 @@ export default function Products() {
                                     ["Visual 3D Parametric CAD Studio", true, false],
                                     ["Monaco Code Editor with Code Completion", true, false],
                                     ["Interactive NIL AI Assistant Dock", true, false],
+                                    ["12 AI Coding Agents in Chat (Claude Code, Codex, Gemini CLI…)", true, false],
                                     ["Headless 1000Hz Physics Simulation Step", true, true],
                                     ["Analytical Spatial Kinematics (0.018ms)", true, true],
                                     ["RNEA Dynamic Gravity Torque Compensation", true, true],
@@ -488,10 +490,10 @@ export default function Products() {
                                 ))}
                                 <tr className="border-t-2 border-white/10 font-bold font-sans">
                                     <td className="py-4 pr-4 text-sm text-white">
-                                        Annual License
+                                        License
                                     </td>
                                     <td className="py-4 px-4 text-center font-[var(--font-display)] text-2xl text-[var(--color-ember)]">
-                                        ₹9,999 <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">/yr</span>
+                                        {RELEASES.pricing.studio.price} <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">{RELEASES.pricing.studio.period}</span>
                                     </td>
                                     <td className="py-4 px-4 text-center font-[var(--font-display)] text-2xl text-[var(--color-volt)]">
                                         ₹4,999 <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">/yr</span>

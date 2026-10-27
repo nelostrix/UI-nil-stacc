@@ -2,72 +2,79 @@
   "version": "v1.0.4",
   "versionRaw": "1.0.4",
   "releaseDate": "October 2026",
-  "lastSyncedAt": "2026-10-17T18:55:00Z",
+  "lastSyncedAt": "2026-10-27T18:10:00Z",
   "studio": {
     "linux": {
       "appimage": {
         "title": "Universal Linux (All Distros)",
         "fileName": "nelo-studio-1.0.4-x86_64.AppImage",
-        "size": "321 MB",
+        "size": "403 MB",
         "arch": "x86_64 (AppImage)",
         "installCmd": "chmod +x nelo-studio-1.0.4-x86_64.AppImage && ./nelo-studio-1.0.4-x86_64.AppImage",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x86_64.AppImage",
-        "sha256": "Verify via the GitHub release page (checksum computation in progress)"
+        "sha256": "0c4f5a25b7822bc99fd102a164f71d347a4a7e42ed6572cfcdd2beb28e66c9d2",
+        "version": "v1.0.4"
       },
       "deb": {
         "title": "Ubuntu / Debian / Pop!_OS",
         "fileName": "nelo-studio-1.0.4-amd64.deb",
-        "size": "264 MB",
+        "size": "321 MB",
         "arch": "x86_64 (.deb)",
         "installCmd": "sudo apt install ./nelo-studio-1.0.4-amd64.deb",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-amd64.deb",
-        "sha256": "Verify via the GitHub release page (checksum computation in progress)"
+        "sha256": "55fab364021fb2bab1d13201b21bdfd97cdc41bb27a25a0d6b693ae36bd35cba",
+        "version": "v1.0.4"
       },
       "pacman": {
         "title": "Arch Linux (native pacman package)",
         "fileName": "nelo-studio-1.0.4-x64.pacman",
-        "size": "237 MB",
+        "size": "289 MB",
         "arch": "x86_64 (.pacman)",
         "installCmd": "sudo pacman -U nelo-studio-1.0.4-x64.pacman",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x64.pacman",
-        "sha256": "Verify via the GitHub release page (checksum computation in progress)"
+        "sha256": "507c9d551afec7e2a6c11f81437e85ef970810a53eadd12bd12faffddf84703f",
+        "version": "v1.0.4"
       },
       "rpm": {
         "title": "Fedora / RHEL",
-        "fileName": "nelo-studio-1.0.4-x86_64.rpm",
-        "size": "226 MB",
+        "fileName": "nelo-studio-1.0.2-x86_64.rpm",
+        "size": "237 MB",
         "arch": "x86_64 (.rpm)",
-        "installCmd": "sudo dnf install ./nelo-studio-1.0.4-x86_64.rpm",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x86_64.rpm",
-        "sha256": "Verify via the GitHub release page (checksum computation in progress)"
+        "installCmd": "sudo dnf install ./nelo-studio-1.0.2-x86_64.rpm",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x86_64.rpm",
+        "sha256": "c4c058965cbf30d036d49482b69032052810dee47ff17b48ff6b21dd4670211f",
+        "version": "v1.0.2",
+        "note": "Older build (v1.0.2): no agent catalog or licensing yet. A v1.0.4 .rpm is coming."
       },
       "aur": {
         "title": "Arch Linux / Manjaro / EndeavourOS",
         "pkgName": "nelo-studio-bin",
         "status": "coming_soon",
-        "note": "PKGBUILD is built and verified working end-to-end, but AUR account registration is temporarily closed \u2014 not yet pushed to the actual AUR. Use the pacman package above in the meantime."
+        "note": "PKGBUILD is built and verified working end-to-end, but AUR account registration is temporarily closed — not yet pushed to the actual AUR. Use the pacman package above in the meantime."
       }
     },
     "windows": {
       "exe": {
         "title": "Windows 10 / 11 64-bit Installer",
-        "fileName": "nelo-studio-1.0.4-x64.exe",
-        "size": "250 MB",
+        "fileName": "nelo-studio-1.0.2-x64.exe",
+        "size": "262 MB",
         "installCmd": null,
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x64.exe",
-        "sha256": "Verify via the GitHub release page (checksum computation in progress)",
-        "note": "Unsigned build \u2014 Windows SmartScreen will warn on first run. Click \"More info\" \u2192 \"Run anyway\"."
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x64.exe",
+        "sha256": "1e44525b39564924c855f7ca59ae6ef2940e9811e8ee76900d86c0109042652d",
+        "note": "Older build (v1.0.2): v1.0.4 for Windows is coming. Unsigned: Windows SmartScreen will warn on first run. Click \"More info\" → \"Run anyway\".",
+        "version": "v1.0.2"
       }
     },
     "macos": {
       "dmg": {
-        "title": "macOS Universal Disk Image",
-        "fileName": "nelo-studio-1.0.4-arm64.dmg",
-        "size": "301 MB",
+        "title": "macOS (Apple Silicon) Disk Image",
+        "fileName": "nelo-studio-1.0.2-arm64.dmg",
+        "size": "315 MB",
         "installCmd": null,
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-arm64.dmg",
-        "sha256": "Verify via the GitHub release page (checksum computation in progress)",
-        "note": "Unsigned build \u2014 first launch needs right-click \u2192 Open (a plain double-click will be blocked by Gatekeeper)."
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-arm64.dmg",
+        "sha256": "eed4fd8837c1437ca7a4092686a45166925350d4f7dcd766e3161f1295b34d41",
+        "note": "Older build (v1.0.2): v1.0.4 for macOS is coming. Unsigned: first launch needs right-click → Open (a plain double-click will be blocked by Gatekeeper).",
+        "version": "v1.0.2"
       }
     }
   },
@@ -100,5 +107,25 @@
         "desc": "Inspect and manage in-device Ollama reasoning models"
       }
     ]
+  },
+  "pricing": {
+    "studio": {
+      "price": "$10",
+      "period": "one-time",
+      "label": "Early Access License",
+      "trialDays": 14,
+      "buyUrl": null,
+      "includes": [
+        "Perpetual license for NELO Studio",
+        "Unlocks every extra agent in the agent catalog (Gemini CLI, Kilo Code, Qwen Code, GitHub Copilot, Crush, Cline, Droid, Auggie)",
+        "Every update during early access"
+      ],
+      "free": [
+        "Code editor, robot description (RSS) and live MuJoCo simulation",
+        "Claude Code, Codex, OpenCode and Antigravity agents",
+        "All extra agents for the first 14 days"
+      ],
+      "activation": "After checkout you get a license file by email. Paste it into Settings → Account in NELO Studio."
+    }
   }
 }

@@ -25,6 +25,7 @@ import {
     Play,
     Server,
     Flame,
+    Lock,
 } from "lucide-react";
 import Nav from "@/components/Nav";
 
@@ -323,6 +324,72 @@ function DownloadContent() {
                             </div>
                         )}
 
+                        {/* PRICING — 14-day trial, then a one-time early-access license */}
+                        <div className="grid md:grid-cols-2 gap-5">
+                            <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-4"
+                                style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))" }}
+                            >
+                                <div>
+                                    <span className="text-[10px] font-bold tracking-widest text-[var(--color-volt)] uppercase font-mono">FREE</span>
+                                    <h3 className="font-[var(--font-display)] text-3xl tracking-wider mt-1">
+                                        {RELEASES.pricing.studio.trialDays}-DAY TRIAL, THEN FREE CORE
+                                    </h3>
+                                </div>
+                                <ul className="space-y-2">
+                                    {RELEASES.pricing.studio.free.map((item) => (
+                                        <li key={item} className="flex items-start gap-2 text-xs text-[var(--color-mist)]">
+                                            <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[var(--color-volt)]" />
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div className="bg-[var(--color-ash)] border border-[var(--color-ember)]/60 p-6 space-y-4 flex flex-col justify-between"
+                                style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))" }}
+                            >
+                                <div className="space-y-4">
+                                    <div className="flex items-end justify-between gap-4">
+                                        <div>
+                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-ember)] uppercase font-mono">
+                                                {RELEASES.pricing.studio.label}
+                                            </span>
+                                            <div className="font-[var(--font-display)] text-5xl tracking-wider mt-1">
+                                                {RELEASES.pricing.studio.price}
+                                                <span className="text-xs font-mono text-[var(--color-smoke)] ml-2">{RELEASES.pricing.studio.period.toUpperCase()}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul className="space-y-2">
+                                        {RELEASES.pricing.studio.includes.map((item) => (
+                                            <li key={item} className="flex items-start gap-2 text-xs text-[var(--color-mist)]">
+                                                <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[var(--color-ember)]" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <p className="text-[11px] text-[var(--color-smoke)]">{RELEASES.pricing.studio.activation}</p>
+                                </div>
+                                {RELEASES.pricing.studio.buyUrl ? (
+                                    <a
+                                        href={RELEASES.pricing.studio.buyUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="px-8 py-4 bg-[var(--color-ember)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all"
+                                        style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                                    >
+                                        <Lock className="w-4 h-4" />
+                                        <span>BUY LICENSE — {RELEASES.pricing.studio.price}</span>
+                                    </a>
+                                ) : (
+                                    <div className="px-8 py-4 bg-white/5 border border-white/10 text-[var(--color-mist)] font-bold text-xs tracking-wider flex items-center justify-center gap-2">
+                                        <Lock className="w-4 h-4" />
+                                        <span>CHECKOUT OPENS SOON — START THE FREE TRIAL BELOW</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         {/* OS Selection Bar */}
                         <div className="flex flex-wrap items-center justify-between gap-4 p-4 bg-[var(--color-ash)] border border-white/10"
                             style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))" }}
@@ -397,7 +464,7 @@ function DownloadContent() {
                                         { pkg: RELEASES.studio.linux.deb, label: "Ubuntu / Debian", ext: ".DEB", color: "text-[var(--color-ember)]" },
                                         { pkg: RELEASES.studio.linux.pacman, label: "Arch Linux (native)", ext: ".PACMAN", color: "text-[var(--color-electric)]" },
                                         { pkg: RELEASES.studio.linux.rpm, label: "Fedora / RHEL", ext: ".RPM", color: "text-[var(--color-plasma)]" },
-                                    ] as Array<{ pkg: { title: string; fileName: string; size: string; installCmd: string; downloadUrl: string }; label: string; ext: string; color: string }>).map(({ pkg, label, ext, color }) => (
+                                    ] as Array<{ pkg: { title: string; fileName: string; size: string; installCmd: string; downloadUrl: string; note?: string }; label: string; ext: string; color: string }>).map(({ pkg, label, ext, color }) => (
                                         <div key={pkg.fileName} className="bg-[var(--color-ash)] border border-white/10 p-5 flex flex-col justify-between space-y-4">
                                             <div>
                                                 <div className="flex items-center justify-between mb-2">
@@ -406,6 +473,7 @@ function DownloadContent() {
                                                 </div>
                                                 <h4 className="font-[var(--font-display)] text-xl tracking-wider">{pkg.title}</h4>
                                                 <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{pkg.fileName}</p>
+                                                {pkg.note && <p className="text-[11px] text-amber-500 mt-2">{pkg.note}</p>}
                                             </div>
 
                                             <div className="space-y-2">
