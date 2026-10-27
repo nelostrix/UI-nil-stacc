@@ -79,11 +79,6 @@ function DownloadContent() {
     const [selectedProduct, setSelectedProduct] = useState(
         preselected || "nil-stacc",
     );
-    const [licenseKey, setLicenseKey] = useState("");
-    const [status, setStatus] = useState<
-        "idle" | "validating" | "valid" | "invalid"
-    >("idle");
-    const [installCmd, setInstallCmd] = useState("");
 
     // Detect the visitor's OS and open the matching tab. Nothing downloads until they click.
     useEffect(() => {
@@ -104,33 +99,6 @@ function DownloadContent() {
         navigator.clipboard.writeText(text);
         setCopiedText(text);
         setTimeout(() => setCopiedText(null), 2500);
-    };
-
-    const validateLicense = async () => {
-        if (!licenseKey.trim()) return;
-        setStatus("validating");
-
-        try {
-            const res = await fetch(
-                "https://nelo-license-server.nelorobotics.workers.dev/validate",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ key: licenseKey.trim() }),
-                },
-            );
-            const data = await res.json();
-
-            if (data.valid) {
-                setStatus("valid");
-                const cmd = `bash <(curl -s https://get.nelo-robotics.com/install.sh) --key ${licenseKey.trim()} --package ${selectedProduct}`;
-                setInstallCmd(cmd);
-            } else {
-                setStatus("invalid");
-            }
-        } catch {
-            setStatus("invalid");
-        }
     };
 
     return (
@@ -208,7 +176,7 @@ function DownloadContent() {
                                     <div className="text-sm font-bold tracking-wider text-white flex items-center gap-2">
                                         <span>2. NELO CLI &amp; SDK</span>
                                         <span className="text-[9px] px-1.5 py-0.5 rounded bg-[var(--color-volt)]/20 text-[var(--color-volt)] border border-[var(--color-volt)]/40 font-mono">
-                                            HEADLESS
+                                            COMING SOON
                                         </span>
                                     </div>
                                     <p className="text-[11px] text-[var(--color-mist)] mt-0.5">
@@ -492,113 +460,23 @@ function DownloadContent() {
                             </p>
                         </div>
 
-                        {/* Primary Installation Grid */}
-                        <div className="grid md:grid-cols-2 gap-5 font-mono text-xs">
-                            {/* Python Pip */}
-                            <div className="bg-[var(--color-ash)] border border-white/10 p-5 space-y-3">
-                                <div className="flex items-center justify-between font-sans">
-                                    <span className="text-xs font-bold text-white uppercase">Python Package (PyPI)</span>
-                                    <span className="text-[10px] text-[var(--color-volt)] font-mono">pip3 / venv</span>
-                                </div>
-                                <div className="bg-[var(--color-void)] border border-white/10 p-3 flex items-center justify-between gap-3">
-                                    <div className="text-[var(--color-ivory)] overflow-x-auto">
-                                        <span className="text-[var(--color-volt)]">$</span> {RELEASES.cli.pip}
-                                    </div>
-                                    <button
-                                        onClick={() => copyToClipboard(RELEASES.cli.pip)}
-                                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1 cursor-pointer shrink-0"
-                                    >
-                                        {copiedText === RELEASES.cli.pip ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                        <span>COPY</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Linux 1-Liner Script */}
-                            <div className="bg-[var(--color-ash)] border border-white/10 p-5 space-y-3">
-                                <div className="flex items-center justify-between font-sans">
-                                    <span className="text-xs font-bold text-white uppercase">Linux / macOS Curl Script</span>
-                                    <span className="text-[10px] text-[var(--color-electric)] font-mono">bash</span>
-                                </div>
-                                <div className="bg-[var(--color-void)] border border-white/10 p-3 flex items-center justify-between gap-3">
-                                    <div className="text-[var(--color-ivory)] overflow-x-auto truncate">
-                                        <span className="text-[var(--color-electric)]">$</span> {RELEASES.cli.curlOneLiner}
-                                    </div>
-                                    <button
-                                        onClick={() => copyToClipboard(RELEASES.cli.curlOneLiner)}
-                                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1 cursor-pointer shrink-0"
-                                    >
-                                        {copiedText === RELEASES.cli.curlOneLiner ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                        <span>COPY</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Arch Linux AUR */}
-                            <div className="bg-[var(--color-ash)] border border-white/10 p-5 space-y-3">
-                                <div className="flex items-center justify-between font-sans">
-                                    <span className="text-xs font-bold text-white uppercase">Arch Linux / AUR</span>
-                                    <span className="text-[10px] text-[var(--color-plasma)] font-mono">yay / paru</span>
-                                </div>
-                                <div className="bg-[var(--color-void)] border border-white/10 p-3 flex items-center justify-between gap-3">
-                                    <div className="text-[var(--color-ivory)] overflow-x-auto">
-                                        <span className="text-[var(--color-plasma)]">$</span> {RELEASES.cli.aur}
-                                    </div>
-                                    <button
-                                        onClick={() => copyToClipboard(RELEASES.cli.aur)}
-                                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1 cursor-pointer shrink-0"
-                                    >
-                                        {copiedText === RELEASES.cli.aur ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                        <span>COPY</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* macOS Homebrew */}
-                            <div className="bg-[var(--color-ash)] border border-white/10 p-5 space-y-3">
-                                <div className="flex items-center justify-between font-sans">
-                                    <span className="text-xs font-bold text-white uppercase">macOS Homebrew</span>
-                                    <span className="text-[10px] text-[var(--color-ember)] font-mono">brew</span>
-                                </div>
-                                <div className="bg-[var(--color-void)] border border-white/10 p-3 flex items-center justify-between gap-3">
-                                    <div className="text-[var(--color-ivory)] overflow-x-auto">
-                                        <span className="text-[var(--color-ember)]">$</span> {RELEASES.cli.brew}
-                                    </div>
-                                    <button
-                                        onClick={() => copyToClipboard(RELEASES.cli.brew)}
-                                        className="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1 cursor-pointer shrink-0"
-                                    >
-                                        {copiedText === RELEASES.cli.brew ? <Check className="w-3 h-3 text-[var(--color-volt)]" /> : <Copy className="w-3 h-3" />}
-                                        <span>COPY</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Interactive CLI Commands Reference */}
-                        <div className="bg-[var(--color-ash)] border border-white/10 p-6 space-y-4">
-                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider flex items-center gap-2">
-                                <Terminal className="w-5 h-5 text-[var(--color-volt)]" />
-                                CLI COMMAND EXAMPLES
-                            </h3>
-
-                            <div className="space-y-3">
-                                {RELEASES.cli.features.map((feat, idx) => (
-                                    <div key={idx} className="bg-[var(--color-void)] border border-white/10 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-mono text-xs">
-                                        <div className="space-y-1">
-                                            <div className="text-[var(--color-volt)] font-bold">{feat.cmd}</div>
-                                            <div className="text-[11px] text-[var(--color-mist)] font-sans">{feat.desc}</div>
-                                        </div>
-                                        <button
-                                            onClick={() => copyToClipboard(feat.cmd)}
-                                            className="px-3 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-sans tracking-wider text-[var(--color-mist)] hover:text-white flex items-center gap-1.5 cursor-pointer shrink-0 self-start sm:self-center transition-colors"
-                                        >
-                                            {copiedText === feat.cmd ? <Check className="w-3.5 h-3.5 text-[var(--color-volt)]" /> : <Copy className="w-3.5 h-3.5" />}
-                                            <span>COPY</span>
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
+                        {/* The CLI is not published to any package manager yet. */}
+                        <div className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-6 space-y-3">
+                            <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
+                                Not released yet
+                            </span>
+                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">NELO CLI IS COMING</h3>
+                            <p className="text-xs text-[var(--color-mist)] max-w-2xl leading-relaxed">
+                                The command-line package isn&apos;t on PyPI, Homebrew, the AUR or winget yet, so there is nothing to install today. The simulation, kinematics and NIL agent it will expose already run inside NELO Studio.
+                            </p>
+                            <button
+                                onClick={() => setActiveSuite("studio")}
+                                className="px-6 py-3 bg-[var(--color-ember)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider inline-flex items-center gap-2 cursor-pointer transition-all"
+                                style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
+                            >
+                                <Monitor className="w-4 h-4" />
+                                <span>GET NELO STUDIO INSTEAD</span>
+                            </button>
                         </div>
                     </div>
                 </section>

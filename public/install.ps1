@@ -10,11 +10,11 @@ Write-Host " |  \| |  _| | |  | | | |  \___ \ | | | | | | | | | | | | |" -Foregr
 Write-Host " | |\  | |___| |__| |_| |   ___) || | | |_| | |_| | | |_| |" -ForegroundColor Cyan
 Write-Host " |_| \_|_____|_____\___/   |____/ |_|  \___/|____/___\___/ " -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Autonomous Robotics & AI Engineering Suite (v1.0.0)" -ForegroundColor White
+Write-Host "Autonomous Robotics & AI Engineering Suite (v1.0.2)" -ForegroundColor White
 Write-Host ""
 
-$exeUrl = "https://github.com/nelostrix/NIL/releases/download/v1.0.0/NELO-Studio-Setup-1.0.0.exe"
-$installerPath = "$env:TEMP\NELO-Studio-Setup-1.0.0.exe"
+$exeUrl = "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x64.exe"
+$installerPath = "$env:TEMP\nelo-studio-1.0.2-x64.exe"
 
 Write-Host "Downloading NELO Studio Windows Installer..." -ForegroundColor Yellow
 Invoke-WebRequest -Uri $exeUrl -OutFile $installerPath

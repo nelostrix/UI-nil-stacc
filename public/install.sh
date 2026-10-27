@@ -20,7 +20,7 @@ echo " |  \| |  _| | |  | | | |  \___ \ | | | | | | | | | | | | |"
 echo " | |\  | |___| |__| |_| |   ___) || | | |_| | |_| | | |_| |"
 echo " |_| \_|_____|_____\___/   |____/ |_|  \___/|____/___\___/ "
 echo -e "${NC}"
-echo -e "${BOLD}Autonomous Robotics & AI Engineering Suite (v1.0.0)${NC}\n"
+echo -e "${BOLD}Autonomous Robotics & AI Engineering Suite (v1.0.4)${NC}\n"
 
 OS="$(uname -s)"
 ARCH="$(uname -m)"
@@ -28,18 +28,17 @@ ARCH="$(uname -m)"
 echo -e "Detecting Environment: ${GREEN}${OS} (${ARCH})${NC}..."
 
 if [ "$OS" = "Linux" ]; then
-    if command -v yay >/dev/null 2>&1; then
-        echo -e "${GREEN}✓ Arch Linux environment detected with yay.${NC}"
-        echo -e "Installing ${BOLD}nelo-studio-bin${NC} from AUR..."
-        yay -S --needed --noconfirm nelo-studio-bin || true
-    elif command -v pacman >/dev/null 2>&1; then
+    if command -v pacman >/dev/null 2>&1; then
         echo -e "${GREEN}✓ Arch Linux environment detected.${NC}"
-        echo -e "Run: ${BOLD}yay -S nelo-studio-bin${NC} or install the AppImage."
+        TEMP_PKG="$(mktemp /tmp/nelo-studio.XXXXXX.pacman)"
+        curl -fsSL "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x64.pacman" -o "$TEMP_PKG"
+        sudo pacman -U --noconfirm "$TEMP_PKG"
+        rm -f "$TEMP_PKG"
     elif command -v apt-get >/dev/null 2>&1; then
         echo -e "${GREEN}✓ Debian / Ubuntu environment detected.${NC}"
         TEMP_DEB="$(mktemp /tmp/nelo-studio.XXXXXX.deb)"
         echo -e "Downloading latest .deb package..."
-        curl -fsSL "https://github.com/nelostrix/NIL/releases/download/v1.0.0/nelo-studio_1.0.0_amd64.deb" -o "$TEMP_DEB"
+        curl -fsSL "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-amd64.deb" -o "$TEMP_DEB"
         echo -e "Installing package (sudo required)..."
         sudo apt install -y "$TEMP_DEB"
         rm -f "$TEMP_DEB"
@@ -48,7 +47,7 @@ if [ "$OS" = "Linux" ]; then
         mkdir -p "$HOME/.local/bin"
         mkdir -p "$HOME/.local/share/applications"
         APPIMAGE_PATH="$HOME/.local/bin/nelo-studio"
-        curl -fsSL "https://github.com/nelostrix/NIL/releases/download/v1.0.0/NELO-Studio-1.0.0.AppImage" -o "$APPIMAGE_PATH"
+        curl -fsSL "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x86_64.AppImage" -o "$APPIMAGE_PATH"
         chmod +x "$APPIMAGE_PATH"
         
         # Create Desktop Entry
@@ -66,20 +65,9 @@ EOF
     fi
 
 elif [ "$OS" = "Darwin" ]; then
-    if command -v brew >/dev/null 2>&1; then
-        echo -e "${GREEN}✓ macOS environment with Homebrew detected.${NC}"
-        brew install --cask nelo-studio || true
-    else
-        echo -e "${GREEN}✓ macOS environment detected.${NC}"
-        DMG_TMP="$(mktemp /tmp/nelo-studio.XXXXXX.dmg)"
-        echo -e "Downloading Universal macOS DMG..."
-        curl -fsSL "https://github.com/nelostrix/NIL/releases/download/v1.0.0/NELO-Studio-1.0.0-universal.dmg" -o "$DMG_TMP"
-        hdiutil attach "$DMG_TMP" -mountpoint /Volumes/NELOStudio
-        cp -R "/Volumes/NELOStudio/NELO Studio.app" /Applications/
-        hdiutil detach /Volumes/NELOStudio
-        rm -f "$DMG_TMP"
-        echo -e "${GREEN}✓ Installed to /Applications/NELO Studio.app${NC}"
-    fi
+    echo -e "${YELLOW}NELO Studio v1.0.4 for macOS is not released yet.${NC}"
+    echo -e "An older build (v1.0.2) is on the downloads page."
+    exit 1
 fi
 
 echo -e "\n${GREEN}${BOLD}✓ Installation Complete!${NC}"

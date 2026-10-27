@@ -219,7 +219,7 @@ export default function Products() {
                         <span className="text-[10px] font-bold tracking-[0.25em] px-3 py-1 bg-[var(--color-volt)]/10 text-[var(--color-volt)] border border-[var(--color-volt)]/30 font-mono uppercase">
                             HEADLESS TERMINAL &amp; PYTHON SDK
                         </span>
-                        <span className="text-[10px] font-mono text-[var(--color-smoke)]">v1.0.0</span>
+                        <span className="text-[10px] font-mono text-[var(--color-smoke)]">NOT RELEASED YET</span>
                         <span className="text-[10px] font-mono text-[var(--color-electric)]">● SERVERS • CLUSTERS • EDGE</span>
                     </div>
 
@@ -240,12 +240,11 @@ export default function Products() {
                                 style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
                             >
                                 <Terminal className="w-4 h-4" />
-                                <span>INSTALL NELO-CLI</span>
+                                <span>NELO CLI — COMING SOON</span>
                             </Link>
 
                             <div className="p-3 bg-[var(--color-ash)] border border-white/10 font-mono text-xs text-[var(--color-smoke)]">
-                                <span className="text-[var(--color-volt)] font-bold text-lg">₹4,999</span>
-                                <span className="text-[10px] text-[var(--color-mist)]"> /YEAR</span>
+                                <span className="text-[var(--color-volt)] font-bold text-lg">NOT RELEASED</span>
                             </div>
                         </div>
                     </div>
@@ -496,7 +495,7 @@ export default function Products() {
                                         {RELEASES.pricing.studio.price} <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">{RELEASES.pricing.studio.period}</span>
                                     </td>
                                     <td className="py-4 px-4 text-center font-[var(--font-display)] text-2xl text-[var(--color-volt)]">
-                                        ₹4,999 <span className="text-xs font-mono text-[var(--color-smoke)] font-normal">/yr</span>
+                                        <span className="text-base">Coming soon</span>
                                     </td>
                                 </tr>
                             </tbody>
