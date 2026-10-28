@@ -377,16 +377,16 @@ function Terminal() {
                         <code>
                             <span className="text-[var(--color-ember)]">$</span>{" "}
                             <span className="text-[var(--color-mist)]">
-                                bash install.sh --key
+                                curl -fsSL
                             </span>{" "}
                             <span className="text-[var(--color-volt)]">
-                                NELO-XXXXX
+                                https://nelorobotics.tech/install.sh
                             </span>{" "}
                             <span className="text-[var(--color-mist)]">
-                                --package
+                                |
                             </span>{" "}
                             <span className="text-[var(--color-electric)]">
-                                nil-stacc
+                                bash
                             </span>
                             {"\n\n"}
                             <span className="text-[var(--color-smoke)]">
@@ -405,21 +405,21 @@ function Terminal() {
                                 {"  "}✓
                             </span>{" "}
                             <span className="text-[var(--color-mist)]">
-                                License validated
+                                Arch Linux detected — installing the pacman package
                             </span>
                             {"\n"}
                             <span className="text-[var(--color-volt)]">
                                 {"  "}✓
                             </span>{" "}
                             <span className="text-[var(--color-mist)]">
-                                Packages downloaded
+                                SHA-256 verified
                             </span>
                             {"\n"}
                             <span className="text-[var(--color-volt)]">
                                 {"  "}✓
                             </span>{" "}
                             <span className="text-[var(--color-mist)]">
-                                Installation complete
+                                NELO Studio installed
                             </span>
                             {"\n\n"}
                             <span className="text-[var(--color-ember)]">
