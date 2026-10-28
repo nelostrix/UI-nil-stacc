@@ -78,7 +78,7 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 if command -v pacman >/dev/null 2>&1; then
     echo -e "${GREEN}✓ Arch Linux detected — installing the pacman package.${NC}"
     download '[.]pacman$' "$TMP_DIR/nelo-studio.pacman"
-    # Packages up to v1.0.4 list http-parser and libappindicator-gtk3, which Arch no longer ships
+    # Packages up to v1.0.2 list http-parser and libappindicator-gtk3, which Arch no longer ships
     # and NELO Studio doesn't use; tell pacman to treat them as present.
     $SUDO pacman -U --noconfirm --assume-installed http-parser --assume-installed libappindicator-gtk3 "$TMP_DIR/nelo-studio.pacman"
 elif command -v apt-get >/dev/null 2>&1; then

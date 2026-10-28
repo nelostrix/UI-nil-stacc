@@ -159,10 +159,53 @@ int main() {
 // }
 // <<</RSS>>>
 
-fn main() -> std::io::Result<()> {
-    let rt = stacc_runtime::Runtime::new();
-    rt.load_file(file!())?;
-    Ok(())
+fn main() {
+    let mut rt = stacc_runtime::Runtime::new("127.0.0.1", 8766);
+    rt.load_file(file!()).expect("load robot");
+}`,
+    },
+};
+
+// One design.rss, used from three languages.
+const IMPORTS: Record<"python" | "cpp" | "rust", { file: string; code: string; note: string }> = {
+    python: {
+        file: "controller.py",
+        note: "After import stacc.rss, a .rss file imports like a module. importlib.reload picks up edits.",
+        code: `import stacc.rss
+from design import robot, joints, classes, components
+
+print(robot.name, len(joints))
+for j in classes.lead_leg.joints:      # every joint tagged class: lead_leg
+    print(j.name, j.limits)
+
+components["servo_leg"]                # {"joints": 3, "reach": 0.35, ...}`,
+    },
+    cpp: {
+        file: "controller.cpp",
+        note: "NELO Studio generates design.rss.hpp from design.rss and regenerates it on every change.",
+        code: `#include "stacc_runtime.hpp"
+#include "design.rss.hpp"              // generated from design.rss
+
+int main() {
+    stacc::Runtime rt;
+    rt.load_file("design.rss");
+    std::vector<double> cmd(design::joints::count);
+    cmd[design::joints::leg_front_left_1_joint] = 0.4;
+    for (auto j : design::classes::lead_leg) cmd[j] = 0.2;
+}`,
+    },
+    rust: {
+        file: "controller.rs",
+        note: "Same names as Rust constants, in design.rss.rs. A misspelled joint is a compile error.",
+        code: `#[path = "design.rss.rs"]
+mod design;                            // generated from design.rss
+
+fn main() {
+    let mut rt = stacc_runtime::Runtime::new("127.0.0.1", 8766);
+    rt.load_file("design.rss").expect("load robot");
+    let mut cmd = vec![0.0; design::joints::COUNT];
+    cmd[design::joints::LEG_FRONT_LEFT_1_JOINT] = 0.4;
+    for j in design::classes::LEAD_LEG { cmd[j] = 0.2; }
 }`,
     },
 };
@@ -210,6 +253,7 @@ const cardClip = "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 1
 
 export default function RssPage() {
     const [lang, setLang] = useState<keyof typeof EMBEDDED>("python");
+    const [importLang, setImportLang] = useState<keyof typeof IMPORTS>("python");
 
     return (
         <div className="relative min-h-screen bg-[var(--color-void)] text-[var(--color-ivory)] overflow-hidden font-sans">
@@ -428,6 +472,50 @@ export default function RssPage() {
                             ))}
                         </div>
                         <CodeWindow title={EMBEDDED[lang].file} code={EMBEDDED[lang].code} />
+                    </div>
+                </div>
+            </section>
+
+            {/* ═══ ONE FILE, EVERY LANGUAGE ═══ */}
+            <section className="py-20 px-6 relative z-10 border-b border-white/5">
+                <div className="max-w-6xl 2xl:max-w-[1600px] mx-auto grid lg:grid-cols-2 gap-10 items-start">
+                    <div>
+                        <span className="text-[10px] font-bold tracking-[0.25em] text-[var(--color-volt)] uppercase font-mono">DESIGN.RSS → PYTHON · C++ · RUST</span>
+                        <h2 className="font-[var(--font-display)] text-5xl sm:text-6xl tracking-wider mt-2">IMPORT YOUR ROBOT</h2>
+                        <p className="text-sm text-[var(--color-mist)] mt-3 leading-relaxed">
+                            Or keep the robot in its own <span className="font-mono text-white">design.rss</span> and import it. Its robot, joints, links, components and{" "}
+                            <span className="font-mono text-white">class:</span> groups arrive as names in your code. Joint indices follow the simulator&apos;s order, so they index command arrays
+                            directly.
+                        </p>
+                        <ul className="mt-6 space-y-2.5">
+                            {[
+                                "Open the controller and the 3D view follows design.rss, live",
+                                "Edit design.rss anywhere — the view and the generated C++ / Rust names update",
+                                "Shared parts across files: use \"parts.rss:servo_leg\";",
+                            ].map((item) => (
+                                <li key={item} className="flex items-start gap-2 text-sm text-[var(--color-mist)]">
+                                    <Check className="w-4 h-4 mt-0.5 shrink-0 text-[var(--color-volt)]" />
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <div className="flex gap-2 mb-3">
+                            {(Object.keys(IMPORTS) as Array<keyof typeof IMPORTS>).map((id) => (
+                                <button
+                                    key={id}
+                                    onClick={() => setImportLang(id)}
+                                    className={`px-4 py-1.5 text-xs font-bold tracking-wider uppercase cursor-pointer transition-all ${
+                                        importLang === id ? "bg-[var(--color-volt)] text-[var(--color-void)]" : "bg-white/5 text-[var(--color-mist)] hover:text-white"
+                                    }`}
+                                >
+                                    {id === "cpp" ? "C++" : id}
+                                </button>
+                            ))}
+                        </div>
+                        <CodeWindow title={IMPORTS[importLang].file} code={IMPORTS[importLang].code} />
+                        <p className="text-[11px] text-[var(--color-smoke)] mt-3">{IMPORTS[importLang].note}</p>
                     </div>
                 </div>
             </section>

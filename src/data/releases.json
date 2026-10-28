@@ -1,39 +1,39 @@
 {
-  "version": "v1.0.4",
-  "versionRaw": "1.0.4",
+  "version": "v1.0.5",
+  "versionRaw": "1.0.5",
   "releaseDate": "October 2026",
-  "lastSyncedAt": "2026-10-28T10:25:00Z",
+  "lastSyncedAt": "2026-10-28T16:30:00Z",
   "studio": {
     "linux": {
       "appimage": {
         "title": "Universal Linux (All Distros)",
-        "fileName": "nelo-studio-1.0.4-x86_64.AppImage",
+        "fileName": "nelo-studio-1.0.5-x86_64.AppImage",
         "size": "403 MB",
         "arch": "x86_64 (AppImage)",
-        "installCmd": "chmod +x nelo-studio-1.0.4-x86_64.AppImage && ./nelo-studio-1.0.4-x86_64.AppImage",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x86_64.AppImage",
-        "sha256": "fb70b1131cbd3258aff0834415f42a0f2df46cb777224864cf3f878de1343a33",
-        "version": "v1.0.4"
+        "installCmd": "chmod +x nelo-studio-1.0.5-x86_64.AppImage && ./nelo-studio-1.0.5-x86_64.AppImage",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.5/nelo-studio-1.0.5-x86_64.AppImage",
+        "sha256": "25a8d7f0dcf298cb10fa832052cbc0ec9a8f91404dad032e0768b5c6fe41adb4",
+        "version": "v1.0.5"
       },
       "deb": {
         "title": "Ubuntu / Debian / Pop!_OS",
-        "fileName": "nelo-studio-1.0.4-amd64.deb",
-        "size": "322 MB",
+        "fileName": "nelo-studio-1.0.5-amd64.deb",
+        "size": "321 MB",
         "arch": "x86_64 (.deb)",
-        "installCmd": "sudo apt install ./nelo-studio-1.0.4-amd64.deb",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-amd64.deb",
-        "sha256": "787161b463d39e617f88150e12f0f5976496798b39e83e581fd52fbe92a1770a",
-        "version": "v1.0.4"
+        "installCmd": "sudo apt install ./nelo-studio-1.0.5-amd64.deb",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.5/nelo-studio-1.0.5-amd64.deb",
+        "sha256": "027b43246888b18575e734951281be809c57216cb46e1c9dabc31753f5d473dd",
+        "version": "v1.0.5"
       },
       "pacman": {
         "title": "Arch Linux (native pacman package)",
-        "fileName": "nelo-studio-1.0.4-x64.pacman",
+        "fileName": "nelo-studio-1.0.5-x64.pacman",
         "size": "289 MB",
         "arch": "x86_64 (.pacman)",
-        "installCmd": "sudo pacman -U nelo-studio-1.0.4-x64.pacman",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x64.pacman",
-        "sha256": "753375e9d286ebadb607df7290f12c457a8417de16e90d71d7c538501173d9c4",
-        "version": "v1.0.4"
+        "installCmd": "sudo pacman -U nelo-studio-1.0.5-x64.pacman",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.5/nelo-studio-1.0.5-x64.pacman",
+        "sha256": "c597cc025cf98420d9b6205912b0a12fdbfa691482d5aea53e17a93e99159600",
+        "version": "v1.0.5"
       },
       "rpm": {
         "title": "Fedora / RHEL",
@@ -44,7 +44,7 @@
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x86_64.rpm",
         "sha256": "c4c058965cbf30d036d49482b69032052810dee47ff17b48ff6b21dd4670211f",
         "version": "v1.0.2",
-        "note": "Older build (v1.0.2): no agent catalog or licensing yet. A v1.0.4 .rpm is coming."
+        "note": "Older build (v1.0.2): no agent catalog or licensing yet. A v1.0.5 .rpm is coming."
       },
       "aur": {
         "title": "Arch Linux / Manjaro / EndeavourOS",
@@ -61,7 +61,7 @@
         "installCmd": null,
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x64.exe",
         "sha256": "1e44525b39564924c855f7ca59ae6ef2940e9811e8ee76900d86c0109042652d",
-        "note": "Older build (v1.0.2): v1.0.4 for Windows is coming. Unsigned: Windows SmartScreen will warn on first run. Click \"More info\" → \"Run anyway\".",
+        "note": "Older build (v1.0.2): v1.0.5 for Windows is coming. Unsigned: Windows SmartScreen will warn on first run. Click \"More info\" → \"Run anyway\".",
         "version": "v1.0.2"
       }
     },
@@ -73,7 +73,7 @@
         "installCmd": null,
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-arm64.dmg",
         "sha256": "eed4fd8837c1437ca7a4092686a45166925350d4f7dcd766e3161f1295b34d41",
-        "note": "Older build (v1.0.2): v1.0.4 for macOS is coming. Unsigned: first launch needs right-click → Open (a plain double-click will be blocked by Gatekeeper).",
+        "note": "Older build (v1.0.2): v1.0.5 for macOS is coming. Unsigned: first launch needs right-click → Open (a plain double-click will be blocked by Gatekeeper).",
         "version": "v1.0.2"
       }
     }
