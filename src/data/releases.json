@@ -2,7 +2,7 @@
   "version": "v1.0.4",
   "versionRaw": "1.0.4",
   "releaseDate": "October 2026",
-  "lastSyncedAt": "2026-10-27T18:10:00Z",
+  "lastSyncedAt": "2026-10-28T10:25:00Z",
   "studio": {
     "linux": {
       "appimage": {
@@ -12,17 +12,17 @@
         "arch": "x86_64 (AppImage)",
         "installCmd": "chmod +x nelo-studio-1.0.4-x86_64.AppImage && ./nelo-studio-1.0.4-x86_64.AppImage",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x86_64.AppImage",
-        "sha256": "0c4f5a25b7822bc99fd102a164f71d347a4a7e42ed6572cfcdd2beb28e66c9d2",
+        "sha256": "fb70b1131cbd3258aff0834415f42a0f2df46cb777224864cf3f878de1343a33",
         "version": "v1.0.4"
       },
       "deb": {
         "title": "Ubuntu / Debian / Pop!_OS",
         "fileName": "nelo-studio-1.0.4-amd64.deb",
-        "size": "321 MB",
+        "size": "322 MB",
         "arch": "x86_64 (.deb)",
         "installCmd": "sudo apt install ./nelo-studio-1.0.4-amd64.deb",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-amd64.deb",
-        "sha256": "55fab364021fb2bab1d13201b21bdfd97cdc41bb27a25a0d6b693ae36bd35cba",
+        "sha256": "787161b463d39e617f88150e12f0f5976496798b39e83e581fd52fbe92a1770a",
         "version": "v1.0.4"
       },
       "pacman": {
@@ -32,7 +32,7 @@
         "arch": "x86_64 (.pacman)",
         "installCmd": "sudo pacman -U nelo-studio-1.0.4-x64.pacman",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.4/nelo-studio-1.0.4-x64.pacman",
-        "sha256": "507c9d551afec7e2a6c11f81437e85ef970810a53eadd12bd12faffddf84703f",
+        "sha256": "753375e9d286ebadb607df7290f12c457a8417de16e90d71d7c538501173d9c4",
         "version": "v1.0.4"
       },
       "rpm": {
