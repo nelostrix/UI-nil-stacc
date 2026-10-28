@@ -5,3 +5,9 @@ dist/
 *.tsbuildinfo
 .env*.local
 .vercel
+
+# Built app packages are published on GitHub Releases, not in this repo
+public/downloads/
+# SQLite temp files
+*.db-shm
+*.db-wal
