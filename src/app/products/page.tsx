@@ -79,6 +79,15 @@ export default function Products() {
                             <span>2. NELO CLI &amp; PYTHON SDK</span>
                         </a>
 
+                        <Link
+                            href="/products/rss"
+                            className="flex items-center gap-2.5 text-xs font-bold tracking-wider px-5 py-2.5 bg-[var(--color-ash)] border border-[var(--color-electric)]/40 text-white hover:border-[var(--color-electric)] transition-all"
+                            style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
+                        >
+                            <Code2 className="w-4 h-4 text-[var(--color-electric)]" />
+                            <span>RSS — ROBOT STYLE SHEETS</span>
+                        </Link>
+
                         <a
                             href="#twin-engines"
                             className="flex items-center gap-2.5 text-xs font-bold tracking-wider px-5 py-2.5 bg-white/5 border border-white/10 text-[var(--color-mist)] hover:text-white transition-all"
@@ -555,6 +564,7 @@ export default function Products() {
                     <div className="flex items-center gap-8 text-xs text-[var(--color-smoke)] tracking-wider">
                         <Link href="/" className="hover:text-[var(--color-ember)] transition-colors">HOME</Link>
                         <Link href="/products" className="hover:text-[var(--color-ember)] transition-colors">PRODUCTS</Link>
+                        <Link href="/products/rss" className="hover:text-[var(--color-ember)] transition-colors">RSS</Link>
                         <Link href="/downloads" className="hover:text-[var(--color-ember)] transition-colors">DOWNLOADS</Link>
                         <Link href="/usecases" className="hover:text-[var(--color-ember)] transition-colors">USE CASES</Link>
                         <span>© 2026</span>
