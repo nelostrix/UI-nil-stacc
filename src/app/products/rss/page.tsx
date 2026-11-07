@@ -277,7 +277,18 @@ export default function RssPage() {
                     <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center mt-6">
                         <div>
                             <h1 className="font-[var(--font-display)] text-7xl sm:text-8xl md:text-9xl tracking-wider leading-[0.85]">
-                                <span className="text-[var(--color-ember)] text-glow">RSS</span>
+                                <span className="flex items-center gap-4 sm:gap-6">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src="/rss-logo.svg"
+                                        alt="RSS logo"
+                                        width={112}
+                                        height={112}
+                                        className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 shrink-0"
+                                        style={{ filter: "drop-shadow(0 0 28px rgba(255, 116, 23, 0.45))" }}
+                                    />
+                                    <span className="text-[var(--color-ember)] text-glow">RSS</span>
+                                </span>
                                 <span className="block text-4xl sm:text-5xl md:text-6xl mt-3 text-white">ROBOT STYLE SHEETS</span>
                             </h1>
                             <p className="text-[var(--color-mist)] text-base sm:text-lg mt-6 max-w-xl leading-relaxed">

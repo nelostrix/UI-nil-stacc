@@ -84,7 +84,8 @@ export default function Products() {
                             className="flex items-center gap-2.5 text-xs font-bold tracking-wider px-5 py-2.5 bg-[var(--color-ash)] border border-[var(--color-electric)]/40 text-white hover:border-[var(--color-electric)] transition-all"
                             style={{ clipPath: "polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)" }}
                         >
-                            <Code2 className="w-4 h-4 text-[var(--color-electric)]" />
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/rss-logo.svg" alt="" width={16} height={16} className="w-4 h-4" />
                             <span>RSS — ROBOT STYLE SHEETS</span>
                         </Link>
 

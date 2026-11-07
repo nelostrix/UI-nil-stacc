@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 25 700 700">
+  <!-- RSS (Robot Style Sheets) mark: a folded-ribbon "R", redrawn as vectors from public/logos/RSS_logo.png. -->
+  <defs>
+    <linearGradient id="rss-a" gradientUnits="userSpaceOnUse" x1="80" y1="60" x2="720" y2="690">
+      <stop offset="0" stop-color="#ffa036"/>
+      <stop offset="0.55" stop-color="#ff7417"/>
+      <stop offset="1" stop-color="#ff5c63"/>
+    </linearGradient>
+    <linearGradient id="rss-stem" gradientUnits="userSpaceOnUse" x1="200" y1="320" x2="60" y2="690">
+      <stop offset="0" stop-color="#ff7a1c"/>
+      <stop offset="1" stop-color="#f2471f"/>
+    </linearGradient>
+    <linearGradient id="rss-fold" gradientUnits="userSpaceOnUse" x1="660" y1="350" x2="430" y2="300">
+      <stop offset="0" stop-color="#6e2410"/>
+      <stop offset="1" stop-color="#c9531c"/>
+    </linearGradient>
+  </defs>
+  <!-- shaded underside of the fold -->
+  <path fill="url(#rss-fold)" d="M500 225 Q522 232 517 258 Q508 292 420 316 L528 428 Q546 437 566 424 L668 360 L562 252 Q533 225 500 225 Z"/>
+  <!-- top bar curling down the right side -->
+  <path fill="url(#rss-a)" d="M75 65 L558 65 Q598 65 624 91 L702 170 Q722 192 716 220 L692 330 Q684 362 660 352 L562 252 Q533 225 500 225 L266 225 Q226 225 200 199 Z"/>
+  <!-- stem -->
+  <path fill="url(#rss-stem)" d="M186 318 L398 318 L60 686 L60 452 Q60 428 76 410 L156 330 Q168 318 186 318 Z"/>
+  <!-- leg -->
+  <path fill="url(#rss-a)" d="M398 318 L716 638 L472 638 Q446 638 428 620 L252 440 Z"/>
+  <!-- where the leg crosses the stem -->
+  <path fill="#e8441e" opacity="0.55" d="M398 318 L252 440 L268 457 Z"/>
+</svg>

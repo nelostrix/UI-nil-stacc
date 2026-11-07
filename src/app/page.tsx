@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "@/components/Nav";
+import LeadForm from "@/components/LeadForm";
 import { usePrefersReducedMotion } from "@/lib/utils";
 
 /* ═══════════════════════════════════════
@@ -638,6 +639,7 @@ export default function Home() {
             <Stats />
             <Terminal />
             <CTA />
+            <LeadForm />
             <Footer />
         </main>
     );

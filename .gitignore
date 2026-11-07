@@ -11,3 +11,8 @@ public/downloads/
 # SQLite temp files
 *.db-shm
 *.db-wal
+
+# Local agent runtime state is not website content.
+/agent_store/*.db
+/agent_store/*.db-shm
+/agent_store/*.db-wal
