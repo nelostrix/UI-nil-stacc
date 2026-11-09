@@ -1,80 +1,94 @@
 {
-  "version": "v1.0.7",
-  "versionRaw": "1.0.7",
+  "version": "v1.1.1",
+  "versionRaw": "1.1.1",
   "releaseDate": "November 2026",
-  "lastSyncedAt": "2026-11-02T00:55:00Z",
+  "lastSyncedAt": "2026-11-10T00:00:00Z",
   "studio": {
     "linux": {
       "appimage": {
-        "title": "Universal Linux (All Distros)",
-        "fileName": "nelo-studio-1.0.7-x86_64.AppImage",
-        "size": "403 MB",
+        "title": "Universal Linux AppImage",
+        "fileName": "nelo-studio-1.1.1-x86_64.AppImage",
+        "size": "See release assets",
         "arch": "x86_64 (AppImage)",
-        "installCmd": "chmod +x nelo-studio-1.0.7-x86_64.AppImage && ./nelo-studio-1.0.7-x86_64.AppImage",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.7/nelo-studio-1.0.7-x86_64.AppImage",
-        "sha256": "ebcbe9bdcd78a99e95850e8399d49bff72630378f978fc15adffc08bfd6593c6",
-        "version": "v1.0.7"
+        "installCmd": "chmod +x nelo-studio-1.1.1-x86_64.AppImage && ./nelo-studio-1.1.1-x86_64.AppImage",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.AppImage",
+        "sha256": "",
+        "version": "v1.1.1",
+        "note": "Manual option. Recommended: use the Linux quick-install command above to select and verify the package for your distro."
       },
       "deb": {
         "title": "Ubuntu / Debian / Pop!_OS",
-        "fileName": "nelo-studio-1.0.7-amd64.deb",
-        "size": "321 MB",
+        "fileName": "nelo-studio-1.1.1-amd64.deb",
+        "size": "See release assets",
         "arch": "x86_64 (.deb)",
-        "installCmd": "sudo apt install ./nelo-studio-1.0.7-amd64.deb",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.7/nelo-studio-1.0.7-amd64.deb",
-        "sha256": "997df01209f09847cf79f22c12468df5802d63ed0e67b3f06875204f2e5df86d",
-        "version": "v1.0.7"
+        "installCmd": "sudo apt install ./nelo-studio-1.1.1-amd64.deb",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-amd64.deb",
+        "sha256": "",
+        "version": "v1.1.1"
       },
       "pacman": {
-        "title": "Arch Linux (native pacman package)",
-        "fileName": "nelo-studio-1.0.7-x64.pacman",
-        "size": "289 MB",
-        "arch": "x86_64 (.pacman)",
-        "installCmd": "sudo pacman -U nelo-studio-1.0.7-x64.pacman",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.7/nelo-studio-1.0.7-x64.pacman",
-        "sha256": "0f020ae7af4108e520136ec5c16b083725f92923e88760f20977c0d78972d7ba",
-        "version": "v1.0.7"
+        "title": "Arch Linux",
+        "fileName": "",
+        "size": "Use the quick installer",
+        "arch": "x86_64",
+        "installCmd": "curl -fsSL https://nelorobotics.tech/install.sh | bash",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.AppImage",
+        "sha256": "",
+        "version": "v1.1.1",
+        "note": "The installer uses a native pacman package when published; otherwise it installs the verified AppImage."
       },
       "rpm": {
         "title": "Fedora / RHEL",
-        "fileName": "nelo-studio-1.0.2-x86_64.rpm",
-        "size": "237 MB",
+        "fileName": "nelo-studio-1.1.1-x86_64.rpm",
+        "size": "See release assets",
         "arch": "x86_64 (.rpm)",
-        "installCmd": "sudo dnf install ./nelo-studio-1.0.2-x86_64.rpm",
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x86_64.rpm",
-        "sha256": "c4c058965cbf30d036d49482b69032052810dee47ff17b48ff6b21dd4670211f",
-        "version": "v1.0.2",
-        "note": "Older build (v1.0.2): no agent catalog or licensing yet. A v1.0.7 .rpm is coming."
+        "installCmd": "sudo dnf install ./nelo-studio-1.1.1-x86_64.rpm",
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.rpm",
+        "sha256": "",
+        "version": "v1.1.1"
       },
       "aur": {
         "title": "Arch Linux / Manjaro / EndeavourOS",
         "pkgName": "nelo-studio-bin",
         "status": "coming_soon",
-        "note": "PKGBUILD is built and verified working end-to-end, but AUR account registration is temporarily closed — not yet pushed to the actual AUR. Use the pacman package above in the meantime."
+        "note": "PKGBUILD is built and verified working end-to-end, but AUR account registration is temporarily closed \u2014 not yet pushed to the actual AUR. Use the pacman package above in the meantime."
       }
     },
     "windows": {
       "exe": {
         "title": "Windows 10 / 11 64-bit Installer",
-        "fileName": "nelo-studio-1.0.2-x64.exe",
-        "size": "262 MB",
+        "fileName": "nelo-studio-1.1.1-x64.exe",
+        "size": "See release assets",
+        "arch": "x64 (.exe)",
         "installCmd": null,
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-x64.exe",
-        "sha256": "1e44525b39564924c855f7ca59ae6ef2940e9811e8ee76900d86c0109042652d",
-        "note": "Older build (v1.0.2): v1.0.7 for Windows is coming. Unsigned: Windows SmartScreen will warn on first run. Click \"More info\" → \"Run anyway\".",
-        "version": "v1.0.2"
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x64.exe",
+        "sha256": "",
+        "version": "v1.1.1",
+        "note": "Unsigned release: Windows SmartScreen may warn on first run."
       }
     },
     "macos": {
       "dmg": {
-        "title": "macOS (Apple Silicon) Disk Image",
-        "fileName": "nelo-studio-1.0.2-arm64.dmg",
-        "size": "315 MB",
+        "title": "macOS Apple Silicon Disk Image",
+        "fileName": "nelo-studio-1.1.1-arm64.dmg",
+        "size": "See release assets",
+        "arch": "Apple Silicon (.dmg)",
         "installCmd": null,
-        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.0.2/nelo-studio-1.0.2-arm64.dmg",
-        "sha256": "eed4fd8837c1437ca7a4092686a45166925350d4f7dcd766e3161f1295b34d41",
-        "note": "Older build (v1.0.2): v1.0.7 for macOS is coming. Unsigned: first launch needs right-click → Open (a plain double-click will be blocked by Gatekeeper).",
-        "version": "v1.0.2"
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-arm64.dmg",
+        "sha256": "",
+        "version": "v1.1.1",
+        "note": "Unsigned release: macOS may require right-click \u2192 Open on first launch."
+      },
+      "x64Dmg": {
+        "title": "macOS Intel Disk Image",
+        "fileName": "nelo-studio-1.1.1-x64.dmg",
+        "size": "See release assets",
+        "arch": "Intel x64 (.dmg)",
+        "installCmd": null,
+        "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x64.dmg",
+        "sha256": "",
+        "version": "v1.1.1",
+        "note": "Unsigned release: macOS may require right-click \u2192 Open on first launch."
       }
     }
   },
@@ -126,7 +140,7 @@
         "All 12 AI coding agents: Claude Code, Codex, Gemini CLI, Copilot and more",
         "ROS 2 and BOM exports for the first 14 days"
       ],
-      "activation": "After checkout you get a license file by email. Paste it into Settings → Account in NELO Studio."
+      "activation": "After checkout you get a license file by email. Paste it into Settings \u2192 Account in NELO Studio."
     }
   }
 }

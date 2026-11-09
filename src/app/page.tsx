@@ -582,7 +582,7 @@ function Footer() {
                 {/* Bottom bar */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 font-[var(--font-mono)] text-[10px] text-[var(--color-smoke)] tracking-wider">
                     <span>LUCKNOW, IN · © 2026 NELO ROBOTICS PVT LTD</span>
-                    <span>BUILD v0.1.0</span>
+                    <div className="flex items-center gap-5"><span>BUILD v0.1.0</span><Link href="/admin" className="hover:text-[var(--color-ember)] transition-colors">ADMIN</Link></div>
                 </div>
 
                 {/* Huge animated wordmark — the closing visual statement.

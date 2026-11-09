@@ -399,3 +399,16 @@ body {
         linear-gradient(90deg, rgba(255, 61, 0, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
 }
+
+.admin-grid { display: grid; }
+.admin-panel { border: 1px solid rgba(255,255,255,.075); border-radius: 12px; background: linear-gradient(145deg, rgba(255,255,255,.025), rgba(255,255,255,.012)); }
+.admin-eyebrow { color: #73737f; font: 600 9px/1.4 "JetBrains Mono", monospace; letter-spacing: .18em; }
+.admin-label { color: #a1a1aa; font: 600 9px/1.4 "JetBrains Mono", monospace; letter-spacing: .12em; }
+.admin-input { display: block; width: 100%; border: 1px solid rgba(255,255,255,.1); border-radius: 7px; background: #090a0c; padding: 11px 12px; color: #f4f4f5; font: 12px/1.4 "JetBrains Mono", monospace; outline: none; }
+.admin-input:focus { border-color: rgba(255,107,53,.65); box-shadow: 0 0 0 3px rgba(255,107,53,.08); }
+.admin-input::placeholder { color: #52525b; }
+.admin-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 7px; background: #c8ff00; padding: 11px 16px; color: #08090b; font: 700 10px/1.4 "JetBrains Mono", monospace; letter-spacing: .06em; transition: filter .15s ease; }
+.admin-primary:hover { filter: brightness(1.08); }
+.admin-primary:disabled { opacity: .55; }
+.admin-icon-btn { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgba(255,255,255,.09); border-radius: 7px; color: #a1a1aa; }
+.admin-icon-btn:hover { background: rgba(255,255,255,.05); color: white; }

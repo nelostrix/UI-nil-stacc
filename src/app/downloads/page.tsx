@@ -72,6 +72,8 @@ function DownloadContent() {
     // Copy Tooltip State
     const [copiedText, setCopiedText] = useState<string | null>(null);
 
+    const linuxInstallCommand = "curl -fsSL https://nelorobotics.tech/install.sh | bash";
+
     // Checksums Accordion State
     const [showChecksums, setShowChecksums] = useState<boolean>(false);
 
@@ -297,7 +299,29 @@ function DownloadContent() {
                         {/* LINUX PACKAGES */}
                         {activeTab === "linux" && (
                             <div className="space-y-6">
-                                {/* Universal AppImage — the one real, published artifact today */}
+                                <div className="bg-[var(--color-ash)] border border-[var(--color-volt)]/50 p-6 shadow-lg shadow-[var(--color-volt)]/5">
+                                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+                                        <div className="space-y-2 min-w-0">
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <span className="text-[10px] font-bold tracking-widest text-[var(--color-volt)] uppercase font-mono">RECOMMENDED · LINUX QUICK INSTALL</span>
+                                                <span className="text-[10px] font-mono text-[var(--color-smoke)]">detects distro · verifies download</span>
+                                            </div>
+                                            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">Install NELO Studio</h3>
+                                            <code className="block break-all rounded border border-white/10 bg-black/40 px-3 py-3 text-xs sm:text-sm text-[var(--color-volt)] font-mono">{linuxInstallCommand}</code>
+                                            <p className="text-[11px] text-[var(--color-mist)]">Downloads the latest Linux release and selects the package for your system. Review the installer script before running it if you prefer.</p>
+                                        </div>
+                                        <button
+                                            onClick={() => copyToClipboard(linuxInstallCommand)}
+                                            className="shrink-0 px-6 py-4 bg-[var(--color-volt)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all"
+                                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                                        >
+                                            {copiedText === linuxInstallCommand ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                                            <span>{copiedText === linuxInstallCommand ? "COPIED" : "COPY INSTALL COMMAND"}</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Manual AppImage download for users who prefer installing by hand. */}
                                 <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
                                     style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
                                 >
@@ -317,7 +341,7 @@ function DownloadContent() {
                                             style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
                                         >
                                             <Download className="w-4 h-4" />
-                                            <span>DOWNLOAD .APPIMAGE</span>
+                                            <span>MANUAL APPIMAGE DOWNLOAD</span>
                                         </a>
                                         <button
                                             onClick={() => copyToClipboard(RELEASES.studio.linux.appimage.installCmd)}
@@ -329,11 +353,10 @@ function DownloadContent() {
                                     </div>
                                 </div>
 
-                                {/* deb / pacman / rpm — real, published downloads */}
+                                {/* Native Linux packages published with this release. */}
                                 <div className="grid md:grid-cols-3 gap-5">
                                     {([
                                         { pkg: RELEASES.studio.linux.deb, label: "Ubuntu / Debian", ext: ".DEB", color: "text-[var(--color-ember)]" },
-                                        { pkg: RELEASES.studio.linux.pacman, label: "Arch Linux (native)", ext: ".PACMAN", color: "text-[var(--color-electric)]" },
                                         { pkg: RELEASES.studio.linux.rpm, label: "Fedora / RHEL", ext: ".RPM", color: "text-[var(--color-plasma)]" },
                                     ] as Array<{ pkg: { title: string; fileName: string; size: string; installCmd: string; downloadUrl: string; note?: string }; label: string; ext: string; color: string }>).map(({ pkg, label, ext, color }) => (
                                         <div key={pkg.fileName} className="bg-[var(--color-ash)] border border-white/10 p-5 flex flex-col justify-between space-y-4">
@@ -368,7 +391,7 @@ function DownloadContent() {
                                     ))}
                                 </div>
 
-                                {/* AUR — genuinely still blocked externally (account registration closed) */}
+                                {/* Arch package feed remains separate from the current native Linux bundles. */}
                                 <div className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-5 flex flex-col justify-between space-y-3">
                                     <div>
                                         <div className="flex items-center justify-between mb-2">
@@ -411,31 +434,36 @@ function DownloadContent() {
                             </div>
                         )}
 
-                        {/* MACOS PACKAGES — real, published .dmg */}
+                        {/* MACOS PACKAGES — native architecture-specific .dmg builds */}
                         {activeTab === "macos" && (
-                            <div className="space-y-6">
-                                <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
+                            <div className="grid md:grid-cols-2 gap-5">
+                                {([
+                                    { pkg: RELEASES.studio.macos.dmg, label: "APPLE SILICON" },
+                                    { pkg: RELEASES.studio.macos.x64Dmg, label: "INTEL" },
+                                ] as Array<{ pkg: { title: string; fileName: string; size: string; downloadUrl: string; note?: string }; label: string }>).map(({ pkg, label }) => (
+                                <div key={pkg.fileName} className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
                                     style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
                                 >
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-plasma)] uppercase font-mono">APPLE SILICON</span>
-                                            <span className="text-[10px] font-mono text-[var(--color-smoke)]">{RELEASES.studio.macos.dmg.size}</span>
+                                            <span className="text-[10px] font-bold tracking-widest text-[var(--color-plasma)] uppercase font-mono">{label}</span>
+                                            <span className="text-[10px] font-mono text-[var(--color-smoke)]">{pkg.size}</span>
                                         </div>
-                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{RELEASES.studio.macos.dmg.title}</h3>
-                                        <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{RELEASES.studio.macos.dmg.fileName}</p>
-                                        <p className="text-[11px] text-amber-500 mt-2 max-w-md">{RELEASES.studio.macos.dmg.note}</p>
+                                        <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{pkg.title}</h3>
+                                        <p className="text-xs text-[var(--color-mist)] mt-1 font-mono">{pkg.fileName}</p>
+                                        <p className="text-[11px] text-amber-500 mt-2 max-w-md">{pkg.note}</p>
                                     </div>
 
                                     <a
-                                        href={RELEASES.studio.macos.dmg.downloadUrl}
+                                        href={pkg.downloadUrl}
                                         className="px-8 py-4 bg-[var(--color-plasma)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shrink-0 transition-all"
                                         style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
                                     >
                                         <Download className="w-4 h-4" />
-                                        <span>DOWNLOAD UNIVERSAL DMG (.DMG)</span>
+                                        <span>DOWNLOAD DMG</span>
                                     </a>
                                 </div>
+                                ))}
                             </div>
                         )}
                     </div>
@@ -556,14 +584,14 @@ function DownloadContent() {
                             {[
                                 RELEASES.studio.linux.appimage,
                                 RELEASES.studio.linux.deb,
-                                RELEASES.studio.linux.pacman,
                                 RELEASES.studio.linux.rpm,
                                 RELEASES.studio.windows.exe,
                                 RELEASES.studio.macos.dmg,
+                                RELEASES.studio.macos.x64Dmg,
                             ].map((file) => (
                                 <div key={file.fileName} className="space-y-1">
                                     <div className="text-[var(--color-ivory)] font-bold">{file.fileName}:</div>
-                                    <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-volt)]">{file.sha256}</div>
+                                    <div className="bg-white/5 p-2 rounded break-all text-[11px] text-[var(--color-volt)]">{file.sha256 || "Checksum is published with the release asset."}</div>
                                 </div>
                             ))}
                         </div>

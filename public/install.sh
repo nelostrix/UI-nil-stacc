@@ -75,22 +75,24 @@ download() { # download <filename regex> <dest>: fetches the file and checks its
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-if command -v pacman >/dev/null 2>&1; then
+PACMAN_ASSET="$(asset '[.]pacman$')"
+DEB_ASSET="$(asset '[.]deb$')"
+APPIMAGE_ASSET="$(asset '[.]AppImage$')"
+
+if command -v pacman >/dev/null 2>&1 && [ -n "$PACMAN_ASSET" ]; then
     echo -e "${GREEN}✓ Arch Linux detected — installing the pacman package.${NC}"
     download '[.]pacman$' "$TMP_DIR/nelo-studio.pacman"
-    # Packages up to v1.0.2 list http-parser and libappindicator-gtk3, which Arch no longer ships
-    # and NELO Studio doesn't use; tell pacman to treat them as present.
-    $SUDO pacman -U --noconfirm --assume-installed http-parser --assume-installed libappindicator-gtk3 "$TMP_DIR/nelo-studio.pacman"
-elif command -v apt-get >/dev/null 2>&1; then
+    $SUDO pacman -U --noconfirm "$TMP_DIR/nelo-studio.pacman"
+elif command -v apt-get >/dev/null 2>&1 && [ -n "$DEB_ASSET" ]; then
     echo -e "${GREEN}✓ Debian / Ubuntu detected — installing the .deb package.${NC}"
     download '[.]deb$' "$TMP_DIR/nelo-studio.deb"
     chmod 644 "$TMP_DIR/nelo-studio.deb"
     chmod 755 "$TMP_DIR"
     $SUDO apt-get install -y "$TMP_DIR/nelo-studio.deb"
-else
+elif [ -n "$APPIMAGE_ASSET" ]; then
     # The AppImage installs into the user's home, so it must not run as root.
     [ "$(id -u)" -ne 0 ] || die "Run this installer as your normal user (without sudo) so NELO Studio installs into your home folder."
-    echo -e "${GREEN}✓ Installing the AppImage into ~/.local/bin.${NC}"
+    echo -e "${GREEN}✓ No native package is published for this distro; installing the AppImage into ~/.local/bin.${NC}"
     mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
     APPIMAGE_PATH="$HOME/.local/bin/nelo-studio"
     download '[.]AppImage$' "$TMP_DIR/nelo-studio.AppImage"
@@ -107,6 +109,8 @@ Categories=Development;Engineering;Science;
 EOF
     echo -e "${GREEN}✓ Installed to ${APPIMAGE_PATH}${NC}"
     echo -e "${YELLOW}If it won't start, install libfuse2 (AppImages need FUSE 2).${NC}"
+else
+    die "Release ${TAG} has no compatible pacman, .deb, or AppImage installer. See https://github.com/${REPO}/releases"
 fi
 
 echo -e "\n${GREEN}${BOLD}✓ NELO Studio ${TAG} installed.${NC}"
