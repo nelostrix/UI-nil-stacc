@@ -34,6 +34,18 @@ type OSType = "linux" | "windows" | "macos";
 
 import RELEASES from "@/data/releases.json";
 
+function InstallerUnavailable({ title, note }: { title: string; note: string }) {
+    return (
+        <div className="bg-[var(--color-ash)]/50 border border-white/10 border-dashed p-6 space-y-3">
+            <span className="text-[9px] px-2 py-0.5 font-bold tracking-widest bg-white/5 text-[var(--color-mist)] border border-white/10 font-mono uppercase">
+                Not released yet
+            </span>
+            <h3 className="font-[var(--font-display)] text-2xl tracking-wider">{title}</h3>
+            <p className="text-xs text-[var(--color-mist)] max-w-2xl leading-relaxed">{note}</p>
+        </div>
+    );
+}
+
 const PRODUCTS = {
     stacc: {
         name: "STACC",
@@ -406,8 +418,9 @@ function DownloadContent() {
                             </div>
                         )}
 
-                        {/* WINDOWS PACKAGES — real, published .exe */}
+                        {/* WINDOWS PACKAGE */}
                         {activeTab === "windows" && (
+                            RELEASES.studio.windows.exe.available ? (
                             <div className="space-y-6">
                                 <div className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
                                     style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
@@ -432,15 +445,21 @@ function DownloadContent() {
                                     </a>
                                 </div>
                             </div>
+                            ) : (
+                                <InstallerUnavailable
+                                    title={RELEASES.studio.windows.exe.title}
+                                    note={RELEASES.studio.windows.exe.note}
+                                />
+                            )
                         )}
 
-                        {/* MACOS PACKAGES — native architecture-specific .dmg builds */}
+                        {/* MACOS PACKAGES */}
                         {activeTab === "macos" && (
                             <div className="grid md:grid-cols-2 gap-5">
                                 {([
                                     { pkg: RELEASES.studio.macos.dmg, label: "APPLE SILICON" },
                                     { pkg: RELEASES.studio.macos.x64Dmg, label: "INTEL" },
-                                ] as Array<{ pkg: { title: string; fileName: string; size: string; downloadUrl: string; note?: string }; label: string }>).map(({ pkg, label }) => (
+                                ] as Array<{ pkg: { title: string; fileName: string; size: string; downloadUrl: string; note?: string; available: boolean }; label: string }>).map(({ pkg, label }) => (
                                 <div key={pkg.fileName} className="bg-[var(--color-ash)] border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-6"
                                     style={{ clipPath: "polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)" }}
                                 >
@@ -454,14 +473,20 @@ function DownloadContent() {
                                         <p className="text-[11px] text-amber-500 mt-2 max-w-md">{pkg.note}</p>
                                     </div>
 
-                                    <a
-                                        href={pkg.downloadUrl}
-                                        className="px-8 py-4 bg-[var(--color-plasma)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shrink-0 transition-all"
-                                        style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
-                                    >
-                                        <Download className="w-4 h-4" />
-                                        <span>DOWNLOAD DMG</span>
-                                    </a>
+                                    {pkg.available ? (
+                                        <a
+                                            href={pkg.downloadUrl}
+                                            className="px-8 py-4 bg-[var(--color-plasma)] hover:brightness-110 text-[var(--color-void)] font-bold text-xs tracking-wider flex items-center justify-center gap-2 cursor-pointer shrink-0 transition-all"
+                                            style={{ clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            <span>DOWNLOAD DMG</span>
+                                        </a>
+                                    ) : (
+                                        <span className="px-5 py-3 border border-white/10 text-[var(--color-smoke)] text-xs font-mono uppercase shrink-0">
+                                            Not released yet
+                                        </span>
+                                    )}
                                 </div>
                                 ))}
                             </div>

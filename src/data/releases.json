@@ -8,22 +8,22 @@
       "appimage": {
         "title": "Universal Linux AppImage",
         "fileName": "nelo-studio-1.1.1-x86_64.AppImage",
-        "size": "See release assets",
+        "size": "413 MiB",
         "arch": "x86_64 (AppImage)",
         "installCmd": "chmod +x nelo-studio-1.1.1-x86_64.AppImage && ./nelo-studio-1.1.1-x86_64.AppImage",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.AppImage",
-        "sha256": "",
+        "sha256": "f06926f51cf1d99ff238df37ad19525209ed95a3776108197bf0cbd8d0fc88a2",
         "version": "v1.1.1",
         "note": "Manual option. Recommended: use the Linux quick-install command above to select and verify the package for your distro."
       },
       "deb": {
         "title": "Ubuntu / Debian / Pop!_OS",
         "fileName": "nelo-studio-1.1.1-amd64.deb",
-        "size": "See release assets",
+        "size": "390 MiB",
         "arch": "x86_64 (.deb)",
         "installCmd": "sudo apt install ./nelo-studio-1.1.1-amd64.deb",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-amd64.deb",
-        "sha256": "",
+        "sha256": "2f8ced30bcb69a36b83ba2da9451f4b42f6cf2f1953e9b6d40c9b0144c61c041",
         "version": "v1.1.1"
       },
       "pacman": {
@@ -40,11 +40,11 @@
       "rpm": {
         "title": "Fedora / RHEL",
         "fileName": "nelo-studio-1.1.1-x86_64.rpm",
-        "size": "See release assets",
+        "size": "300 MiB",
         "arch": "x86_64 (.rpm)",
         "installCmd": "sudo dnf install ./nelo-studio-1.1.1-x86_64.rpm",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.rpm",
-        "sha256": "",
+        "sha256": "824dd1979872696322332bcfd0aa9388651e310e41400b32abc12d467250ae13",
         "version": "v1.1.1"
       },
       "aur": {
@@ -58,37 +58,40 @@
       "exe": {
         "title": "Windows 10 / 11 64-bit Installer",
         "fileName": "nelo-studio-1.1.1-x64.exe",
-        "size": "See release assets",
+        "size": "Not released yet",
+        "available": false,
         "arch": "x64 (.exe)",
         "installCmd": null,
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x64.exe",
         "sha256": "",
         "version": "v1.1.1",
-        "note": "Unsigned release: Windows SmartScreen may warn on first run."
+        "note": "The Windows installer is not published yet. It will be available here after the native Windows build is complete."
       }
     },
     "macos": {
       "dmg": {
         "title": "macOS Apple Silicon Disk Image",
         "fileName": "nelo-studio-1.1.1-arm64.dmg",
-        "size": "See release assets",
+        "size": "Not released yet",
+        "available": false,
         "arch": "Apple Silicon (.dmg)",
         "installCmd": null,
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-arm64.dmg",
         "sha256": "",
         "version": "v1.1.1",
-        "note": "Unsigned release: macOS may require right-click \u2192 Open on first launch."
+        "note": "The Apple Silicon installer is not published yet. It will be available here after the native macOS build is complete."
       },
       "x64Dmg": {
         "title": "macOS Intel Disk Image",
         "fileName": "nelo-studio-1.1.1-x64.dmg",
-        "size": "See release assets",
+        "size": "Not released yet",
+        "available": false,
         "arch": "Intel x64 (.dmg)",
         "installCmd": null,
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x64.dmg",
         "sha256": "",
         "version": "v1.1.1",
-        "note": "Unsigned release: macOS may require right-click \u2192 Open on first launch."
+        "note": "The Intel Mac installer is not published yet. It will be available here after the native macOS build is complete."
       }
     }
   },
