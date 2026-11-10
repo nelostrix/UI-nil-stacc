@@ -16,6 +16,9 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 REPO="nelostrix/NELO-Releases"
+# Keep this public installer from silently putting users back on the old 1.0.7
+# build while 1.1.1 is being published. Future releases pass this floor.
+MINIMUM_RELEASE="1.1.1"
 
 die() {
     echo -e "${RED}✗ $*${NC}" >&2
@@ -47,6 +50,10 @@ RELEASE_JSON="$(curl -fsSL -H 'Accept: application/vnd.github+json' "https://api
     || die "Could not reach GitHub to find the latest NELO Studio release."
 TAG="$(printf '%s\n' "$RELEASE_JSON" | sed -n 's/^  "tag_name": "\(.*\)",$/\1/p' | head -n1)"
 [ -n "$TAG" ] || die "GitHub returned no published release for ${REPO}."
+LATEST_VERSION="${TAG#v}"
+if [ "$(printf '%s\n%s\n' "$MINIMUM_RELEASE" "$LATEST_VERSION" | sort -V | sed -n '1p')" != "$MINIMUM_RELEASE" ]; then
+    die "The latest published build is ${TAG}; NELO Studio ${MINIMUM_RELEASE} or newer is required. The release has not been published yet. Try again after https://github.com/${REPO}/releases shows it."
+fi
 
 asset() { # asset <filename regex>: prints "<sha256 or -> <url>" for the first matching file
     printf '%s\n' "$RELEASE_JSON" | awk -v pat="$1" '
@@ -64,8 +71,13 @@ download() { # download <filename regex> <dest>: fetches the file and checks its
     [ -n "$info" ] || die "Release ${TAG} has no file matching ${1}. See https://github.com/${REPO}/releases"
     sha="${info%% *}"
     url="${info#* }"
-    echo -e "Downloading ${BOLD}${url##*/}${NC} (${TAG})..."
-    curl -fL --progress-bar "$url" -o "$2" || die "Download failed: $url"
+    # curl's carriage-return progress bar is rendered as a fresh line by some
+    # embedded terminals (including NELO's terminal), flooding the screen.
+    # Keep output stable: one status line followed by one completion line.
+    echo -e "Downloading ${BOLD}${url##*/}${NC} (${TAG}). This may take a few minutes..."
+    curl --fail --location --silent --show-error --retry 3 --retry-all-errors --retry-delay 1 \
+        --connect-timeout 20 --output "$2" "$url" || die "Download failed: $url"
+    echo -e "${GREEN}✓ Download complete${NC}"
     if [ "$sha" != "-" ] && command -v sha256sum >/dev/null 2>&1; then
         echo "${sha}  $2" | sha256sum -c --status || { rm -f "$2"; die "Checksum mismatch for ${url##*/}; the file was deleted."; }
         echo -e "${GREEN}✓ SHA-256 verified${NC}"
