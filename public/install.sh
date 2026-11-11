@@ -66,6 +66,24 @@ run_system_install() {
     if [ -n "$SUDO" ]; then "$SUDO" "$@"; else "$@"; fi
 }
 
+clear_legacy_arch_launcher() {
+    local launcher="/usr/bin/nelo-studio"
+    local alternatives_link="/etc/alternatives/nelo-studio"
+    local target
+    [ -L "$launcher" ] || return 0
+    [ "$(readlink "$launcher")" = "$alternatives_link" ] || return 0
+    # Do not touch a launcher owned by a package. This handles the unowned
+    # update-alternatives symlink left behind by the previous NELO package.
+    pacman -Qo "$launcher" >/dev/null 2>&1 && return 0
+    target="$(readlink -f "$launcher" 2>/dev/null || true)"
+    if [ -n "$target" ] && command -v update-alternatives >/dev/null 2>&1; then
+        run_system_install update-alternatives --remove nelo-studio "$target" >/dev/null 2>&1 || true
+    fi
+    if [ -L "$launcher" ] && [ "$(readlink "$launcher")" = "$alternatives_link" ]; then
+        run_system_install rm -f -- "$launcher"
+    fi
+}
+
 # Latest published release: tag, then "<sha256> <url>" for each file. GitHub's JSON lists each
 # file's "digest" before its "browser_download_url", so the last digest seen belongs to the URL.
 RELEASE_JSON="$(curl -fsSL -H 'Accept: application/vnd.github+json' "https://api.github.com/repos/${REPO}/releases/latest")" \
@@ -117,6 +135,7 @@ INSTALLED=0
 if [ "$IS_ARCH" -eq 1 ] && command -v pacman >/dev/null 2>&1 && [ -n "$PACMAN_ASSET" ]; then
     echo -e "${GREEN}✓ Arch-based distro detected — installing the native pacman package.${NC}"
     download '[.]pacman$' "$TMP_DIR/nelo-studio.pacman"
+    clear_legacy_arch_launcher
     if run_system_install pacman -U --noconfirm "$TMP_DIR/nelo-studio.pacman"; then
         INSTALLED=1
     else

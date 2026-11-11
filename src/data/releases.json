@@ -31,11 +31,11 @@
         "fileName": "nelo-studio-1.1.1-x86_64.pacman",
         "size": "413 MiB",
         "arch": "x86_64 (.pacman)",
-        "installCmd": "sudo pacman -U ./nelo-studio-1.1.1-x86_64.pacman",
+        "installCmd": "curl -fsSL https://nelorobotics.tech/install.sh | bash",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.pacman",
         "sha256": "08126b6a48b8272427b1b6817cbc64d00a72813648cc37a0a46cef1867f683d9",
         "version": "v1.1.1",
-        "note": "Native Arch package. The quick installer detects Arch Linux and selects this package automatically."
+        "note": "Direct .pacman download. The quick installer detects Arch, cleans up the old alternatives launcher if needed, and installs this package."
       },
       "rpm": {
         "title": "Fedora / RHEL",
