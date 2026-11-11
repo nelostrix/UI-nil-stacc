@@ -29,11 +29,11 @@
       "pacman": {
         "title": "Arch Linux",
         "fileName": "nelo-studio-1.1.1-x86_64.pacman",
-        "size": "480 MiB",
+        "size": "413 MiB",
         "arch": "x86_64 (.pacman)",
         "installCmd": "sudo pacman -U ./nelo-studio-1.1.1-x86_64.pacman",
         "downloadUrl": "https://github.com/nelostrix/NELO-Releases/releases/download/v1.1.1/nelo-studio-1.1.1-x86_64.pacman",
-        "sha256": "bf87a6ca56771c65bd21116f129a6efd9724393302c07629f86bbcda9df4a7b6",
+        "sha256": "08126b6a48b8272427b1b6817cbc64d00a72813648cc37a0a46cef1867f683d9",
         "version": "v1.1.1",
         "note": "Native Arch package. The quick installer detects Arch Linux and selects this package automatically."
       },
