@@ -41,8 +41,30 @@ echo -e "Detecting environment: ${GREEN}${OS} (${ARCH})${NC}"
 [ "$ARCH" = "x86_64" ] || die "NELO Studio is built for x86_64 only (this machine is ${ARCH})."
 command -v curl >/dev/null 2>&1 || die "curl is required."
 
-# Package installs need root; the script asks for it itself, so run it as your own user.
+DISTRO_ID=""
+DISTRO_LIKE=""
+DISTRO_NAME="Linux"
+if [ -r /etc/os-release ]; then
+    . /etc/os-release
+    DISTRO_ID="${ID:-}"
+    DISTRO_LIKE="${ID_LIKE:-}"
+    DISTRO_NAME="${PRETTY_NAME:-${NAME:-Linux}}"
+fi
+IS_ARCH=0
+IS_DEBIAN=0
+case "${DISTRO_ID} ${DISTRO_LIKE}" in
+    *arch*|*manjaro*|*endeavouros*) IS_ARCH=1 ;;
+esac
+case "${DISTRO_ID} ${DISTRO_LIKE}" in
+    *debian*|*ubuntu*) IS_DEBIAN=1 ;;
+esac
+echo -e "Distribution: ${GREEN}${DISTRO_NAME}${NC}"
+
+# Native package installs need root; the script asks for it itself, so run it as your own user.
 if [ "$(id -u)" -eq 0 ]; then SUDO=""; else SUDO="sudo"; fi
+run_system_install() {
+    if [ -n "$SUDO" ]; then "$SUDO" "$@"; else "$@"; fi
+}
 
 # Latest published release: tag, then "<sha256> <url>" for each file. GitHub's JSON lists each
 # file's "digest" before its "browser_download_url", so the last digest seen belongs to the URL.
@@ -90,26 +112,42 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 PACMAN_ASSET="$(asset '[.]pacman$')"
 DEB_ASSET="$(asset '[.]deb$')"
 APPIMAGE_ASSET="$(asset '[.]AppImage$')"
+INSTALLED=0
 
-if command -v pacman >/dev/null 2>&1 && [ -n "$PACMAN_ASSET" ]; then
-    echo -e "${GREEN}✓ Arch Linux detected — installing the pacman package.${NC}"
+if [ "$IS_ARCH" -eq 1 ] && command -v pacman >/dev/null 2>&1 && [ -n "$PACMAN_ASSET" ]; then
+    echo -e "${GREEN}✓ Arch-based distro detected — installing the native pacman package.${NC}"
     download '[.]pacman$' "$TMP_DIR/nelo-studio.pacman"
-    $SUDO pacman -U --noconfirm "$TMP_DIR/nelo-studio.pacman"
-elif command -v apt-get >/dev/null 2>&1 && [ -n "$DEB_ASSET" ]; then
-    echo -e "${GREEN}✓ Debian / Ubuntu detected — installing the .deb package.${NC}"
+    if run_system_install pacman -U --noconfirm "$TMP_DIR/nelo-studio.pacman"; then
+        INSTALLED=1
+    else
+        echo -e "${YELLOW}Native package installation failed; trying the AppImage instead.${NC}"
+    fi
+elif [ "$IS_DEBIAN" -eq 1 ] && command -v apt-get >/dev/null 2>&1 && [ -n "$DEB_ASSET" ]; then
+    echo -e "${GREEN}✓ Debian-based distro detected — installing the .deb package.${NC}"
     download '[.]deb$' "$TMP_DIR/nelo-studio.deb"
     chmod 644 "$TMP_DIR/nelo-studio.deb"
     chmod 755 "$TMP_DIR"
-    $SUDO apt-get install -y "$TMP_DIR/nelo-studio.deb"
-elif [ -n "$APPIMAGE_ASSET" ]; then
-    # The AppImage installs into the user's home, so it must not run as root.
-    [ "$(id -u)" -ne 0 ] || die "Run this installer as your normal user (without sudo) so NELO Studio installs into your home folder."
-    echo -e "${GREEN}✓ No native package is published for this distro; installing the AppImage into ~/.local/bin.${NC}"
-    mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
-    APPIMAGE_PATH="$HOME/.local/bin/nelo-studio"
+    if run_system_install apt-get install -y "$TMP_DIR/nelo-studio.deb" >"$TMP_DIR/apt-install.log" 2>&1; then
+        INSTALLED=1
+    else
+        echo -e "${YELLOW}The .deb dependencies are unavailable from this system's package sources; trying the AppImage instead.${NC}"
+    fi
+fi
+
+if [ "$INSTALLED" -eq 0 ]; then
+    [ -n "$APPIMAGE_ASSET" ] || die "Release ${TAG} has no compatible installer for ${DISTRO_NAME}. See https://github.com/${REPO}/releases"
+    if [ "$(id -u)" -eq 0 ]; then
+        APPIMAGE_PATH="/usr/local/bin/nelo-studio"
+        DESKTOP_FILE="/usr/local/share/applications/nelo-studio.desktop"
+    else
+        APPIMAGE_PATH="$HOME/.local/bin/nelo-studio"
+        DESKTOP_FILE="$HOME/.local/share/applications/nelo-studio.desktop"
+    fi
+    echo -e "${GREEN}✓ Installing the verified AppImage fallback.${NC}"
+    mkdir -p "$(dirname "$APPIMAGE_PATH")" "$(dirname "$DESKTOP_FILE")"
     download '[.]AppImage$' "$TMP_DIR/nelo-studio.AppImage"
     install -m 755 "$TMP_DIR/nelo-studio.AppImage" "$APPIMAGE_PATH"
-    cat <<EOF > "$HOME/.local/share/applications/nelo-studio.desktop"
+    cat <<EOF > "$DESKTOP_FILE"
 [Desktop Entry]
 Name=NELO Studio
 Comment=Robotics IDE with live simulation and AI coding agents
@@ -121,8 +159,6 @@ Categories=Development;Engineering;Science;
 EOF
     echo -e "${GREEN}✓ Installed to ${APPIMAGE_PATH}${NC}"
     echo -e "${YELLOW}If it won't start, install libfuse2 (AppImages need FUSE 2).${NC}"
-else
-    die "Release ${TAG} has no compatible pacman, .deb, or AppImage installer. See https://github.com/${REPO}/releases"
 fi
 
 echo -e "\n${GREEN}${BOLD}✓ NELO Studio ${TAG} installed.${NC}"
